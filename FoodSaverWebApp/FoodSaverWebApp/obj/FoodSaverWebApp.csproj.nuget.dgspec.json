@@ -44,9 +44,13 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "FirebaseDatabase.net": {
+            "Firebase.Auth": {
               "target": "Package",
-              "version": "[4.1.0, )"
+              "version": "[1.0.0, )"
+            },
+            "Microsoft.AspNetCore.Session": {
+              "target": "Package",
+              "version": "[2.2.0, )"
             }
           },
           "imports": [
