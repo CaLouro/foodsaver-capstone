@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "20366880319",
+    "project_id": "foodsaver-capstoneg14",
+    "storage_bucket": "foodsaver-capstoneg14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20366880319:android:03b459f746994e8822928a",
+        "android_client_info": {
+          "package_name": "com.gmail.caioslouro.foodsaver.food_saver_mobile_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "20366880319-c2aa5m0bcd5ddh2qj5n74gcnsiu0t9dv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcpWEdBpAjRuk6DEJO4U9_3fLmkQpY9g4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "20366880319-c2aa5m0bcd5ddh2qj5n74gcnsiu0t9dv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "20366880319-4kp6no8bn5ai3ospvdlb29afan11l69f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gmail.caioslouro.foodsaver.foodSaverMobileApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
