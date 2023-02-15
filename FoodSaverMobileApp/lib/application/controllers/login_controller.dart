@@ -21,17 +21,19 @@ class LoginController extends GetxController {
   }
 
   Future<void> submitLogin() async {
-    if (formKey.currentState?.saveAndValidate() ?? false) {
-      try {
-        _commitSignIn(formKey.currentState!.value);
-        buttonController.success();
-        Timer(const Duration(seconds: 1), () => Get.offAllNamed('/home'));
-      } on Exception catch (_) {
-        _showButtonError();
-        Get.snackbar('Error', 'Something went wrong. Please try again.');
-      }
-    } else {
+    assert(formKey.currentState != null);
+
+    if (!formKey.currentState!.saveAndValidate()) {
       _showButtonError();
+      return;
+    }
+
+    try {
+      _commitSignIn(formKey.currentState!.value);
+      _showButtonSuccessAndNavigate();
+    } on Exception catch (_) {
+      _showButtonError();
+      Get.snackbar('Error', 'Something went wrong. Please try again.');
     }
   }
 
@@ -49,5 +51,10 @@ class LoginController extends GetxController {
   void _showButtonError() {
     buttonController.error();
     Timer(const Duration(seconds: 1), () => buttonController.reset());
+  }
+
+  void _showButtonSuccessAndNavigate() {
+    buttonController.success();
+    Timer(const Duration(seconds: 1), () => Get.offAllNamed('/home'));
   }
 }

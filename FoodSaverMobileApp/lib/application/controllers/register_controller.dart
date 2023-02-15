@@ -14,21 +14,23 @@ class RegisterController extends GetxController {
       RoundedLoadingButtonController();
 
   Future<void> submitSignUp() async {
-    if (formKey.currentState?.saveAndValidate() ?? false) {
-      try {
-        await _commitSignUp(formKey.currentState!.value);
-        buttonController.success();
-        Timer(const Duration(seconds: 1), () => Get.offAllNamed('/home'));
-      } on Exception catch (_) {
-        _showButtonError();
-        Get.snackbar(
-          'Error',
-          'Something went wrong. Please try again',
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      }
-    } else {
+    assert(formKey.currentState != null);
+
+    if (!formKey.currentState!.saveAndValidate()) {
       _showButtonError();
+      return;
+    }
+
+    try {
+      await _commitSignUp(formKey.currentState!.value);
+      _showButtonSuccessAndNavigate();
+    } on Exception catch (_) {
+      _showButtonError();
+      Get.snackbar(
+        'Error',
+        'Something went wrong. Please try again',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 
@@ -42,5 +44,10 @@ class RegisterController extends GetxController {
   void _showButtonError() {
     buttonController.error();
     Timer(const Duration(seconds: 1), () => buttonController.reset());
+  }
+
+  void _showButtonSuccessAndNavigate() {
+    buttonController.success();
+    Timer(const Duration(seconds: 1), () => Get.offAllNamed('/home'));
   }
 }

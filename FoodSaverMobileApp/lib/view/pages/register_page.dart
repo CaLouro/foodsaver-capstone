@@ -41,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
             const EmailTextField(
               'email',
               decoration: InputDecoration(
-                helperText: 'The email that will be used for signing in',
+                helperText: 'The email that will be used for signing in.',
               ),
             ),
             const PasswordTextField(
