@@ -12,20 +12,15 @@ namespace FoodSaverWebApp.Services
             auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyCcpWEdBpAjRuk6DEJO4U9_3fLmkQpY9g4"));
         }
 
-        public async Task<string> Login(AuthModel authModel)
+        public async Task<string> Login(LoginModel loginModel)
         {
-            var fbAuthLink = await auth.SignInWithEmailAndPasswordAsync(authModel.Email, authModel.Password);
+            var fbAuthLink = await auth.SignInWithEmailAndPasswordAsync(loginModel.Email, loginModel.Password);
             string token = fbAuthLink.FirebaseToken;
 
             return token;
         }
 
-        public string Logout(AuthModel authModel)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<string> Registration(AuthModel authModel)
+        public async Task<string> Registration(RegisterModel authModel)
         {
             await auth.CreateUserWithEmailAndPasswordAsync(authModel.Email, authModel.Password);
 

@@ -2,6 +2,7 @@
 using FoodSaverWebApp.Models;
 using FoodSaverWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 
 namespace FoodSaverWebApp.Controllers
@@ -15,21 +16,21 @@ namespace FoodSaverWebApp.Controllers
             _auth = new FirebaseAuthentication();
         }
 
-        [HttpGet]
+        [HttpGet("/Register")]
         public IActionResult Registration()
         {
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Registration(AuthModel authModel)
+        [HttpPost("/Register")]
+        public IActionResult Registration(RegisterModel authModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    // Request a token from Firebase
                     Task<string> getToken = _auth.Registration(authModel);
-                    
                     getToken.Wait();
 
                     string token = getToken.Result;
@@ -37,54 +38,47 @@ namespace FoodSaverWebApp.Controllers
                     if (token != null)
                     {
                         HttpContext.Session.SetString("_UserToken", token);
-                        return RedirectToAction("Index", "Home");
                     }
                 }
-                catch (AggregateException ex)
+                catch (AggregateException ex) when (ex.InnerException is FirebaseAuthException fbAuthEx)
                 {
-                    ex.Handle((x) =>
-                    {
-                        if (x is FirebaseAuthException)
-                        {
-                            var fbAuthEx = (FirebaseAuthException)x;
-                            var firebaseEx = JsonConvert.DeserializeObject<FirebaseError>(fbAuthEx.ResponseData);
-                            ModelState.AddModelError(String.Empty, _auth.AdjustErrorMessage(firebaseEx.error.message));
+                    // On a firebase exception, deserialize the response to be able to clearly display a message.
+                    FirebaseError? firebaseError = JsonConvert.DeserializeObject<FirebaseError>(fbAuthEx.ResponseData);
 
-                            return true;
-                        }
-                        return false;
-                    });
-
-                    return View(authModel);
+                    // The firebase error message is run through the method "AdjustErrorMessage" to return a more
+                    // descriptive response than what firebase returns.
+                    ModelState.AddModelError(String.Empty, _auth.AdjustErrorMessage(firebaseError.error.message));
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError(String.Empty, ex.Message);
-                    return View(authModel);
                 }
+            }
+
+            if (HttpContext.Session.GetString("_UserToken") != null)
+            {
+                return RedirectToAction("Index", "Home");
             }
             else
             {
                 return View(authModel);
             }
-
-            return View();
         }
 
-        [HttpGet]
+        [HttpGet("/Login")]
         public IActionResult Login()
         {
             return View();
         }
-
-        [HttpPost]
-        public IActionResult Login(AuthModel authModel)
+        
+        [HttpPost("/Login")]
+        public IActionResult Login(LoginModel loginModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Task<string> getToken = _auth.Login(authModel);
+                    Task<string> getToken = _auth.Login(loginModel);
                     getToken.Wait();
 
                     string token = getToken.Result;
@@ -92,40 +86,34 @@ namespace FoodSaverWebApp.Controllers
                     if (token != null)
                     {
                         HttpContext.Session.SetString("_UserToken", token);
-                        return RedirectToAction("Index", "Home");
                     }
                 }
-                catch (AggregateException ex)
+                catch (AggregateException ex) when (ex.InnerException is FirebaseAuthException fbAuthEx)
                 {
-                    ex.Handle((x) =>
-                    {
-                        if (x is FirebaseAuthException)
-                        {
-                            var fbAuthEx = (FirebaseAuthException)x;
-                            var firebaseEx = JsonConvert.DeserializeObject<FirebaseError>(fbAuthEx.ResponseData);
-                            ModelState.AddModelError(String.Empty, _auth.AdjustErrorMessage(firebaseEx.error.message));
+                    // On a firebase exception, deserialize the response to be able to clearly display a message.
+                    FirebaseError? firebaseError = JsonConvert.DeserializeObject<FirebaseError>(fbAuthEx.ResponseData);
 
-                            return true;
-                        }
-                        return false;
-                    });
-
-                    return View(authModel);
+                    // The firebase error message is run through the method "AdjustErrorMessage" to return a more
+                    // descriptive response than what firebase returns.
+                    ModelState.AddModelError(String.Empty, _auth.AdjustErrorMessage(firebaseError.error.message));
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError(String.Empty, ex.Message);
-                    return View(authModel);
                 }
+            }
+
+            if (HttpContext.Session.GetString("_UserToken") != null)
+            {
+                return RedirectToAction("Index", "Home");
             }
             else
             {
-                return View(authModel);
+                return View(loginModel);
             }
-            
-            return View();
         }
 
+        [HttpGet("/Logout")]
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("_UserToken");

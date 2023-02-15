@@ -2,12 +2,13 @@
 
 namespace FoodSaverWebApp.Models
 {
-    public class AuthModel
+    public class LoginModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Email is requried")]
+        [EmailAddress(ErrorMessage = "Invalid Email")]
         public string Email { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Password is required")]
         [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,128}$", ErrorMessage = "Invalid password")]
         public string Password { get; set; }
     }
