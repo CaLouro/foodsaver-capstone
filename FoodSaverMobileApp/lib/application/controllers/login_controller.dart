@@ -5,7 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-import '../services/auth_service_interface.dart';
+import '../../domain/services/auth_service_interface.dart';
 
 class LoginController extends GetxController {
   final GlobalKey<FormBuilderState> formKey = GlobalKey();

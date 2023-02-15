@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-import '../application/exception/auth_exception.dart';
-import '../application/services/auth_service_interface.dart';
+import '../domain/exceptions/auth_exception.dart';
+import '../domain/services/auth_service_interface.dart';
 
 class AuthService extends GetxService implements IAuthService {
   FirebaseAuth get _auth => FirebaseAuth.instance;

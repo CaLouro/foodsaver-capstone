@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../services/auth_service.dart';
-import '../services/auth_service_interface.dart';
+import '../../domain/services/auth_service_interface.dart';
 
 class AppBindings extends Bindings {
   @override
