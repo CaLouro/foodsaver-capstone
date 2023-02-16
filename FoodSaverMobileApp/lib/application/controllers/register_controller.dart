@@ -5,7 +5,10 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
+import '../../domain/exceptions/auth_exception.dart';
 import '../../domain/services/auth_service_interface.dart';
+import '../../view/utils/error_snackbar.dart';
+import '../core/app_messages.dart';
 
 class RegisterController extends GetxController {
   final GlobalKey<FormBuilderState> formKey = GlobalKey();
@@ -24,13 +27,12 @@ class RegisterController extends GetxController {
     try {
       await _commitSignUp(formKey.currentState!.value);
       _showButtonSuccessAndNavigate();
-    } on Exception catch (_) {
+    } on AuthException catch (e) {
       _showButtonError();
-      Get.snackbar(
-        'Error',
-        'Something went wrong. Please try again',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      ErrorSnackbar(AppMessages.localizeAuthExceptionMessage(e)).show();
+    } catch (_) {
+      _showButtonError();
+      const ErrorSnackbar(AppMessages.genericErrorMessage).show();
     }
   }
 
