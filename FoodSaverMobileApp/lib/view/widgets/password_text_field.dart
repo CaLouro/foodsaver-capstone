@@ -42,7 +42,9 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         helperMaxLines: 3,
       ),
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(),
+        FormBuilderValidators.required(
+          errorText: 'Please provide a password.',
+        ),
         FormBuilderValidators.minLength(CustomValidations.passwordMinLength),
         FormBuilderValidators.maxLength(CustomValidations.passwordMaxLength),
         CustomValidations.password(),

@@ -32,7 +32,7 @@ class LoginController extends GetxController {
     }
 
     try {
-      _commitSignIn(formKey.currentState!.value);
+      await _commitSignIn(formKey.currentState!.value);
       _showButtonSuccessAndNavigate();
     } on AuthException catch (e) {
       _showButtonError();

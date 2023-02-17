@@ -22,8 +22,12 @@ class EmailTextField extends StatelessWidget {
         helperMaxLines: 3,
       ),
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(),
-        FormBuilderValidators.email(),
+        FormBuilderValidators.required(
+          errorText: 'Please provide an email.',
+        ),
+        FormBuilderValidators.email(
+          errorText: 'Value is not in a valid email format',
+        ),
       ]),
       keyboardType: TextInputType.emailAddress,
       autocorrect: true,

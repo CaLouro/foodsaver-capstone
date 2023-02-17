@@ -23,7 +23,7 @@ abstract class CustomValidations {
     return (String? valueCandidate) {
       if (valueCandidate == null ||
           !RegExp(_passwordRegex).hasMatch(valueCandidate)) {
-        return errorText ?? 'Value is not a valid password';
+        return errorText ?? 'Value is not a valid password.';
       }
       return null;
     };
