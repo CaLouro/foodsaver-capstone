@@ -2,8 +2,10 @@
 using FoodSaverWebApp.Models;
 using FoodSaverWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace FoodSaverWebApp.Controllers
 {
@@ -23,31 +25,25 @@ namespace FoodSaverWebApp.Controllers
         }
 
         [HttpPost("/Register")]
-        public IActionResult Registration(RegisterModel authModel)
+        public async Task<IActionResult> Registration(RegisterModel authModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     // Request a token from Firebase
-                    Task<string> getToken = _auth.Registration(authModel);
-                    getToken.Wait();
-
-                    string token = getToken.Result;
+                    string token = await _auth.Registration(authModel);
 
                     if (token != null)
                     {
                         HttpContext.Session.SetString("_UserToken", token);
                     }
                 }
-                catch (AggregateException ex) when (ex.InnerException is FirebaseAuthException fbAuthEx)
+                catch (FirebaseAuthException ex)
                 {
-                    // On a firebase exception, deserialize the response to be able to clearly display a message.
-                    FirebaseError? firebaseError = JsonConvert.DeserializeObject<FirebaseError>(fbAuthEx.ResponseData);
+                    var firebaseError = _auth.ExtractFirebaseException(ex);
 
-                    // The firebase error message is run through the method "AdjustErrorMessage" to return a more
-                    // descriptive response than what firebase returns.
-                    ModelState.AddModelError(String.Empty, _auth.AdjustErrorMessage(firebaseError.error.message));
+                    ModelState.AddModelError(firebaseError.error.modelError, firebaseError.error.message);
                 }
                 catch (Exception ex)
                 {
@@ -72,34 +68,28 @@ namespace FoodSaverWebApp.Controllers
         }
         
         [HttpPost("/Login")]
-        public IActionResult Login(LoginModel loginModel)
+        public async Task<IActionResult> Login(LoginModel loginModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Task<string> getToken = _auth.Login(loginModel);
-                    getToken.Wait();
-
-                    string token = getToken.Result;
+                    string token = await _auth.Login(loginModel);
 
                     if (token != null)
                     {
                         HttpContext.Session.SetString("_UserToken", token);
                     }
                 }
-                catch (AggregateException ex) when (ex.InnerException is FirebaseAuthException fbAuthEx)
+                catch (FirebaseAuthException ex)
                 {
-                    // On a firebase exception, deserialize the response to be able to clearly display a message.
-                    FirebaseError? firebaseError = JsonConvert.DeserializeObject<FirebaseError>(fbAuthEx.ResponseData);
+                    var firebaseError = _auth.ExtractFirebaseException(ex);
 
-                    // The firebase error message is run through the method "AdjustErrorMessage" to return a more
-                    // descriptive response than what firebase returns.
-                    ModelState.AddModelError(String.Empty, _auth.AdjustErrorMessage(firebaseError.error.message));
+                    ModelState.AddModelError(firebaseError.error.modelError, firebaseError.error.message);
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError(String.Empty, ex.Message);
+                    ModelState.AddModelError(String.Empty, "Something went wrong");
                 }
             }
 

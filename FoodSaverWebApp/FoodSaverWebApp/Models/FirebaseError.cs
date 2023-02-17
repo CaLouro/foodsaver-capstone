@@ -10,5 +10,6 @@
         public int code { get; set; }
         public string message { get; set; }
         public List<Error> errors { get; set; }
+        public string modelError { get; set; }
     }
 }

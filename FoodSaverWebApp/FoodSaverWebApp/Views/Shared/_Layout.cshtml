@@ -35,8 +35,13 @@
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Logout">Log Out</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" data-bs-toggle="dropdown" id="accountNavDropDown">
+                                    Account
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end animate slideDown" aria-labelledby="accountNavDropDown">
+                                    <a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Log Out</a>
+                                </div>
                             </li>
                         }
                     </ul>
