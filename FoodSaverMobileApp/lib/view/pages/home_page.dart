@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../domain/services/auth_service_interface.dart';
+import '../../application/controllers/home_controller.dart';
+import '../widgets/deals_home_tab.dart';
+import '../widgets/restaurant_home_tab.dart';
+import '../widgets/settings_home_tab.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final HomeController controller = Get.put(HomeController());
+
+  final Map<int, Widget> bodyTabs = const {
+    0: RestaurantHomeTab(),
+    1: DealsHomeTab(),
+    2: SettingsHomeTab(),
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +28,25 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Food Saver'),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Get.find<IAuthService>()
-                .signOut()
-                .then((value) => Get.offAllNamed('/login'));
-          },
-          child: const Text('Log out'),
+      body: Obx(() => bodyTabs[controller.currentTabIndex.value]!),
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          currentIndex: controller.currentTabIndex.value,
+          onTap: controller.changeCurrentTabIndex,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.restaurant_rounded),
+              label: 'Restaurants',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.discount_rounded),
+              label: 'Deals',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings_rounded),
+              label: 'Settings',
+            ),
+          ],
         ),
       ),
     );
