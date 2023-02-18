@@ -4,7 +4,10 @@ namespace FoodSaverWebApp.Models
 {
     public class RegisterModel
     {
-        [Required(ErrorMessage = "Email is requried")]
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; }
+        
+        [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid Email")]
         public string Email { get; set; }
 

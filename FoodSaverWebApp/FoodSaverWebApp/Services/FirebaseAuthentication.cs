@@ -1,13 +1,12 @@
-﻿using FoodSaverWebApp.Models;
-using Firebase.Auth;
-using System.Security.Cryptography.X509Certificates;
+﻿using Firebase.Auth;
+using FoodSaverWebApp.Models;
 using Newtonsoft.Json;
 
 namespace FoodSaverWebApp.Services
 {
     public class FirebaseAuthentication : IFirebaseAuthentication
     {
-        private FirebaseAuthProvider _auth; 
+        private FirebaseAuthProvider _auth;
 
         public FirebaseAuthentication()
         {
@@ -31,28 +30,21 @@ namespace FoodSaverWebApp.Services
             return token;
         }
 
-        public FirebaseError LocalizeAuthExceptionMessage(FirebaseError? exception)
+        public FirebaseError LocalizeAuthExceptionMessage(FirebaseError? firebaseError)
         {
             string genericErrorMessage = "Something went wrong. Please try again.";
 
-            FirebaseError firebaseError = exception;
-
-            if (exception == null)
+            if (firebaseError == null)
             {
                 firebaseError.error.modelError = String.Empty;
                 firebaseError.error.message = genericErrorMessage;
             }
 
-            switch (exception.error.message)
+            switch (firebaseError.error.message)
             {
                 case "EMAIL_EXISTS":
                     firebaseError.error.modelError = "Email";
                     firebaseError.error.message = "Email already in use.";
-                    break;
-
-                case "INVALID_PASSWORD":
-                    firebaseError.error.modelError = "Password";
-                    firebaseError.error.message = "Wrong password. Please try again.";
                     break;
 
                 case "EMAIL_NOT_FOUND":
@@ -60,9 +52,14 @@ namespace FoodSaverWebApp.Services
                     firebaseError.error.message = "There is no account with this credentials.";
                     break;
 
+                case "INVALID_PASSWORD":
+                    firebaseError.error.modelError = "Password";
+                    firebaseError.error.message = "Wrong password. Please try again.";
+                    break;
+
                 default:
                     firebaseError.error.modelError = String.Empty;
-                    firebaseError.error.message = exception.error.message;
+                    firebaseError.error.message = firebaseError.error.message;
                     break;
                     /*
                 case "invalid-email":

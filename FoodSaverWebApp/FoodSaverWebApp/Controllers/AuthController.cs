@@ -2,10 +2,6 @@
 using FoodSaverWebApp.Models;
 using FoodSaverWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Win32;
-using Newtonsoft.Json;
-using System.Diagnostics;
 
 namespace FoodSaverWebApp.Controllers
 {
@@ -45,9 +41,9 @@ namespace FoodSaverWebApp.Controllers
 
                     ModelState.AddModelError(firebaseError.error.modelError, firebaseError.error.message);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    ModelState.AddModelError(String.Empty, ex.Message);
+                    ModelState.AddModelError(String.Empty, "Something went wrong");
                 }
             }
 
@@ -66,7 +62,7 @@ namespace FoodSaverWebApp.Controllers
         {
             return View();
         }
-        
+
         [HttpPost("/Login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
@@ -87,7 +83,7 @@ namespace FoodSaverWebApp.Controllers
 
                     ModelState.AddModelError(firebaseError.error.modelError, firebaseError.error.message);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ModelState.AddModelError(String.Empty, "Something went wrong");
                 }

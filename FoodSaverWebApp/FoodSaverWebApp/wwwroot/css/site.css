@@ -17,48 +17,40 @@ body {
   margin-bottom: 60px;
 }
 
-.animate {
-    animation-duration: 0.3s;
-    -webkit-animation-duration: 0.3s;
-    animation-fill-mode: both;
-    -webkit-animation-fill-mode: both;
+/* Styles for register/login forms */
+.login-card {
+    padding: 3rem;
 }
 
-@keyframes slideDown {
-    0% {
-        transform: translateY(-1rem);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translateY(0rem);
-        opacity: 1;
-    }
-
-    0% {
-        transform: translateY(-1rem);
-        opacity: 0;
-    }
+.login-card h1 {
+    width: 100%;
+    text-align: center;
+    margin-top: 3rem;
+    margin-bottom: 6rem;
 }
 
-@-webkit-keyframes slideDown {
-    0% {
-        -webkit-transform: translateY(-1rem);
-        opacity: 0;
-    }
-
-    100% {
-        -webkit-transform: translateY(0rem);
-        opacity: 1;
-    }
-
-    0% {
-        -webkit-transform: translateY(-1rem);
-        opacity: 0;
-    }
+.login-card .form-group {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
 }
 
-.slideDown {
-    -webkit-animation-name: slideDown;
-    animation-name: slideDown;
+.login-card input {
+    border-radius: 8px;
+    box-shadow: #c7c7c7 0 5px 8px -5px;
+}
+
+.login-card input[type=submit] {
+    margin-top: 1rem;
+    padding: 0.6rem 2rem;
+    border: none;
+    box-shadow: #8a8a8a 0 5px 8px -5px;
+}
+
+.login-card label {
+    margin-bottom: 0.3rem;
+}
+
+.login-card .text-danger {
+    display: block;
+    height: 1rem;
 }
