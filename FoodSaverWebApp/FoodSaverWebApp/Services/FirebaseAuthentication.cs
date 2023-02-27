@@ -24,7 +24,7 @@ namespace FoodSaverWebApp.Services
 
         public async Task<string> Registration(RegisterModel authModel)
         {
-            await _auth.CreateUserWithEmailAndPasswordAsync(authModel.Email, authModel.Password);
+            await _auth.CreateUserWithEmailAndPasswordAsync(authModel.Email, authModel.Password, authModel.Name);
 
             string token = await Login(new LoginModel(authModel.Email, authModel.Password));
 
