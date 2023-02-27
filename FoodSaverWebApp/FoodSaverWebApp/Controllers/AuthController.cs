@@ -7,11 +7,11 @@ namespace FoodSaverWebApp.Controllers
 {
     public class AuthController : Controller
     {
-        private FirebaseAuthentication _auth;
+        private IFirebaseAuthentication _auth;
 
-        public AuthController()
+        public AuthController(IFirebaseAuthentication auth)
         {
-            _auth = new FirebaseAuthentication();
+            _auth = auth;
         }
 
         [HttpGet("/Register")]

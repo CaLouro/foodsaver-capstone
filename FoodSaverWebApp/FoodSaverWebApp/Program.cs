@@ -1,3 +1,6 @@
+using FoodSaverWebApp.Services;
+using Microsoft.Build.Framework;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +11,8 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddSingleton<IFirebaseAuthentication, FirebaseAuthentication>();
 
 var app = builder.Build();
 
