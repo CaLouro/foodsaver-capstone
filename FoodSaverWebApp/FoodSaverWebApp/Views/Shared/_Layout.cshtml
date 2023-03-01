@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FoodSaverWebApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/animation.css" asp-append-version="true"/>
 </head>
 <body>
     <header>
@@ -26,13 +27,34 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (Context.Session.GetString("_UserToken") == null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" data-bs-toggle="dropdown" id="accountNavDropDown">
+                                    Account
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end animate-300 slideDown" aria-labelledby="accountNavDropDown">
+                                    <a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Log Out</a>
+                                </div>
+                            </li>
+                        }
+                    </ul>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+            <div id="mainPage" class="animate-1000 slideDown">
+                @RenderBody()
+            </div>
         </main>
     </div>
 

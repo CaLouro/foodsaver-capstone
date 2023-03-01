@@ -16,3 +16,60 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* Styles for register/login forms */
+.login-card {
+    width: 30rem;
+    padding: 3rem;
+}
+
+.login-card h1 {
+    width: 100%;
+    text-align: center;
+    margin-top: 3rem;
+    margin-bottom: 6rem;
+}
+
+.login-card .form-group {
+    margin-bottom: 0.75rem;
+}
+
+.login-card input {
+    border-radius: 8px;
+    box-shadow: #c7c7c7 0 5px 8px -5px;
+}
+
+.login-card input[type=submit] {
+    padding: 0.6rem 0;
+    border: none;
+    box-shadow: #8a8a8a 0 5px 8px -5px;
+}
+
+.login-card label {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.login-card .text-danger {
+    display: block;
+    height: 0.75rem;
+    font-size: 12px;
+}
+
+.login-card .form-group .d-flex {
+    margin-top: 2.5rem;
+}
+
+.login-card a {
+    text-decoration: none;
+    color: #0a58ca;
+    padding: 0.6rem 0;
+    border-radius: 8px;
+
+    transition: background-color 250ms;
+}
+
+.login-card a:hover {
+    color: #0a58ca;
+    background-color: rgba(0, 0, 0, 5%);
+}
