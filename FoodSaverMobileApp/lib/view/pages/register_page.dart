@@ -7,6 +7,7 @@ import '../widgets/email_text_field.dart';
 import '../widgets/password_match_text_field.dart';
 import '../widgets/password_text_field.dart';
 import '../widgets/styled_rounded_loading_button.dart';
+import '../widgets/user_display_name_text_field.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -38,10 +39,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 textAlign: TextAlign.center,
               ),
             ),
+            const UserDisplayNameTextField(
+              'display-name',
+              decoration: InputDecoration(
+                helperText: 'The name will be used to customise the '
+                    'experience within the app.',
+              ),
+            ),
             const EmailTextField(
               'email',
               decoration: InputDecoration(
-                helperText: 'The email that will be used for signing in.',
+                helperText: 'The email that will be used for signing up and '
+                    'signing in.',
               ),
             ),
             const PasswordTextField(
