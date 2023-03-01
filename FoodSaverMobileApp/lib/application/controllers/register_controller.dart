@@ -39,8 +39,9 @@ class RegisterController extends GetxController {
   Future<void> _commitSignUp(Map<String, dynamic> values) {
     final email = values['email'];
     final password = values['password'];
+    final username = values['display-name'];
 
-    return Get.find<IAuthService>().signUp(email, password);
+    return Get.find<IAuthService>().signUp(email, password, username: username);
   }
 
   void _showButtonError() {

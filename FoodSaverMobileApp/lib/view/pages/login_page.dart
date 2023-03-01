@@ -30,20 +30,38 @@ class _LoginPageState extends State<LoginPage> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Text(
+                'Login',
+                style: Theme.of(context).textTheme.headlineSmall,
+                textAlign: TextAlign.center,
+              ),
+            ),
             const EmailTextField('email'),
             const PasswordTextField('password'),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
-              child: StyledRoundedLoadingButton(
-                controller: controller.buttonController,
-                onPressed: controller.submitLogin,
-                child: const Text('Sign In'),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: TextButton(
+                      onPressed: controller.goToSignUp,
+                      child: const Text('Sign Up'),
+                    ),
+                  ),
+                  const Spacer(flex: 1),
+                  Expanded(
+                    flex: 7,
+                    child: StyledRoundedLoadingButton(
+                      controller: controller.buttonController,
+                      onPressed: controller.submitLogin,
+                      child: const Text('Login'),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const Divider(),
-            TextButton(
-              onPressed: controller.goToSignUp,
-              child: const Text('Or Sign Up Now'),
             ),
           ],
         ),
