@@ -68,6 +68,6 @@ class HomeController extends GetxController {
   }
 
   void navigateToBusinessDetails(Business business) {
-    print('navigateToBusinessDetails: ${business.name}');
+    Get.toNamed('/business', arguments: business);
   }
 }
