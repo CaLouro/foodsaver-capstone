@@ -42,3 +42,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Dart/Flutter generated files
+/lib/**/*.g.dart
