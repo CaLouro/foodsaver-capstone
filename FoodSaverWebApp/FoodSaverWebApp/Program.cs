@@ -1,4 +1,6 @@
+using FoodSaverWebApp.Entities;
 using Microsoft.Build.Framework;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,9 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+var connStr = builder.Configuration.GetConnectionString("FoodSaverDB");
+builder.Services.AddDbContext<FoodSaverDbContext>(options => options.UseSqlServer(connStr));
 
 var app = builder.Build();
 
