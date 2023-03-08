@@ -1,5 +1,7 @@
+using FoodSaverWebApp.Entities;
 using FoodSaverWebApp.Services;
 using Microsoft.Build.Framework;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +14,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddSingleton<IFirebaseAuthentication, FirebaseAuthentication>();
+builder.Services.AddSingleton<IDbManager, DbManager>();
 
 var app = builder.Build();
 

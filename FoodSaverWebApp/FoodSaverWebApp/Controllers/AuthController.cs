@@ -1,15 +1,19 @@
-﻿using Firebase.Auth;
+﻿using FoodSaverWebApp.Entities;
 using FoodSaverWebApp.Models;
 using FoodSaverWebApp.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json.Linq;
+using NuGet.Common;
+using System.Text.Json;
 
 namespace FoodSaverWebApp.Controllers
 {
     public class AuthController : Controller
     {
-        private IFirebaseAuthentication _auth;
-
-        public AuthController(IFirebaseAuthentication auth)
+        private IDbManager _auth;
+        public AuthController(IDbManager auth)
         {
             _auth = auth;
         }
@@ -27,83 +31,77 @@ namespace FoodSaverWebApp.Controllers
             {
                 try
                 {
-                    // Request a token from Firebase
-                    string token = await _auth.Registration(authModel);
+                    string token = await _auth.CreateAccount(authModel);
 
-                    if (token != null)
-                    {
-                        HttpContext.Session.SetString("_UserToken", token);
-                    }
+                    return RedirectToAction("SetActiveAccount", new { token = token, displayName = authModel.Name });
                 }
-                catch (FirebaseAuthException ex)
-                {
-                    var firebaseError = _auth.ExtractFirebaseException(ex);
+				catch (Supabase.Gotrue.BadRequestException ex)
+				{
+                    RegisterError? result = JsonSerializer.Deserialize<RegisterError>(ex.Content);
+                    ModelState.AddModelError(string.Empty, result.msg);
+                    return View();
+                }
+			}
 
-                    ModelState.AddModelError(firebaseError.error.modelError, firebaseError.error.message);
-                }
-                catch (Exception)
-                {
-                    ModelState.AddModelError(String.Empty, "Something went wrong");
-                }
-            }
-
-            if (HttpContext.Session.GetString("_UserToken") != null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                return View(authModel);
-            }
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet("/Login")]
         public IActionResult Login()
         {
-            return View();
+			return View();
         }
 
         [HttpPost("/Login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            if (ModelState.IsValid)
-            {
+			if (ModelState.IsValid)
+			{
                 try
                 {
-                    string token = await _auth.Login(loginModel);
+                    string token = await _auth.SignIn(loginModel);
 
-                    if (token != null)
-                    {
-                        HttpContext.Session.SetString("_UserToken", token);
-                    }
-                }
-                catch (FirebaseAuthException ex)
+					return RedirectToAction("SetActiveAccount", new { token = token });
+				}
+                catch (Supabase.Gotrue.BadRequestException ex)
                 {
-                    var firebaseError = _auth.ExtractFirebaseException(ex);
-
-                    ModelState.AddModelError(firebaseError.error.modelError, firebaseError.error.message);
+                    LoginError? result = JsonSerializer.Deserialize<LoginError>(ex.Content);
+                    ModelState.AddModelError(string.Empty, result.error_description);
+                    return View();
                 }
-                catch (Exception)
-                {
-                    ModelState.AddModelError(String.Empty, "Something went wrong");
-                }
-            }
+			}
 
-            if (HttpContext.Session.GetString("_UserToken") != null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                return View(loginModel);
-            }
+			return View();
         }
 
         [HttpGet("/Logout")]
         public IActionResult Logout()
         {
+            _auth.SignOut();
             HttpContext.Session.Remove("_UserToken");
-            return RedirectToAction("Login");
+
+			return RedirectToAction("Login");
+        }
+
+        /// <summary>
+        /// Sets the session strings to reflect the current logged in account ie. active user
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> SetActiveAccount(string token, string? displayName = null)
+        {
+            User? activeUser = await _auth.GetActiveUser();
+            string? activeUserName = displayName;
+
+            if (activeUser != null)
+            {
+                activeUserName = activeUser.DisplayName;
+            }
+
+            HttpContext.Session.SetString("_UserToken", token);
+            HttpContext.Session.SetString("_DisplayName", activeUserName);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
