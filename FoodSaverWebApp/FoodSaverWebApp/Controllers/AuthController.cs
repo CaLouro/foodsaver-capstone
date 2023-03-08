@@ -103,18 +103,5 @@ namespace FoodSaverWebApp.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
-        public async Task<IActionResult> LoginAfterRegister(RegisterModel registerModel)
-        {
-            LoginModel loginModel = new LoginModel
-            {
-                Email = registerModel.Email,
-                Password = registerModel.Password
-            };
-
-            string token = await _auth.SignIn(loginModel);
-
-            return RedirectToAction("SetActiveAccount", new { token = token });
-        }
     }
 }
