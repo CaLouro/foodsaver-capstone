@@ -13,7 +13,7 @@ namespace FoodSaverWebApp.Entities
         public string Line1 { get; set; }
 
         [Column(columnName: "line2")]
-        public string Line2 { get; set; }
+        public string? Line2 { get; set; }
 
         [Column(columnName: "city")]
         public string City { get; set; }

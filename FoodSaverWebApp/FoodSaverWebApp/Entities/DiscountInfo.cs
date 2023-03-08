@@ -10,16 +10,16 @@ namespace FoodSaverWebApp.Entities
         public int DiscountInfoId { get; set; }
 
         [Column(columnName: "quantity_available")]
-        public int QuantityAvailable { get; set; }
+        public int? QuantityAvailable { get; set; }
 
         [Column(columnName: "price")]
         public float Price { get; set; }
 
         [Column(columnName: "availability_starts")]
-        public DateTime AvailabilityStarts { get; set; }
+        public DateTime? AvailabilityStarts { get; set; }
 
         [Column(columnName: "availability_ends")]
-        public DateTime AvailabilityEnds { get; set; }
+        public DateTime? AvailabilityEnds { get; set; }
 
         [Reference(typeof(Item))]
         public Item Item { get; set; }

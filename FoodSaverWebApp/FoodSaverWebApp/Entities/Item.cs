@@ -13,10 +13,10 @@ namespace FoodSaverWebApp.Entities
         public string Name { get; set; }
 
         [Column(columnName: "description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Column(columnName: "standard_price")]
-        public float StandardPrice { get; set; }
+        public float? StandardPrice { get; set; }
 
         [Reference(typeof(Business))]
         public Business Business { get; set; }

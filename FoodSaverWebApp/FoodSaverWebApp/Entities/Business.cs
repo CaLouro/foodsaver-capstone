@@ -13,15 +13,15 @@ namespace FoodSaverWebApp.Entities
         public string Name { get; set; }
 
         [Column(columnName: "contact_email")]
-        public string ContactEmail { get; set; }
+        public string? ContactEmail { get; set; }
 
         [Column(columnName: "contact_phone")]
-        public string ContactPhone { get; set; }
+        public string? ContactPhone { get; set; }
 
         [Reference(typeof(Address))]
         public Address Address { get; set; }
 
         [Reference(typeof(Tag))]
-        public List<Tag> Tags { get; set; } 
+        public List<Tag> Tags { get; set; }
     }
 }
