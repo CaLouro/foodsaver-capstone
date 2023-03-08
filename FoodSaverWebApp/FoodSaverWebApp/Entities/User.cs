@@ -1,8 +1,18 @@
-﻿namespace FoodSaverWebApp.Entities
+﻿using Postgrest.Attributes;
+using Postgrest.Models;
+
+namespace FoodSaverWebApp.Entities
 {
-    public class User
+    [Table(tableName: "user")]
+    public class User : BaseModel
     {
-        public string UserId { get; set; }
-        public string DisplayName { get; set; }
+        [PrimaryKey(columnName: "id")]
+        public int UserId { get; set; }
+
+        [Column(columnName: "display_name")]
+        public string? DisplayName { get; set; }
+
+        [Column(columnName: "account_uid")]
+        public string AccountId { get; set; }
     }
 }
