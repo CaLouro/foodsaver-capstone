@@ -1,11 +1,27 @@
-﻿namespace FoodSaverWebApp.Entities
+﻿using Postgrest.Attributes;
+using Postgrest.Models;
+
+namespace FoodSaverWebApp.Entities
 {
-    public class DiscountInfo
+    [Table(tableName: "discount_info")]
+    public class DiscountInfo : BaseModel
     {
-        public string DiscountInfoId { get; set; }
-        public int QuantityAvailable { get; set; }
-        public double Price { get; set; }
-        public DateTime AvailabilityStarts { get; set; }
-        public DateTime AvailabilityEnds { get; set; }
+        [PrimaryKey(columnName: "id")]
+        public int DiscountInfoId { get; set; }
+
+        [Column(columnName: "quantity_available")]
+        public int? QuantityAvailable { get; set; }
+
+        [Column(columnName: "price")]
+        public float Price { get; set; }
+
+        [Column(columnName: "availability_starts")]
+        public DateTime? AvailabilityStarts { get; set; }
+
+        [Column(columnName: "availability_ends")]
+        public DateTime? AvailabilityEnds { get; set; }
+
+        [Reference(typeof(Item))]
+        public Item Item { get; set; }
     }
 }
