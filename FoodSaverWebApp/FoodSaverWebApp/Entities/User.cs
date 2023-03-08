@@ -9,10 +9,10 @@ namespace FoodSaverWebApp.Entities
         [PrimaryKey(columnName: "id")]
         public int UserId { get; set; }
 
-		[Column(columnName: "display_name")]
-		public string? DisplayName { get; set; }
+        [Column(columnName: "display_name")]
+        public string? DisplayName { get; set; }
 
-		[Column(columnName: "account_uid")]
+        [Column(columnName: "account_uid")]
         public string AccountId { get; set; }
-	}
+    }
 }

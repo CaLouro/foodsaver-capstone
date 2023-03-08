@@ -10,65 +10,63 @@ namespace FoodSaverWebApp.Services
         public DbManager()
         {
             InitializeDatabaseConnection();
-		}
+        }
 
         public async void InitializeDatabaseConnection()
         {
-            string url = "https://bjgctikxmsxwksxpcbpr.supabase.co";
-            string key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJqZ2N0aWt4bXN4d2tzeHBjYnByIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODIzODc4MiwiZXhwIjoxOTkzODE0NzgyfQ.qIUUqkzzcXnzzRhQKv72qmrUXsU3zFolmpVHtS2PeHY";
+            const string url = "https://bjgctikxmsxwksxpcbpr.supabase.co";
+            const string key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJqZ2N0aWt4bXN4d2tzeHBjYnByIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODIzODc4MiwiZXhwIjoxOTkzODE0NzgyfQ.qIUUqkzzcXnzzRhQKv72qmrUXsU3zFolmpVHtS2PeHY";
 
             _database = new Supabase.Client(url, key);
             await _database.InitializeAsync();
         }
 
-        /// <summary>
-        /// Authentication methods to handle users ability to login/sign up/sign out of their accounts
-        /// </summary>
-        /// <param name="loginModel"></param>
-		public async Task<string?> SignIn(LoginModel loginModel)
+        public async Task<string?> SignIn(LoginModel loginModel)
         {
-            var session = await _database.Auth.SignIn(loginModel.Email, loginModel.Password);
-			return session.AccessToken;
-		}
-		public async void SignOut()
+            Supabase.Gotrue.Session? session = await _database.Auth.SignIn(loginModel.Email, loginModel.Password);
+            return session?.AccessToken;
+        }
+
+        public async void SignOut()
         {
             await _database.Auth.SignOut();
         }
-		public async Task<string?> CreateAccount(RegisterModel registerModel)
+
+        public async Task<string?> CreateAccount(RegisterModel registerModel)
         {
-            var session = await _database.Auth.SignUp(registerModel.Email, registerModel.Password);
+            Supabase.Gotrue.Session? session = await _database.Auth.SignUp(registerModel.Email, registerModel.Password);
 
             AddUserInformation(registerModel, session.User.Id);
 
-			return session?.AccessToken;
-		}
+            return session?.AccessToken;
+        }
 
-		public async void AddUserInformation(RegisterModel registerModel, string uid)
+        private async void AddUserInformation(RegisterModel registerModel, string uid)
         {
-            var user = new User
+            User user = new User
             {
                 DisplayName = registerModel.Name,
                 AccountId = uid
             };
 
-			await _database.From<User>().Insert(user);
-		}
-        public async Task<User> GetActiveUser()
-        {
-            var activeUser = _database.Auth.CurrentSession?.User;
-            string? accountId = null;
+            await _database.From<User>().Insert(user);
+        }
 
-            if (activeUser != null)
+        public async Task<User?> GetActiveUser()
+        {
+            Supabase.Gotrue.User? activeUser = _database.Auth.CurrentSession?.User;
+
+            if (activeUser == null)
             {
-                accountId = activeUser.Id;
+                return null;
             }
 
-            var result = await _database
+            User? result = await _database
                 .From<User>()
-                .Where(x => x.AccountId == accountId)
+                .Where(x => x.AccountId == activeUser.Id)
                 .Single();
 
             return result;
         }
-	}
+    }
 }
