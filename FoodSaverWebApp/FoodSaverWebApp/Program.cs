@@ -13,9 +13,6 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-var connStr = builder.Configuration.GetConnectionString("FoodSaverDB");
-builder.Services.AddDbContext<FoodSaverDbContext>(options => options.UseSqlServer(connStr));
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
