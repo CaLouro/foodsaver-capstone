@@ -55,11 +55,17 @@ namespace FoodSaverWebApp.Services
 		}
         public async Task<User> GetActiveUser()
         {
-            string accountId = _database.Auth.CurrentSession.User.Id;
+            var activeUser = _database.Auth.CurrentSession?.User;
+            string? accountId = null;
+
+            if (activeUser != null)
+            {
+                accountId = activeUser.Id;
+            }
 
             var result = await _database
                 .From<User>()
-                .Where(x => x.DisplayName == "Brandon Hardy")
+                .Where(x => x.AccountId == accountId)
                 .Single();
 
             return result;

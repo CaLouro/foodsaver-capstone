@@ -4,6 +4,7 @@ using FoodSaverWebApp.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json.Linq;
 using NuGet.Common;
 using System.Text.Json;
 
@@ -32,12 +33,11 @@ namespace FoodSaverWebApp.Controllers
                 {
                     string token = await _auth.CreateAccount(authModel);
 
-                    return RedirectToAction("SetActiveAccount", new { token = token });
+                    return RedirectToAction("SetActiveAccount", new { token = token, displayName = authModel.Name });
                 }
 				catch (Supabase.Gotrue.BadRequestException ex)
 				{
-                    Console.WriteLine(ex.Content);
-                    RegisterError result = JsonSerializer.Deserialize<RegisterError>(ex.Content);
+                    RegisterError? result = JsonSerializer.Deserialize<RegisterError>(ex.Content);
                     ModelState.AddModelError(string.Empty, result.msg);
                     return View();
                 }
@@ -65,7 +65,7 @@ namespace FoodSaverWebApp.Controllers
 				}
                 catch (Supabase.Gotrue.BadRequestException ex)
                 {
-                    LoginError result = JsonSerializer.Deserialize<LoginError>(ex.Content);
+                    LoginError? result = JsonSerializer.Deserialize<LoginError>(ex.Content);
                     ModelState.AddModelError(string.Empty, result.error_description);
                     return View();
                 }
@@ -83,14 +83,38 @@ namespace FoodSaverWebApp.Controllers
 			return RedirectToAction("Login");
         }
 
-        public async Task<IActionResult> SetActiveAccount(string token)
+        /// <summary>
+        /// Sets the session strings to reflect the current logged in account ie. active user
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> SetActiveAccount(string token, string? displayName = null)
         {
-            User activeUser = await _auth.GetActiveUser();
+            User? activeUser = await _auth.GetActiveUser();
+            string? activeUserName = displayName;
 
-			HttpContext.Session.SetString("_UserToken", token);
-			HttpContext.Session.SetString("_DisplayName", activeUser.DisplayName);
+            if (activeUser != null)
+            {
+                activeUserName = activeUser.DisplayName;
+            }
+
+            HttpContext.Session.SetString("_UserToken", token);
+            HttpContext.Session.SetString("_DisplayName", activeUserName);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> LoginAfterRegister(RegisterModel registerModel)
+        {
+            LoginModel loginModel = new LoginModel
+            {
+                Email = registerModel.Email,
+                Password = registerModel.Password
+            };
+
+            string token = await _auth.SignIn(loginModel);
+
+            return RedirectToAction("SetActiveAccount", new { token = token });
         }
     }
 }
