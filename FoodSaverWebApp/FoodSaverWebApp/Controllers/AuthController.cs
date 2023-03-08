@@ -1,13 +1,20 @@
-﻿using FoodSaverWebApp.Models;
+﻿using FoodSaverWebApp.Entities;
+using FoodSaverWebApp.Models;
+using FoodSaverWebApp.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using NuGet.Common;
+using System.Text.Json;
 
 namespace FoodSaverWebApp.Controllers
 {
     public class AuthController : Controller
     {
-        public AuthController()
+        private IDbManager _auth;
+        public AuthController(IDbManager auth)
         {
-            
+            _auth = auth;
         }
 
         [HttpGet("/Register")]
@@ -17,27 +24,73 @@ namespace FoodSaverWebApp.Controllers
         }
 
         [HttpPost("/Register")]
-        public IActionResult Registration(RegisterModel authModel)
+        public async Task<IActionResult> Registration(RegisterModel authModel)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string token = await _auth.CreateAccount(authModel);
+
+                    return RedirectToAction("SetActiveAccount", new { token = token });
+                }
+				catch (Supabase.Gotrue.BadRequestException ex)
+				{
+                    Console.WriteLine(ex.Content);
+                    RegisterError result = JsonSerializer.Deserialize<RegisterError>(ex.Content);
+                    ModelState.AddModelError(string.Empty, result.msg);
+                    return View();
+                }
+			}
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet("/Login")]
         public IActionResult Login()
         {
-            return View();
+			return View();
         }
 
         [HttpPost("/Login")]
-        public IActionResult Login(LoginModel loginModel)
+        public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            return View();
+			if (ModelState.IsValid)
+			{
+                try
+                {
+                    string token = await _auth.SignIn(loginModel);
+
+					return RedirectToAction("SetActiveAccount", new { token = token });
+				}
+                catch (Supabase.Gotrue.BadRequestException ex)
+                {
+                    LoginError result = JsonSerializer.Deserialize<LoginError>(ex.Content);
+                    ModelState.AddModelError(string.Empty, result.error_description);
+                    return View();
+                }
+			}
+
+			return View();
         }
 
         [HttpGet("/Logout")]
         public IActionResult Logout()
         {
-            return RedirectToAction("Login");
+            _auth.SignOut();
+            HttpContext.Session.Remove("_UserToken");
+
+			return RedirectToAction("Login");
+        }
+
+        public async Task<IActionResult> SetActiveAccount(string token)
+        {
+            User activeUser = await _auth.GetActiveUser();
+
+			HttpContext.Session.SetString("_UserToken", token);
+			HttpContext.Session.SetString("_DisplayName", activeUser.DisplayName);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
