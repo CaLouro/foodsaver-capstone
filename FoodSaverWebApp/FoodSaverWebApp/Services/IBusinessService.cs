@@ -15,7 +15,7 @@ namespace FoodSaverWebApp.Services
         /// </summary>
         /// <param name="businessId"></param>
         /// <returns></returns>
-        public Task<Business> GetBusiness(int businessId);
+        public Task<Business?> GetBusiness(int businessId);
         
         /// <summary>
         /// Insert the given Business entity into the database

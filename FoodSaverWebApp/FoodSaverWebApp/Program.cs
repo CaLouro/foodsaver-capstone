@@ -1,7 +1,4 @@
-using FoodSaverWebApp.Entities;
 using FoodSaverWebApp.Services;
-using Microsoft.Build.Framework;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +11,9 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddSingleton<IAuthService, AuthService>();
+builder.Services.AddSingleton<IDbConnection, DbConnection>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IBusinessService, BusinessService>();
 
 var app = builder.Build();
 
