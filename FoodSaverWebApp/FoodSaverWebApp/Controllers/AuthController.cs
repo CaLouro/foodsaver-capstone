@@ -12,8 +12,8 @@ namespace FoodSaverWebApp.Controllers
 {
     public class AuthController : Controller
     {
-        private IDbManager _auth;
-        public AuthController(IDbManager auth)
+        private IAuthService _auth;
+        public AuthController(IAuthService auth)
         {
             _auth = auth;
         }
