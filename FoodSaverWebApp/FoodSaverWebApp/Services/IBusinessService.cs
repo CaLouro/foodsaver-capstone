@@ -5,7 +5,7 @@ namespace FoodSaverWebApp.Services
     public interface IBusinessService
     {
         /// <summary>
-        /// Retrieves a list of type ICollection for the entity Business
+        /// Retrieves a list of type ICollection for Business entities
         /// </summary>
         /// <returns></returns>
         public Task<ICollection<Business>> GetAllBusinesses();

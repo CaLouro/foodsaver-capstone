@@ -3,7 +3,7 @@ using Postgrest.Models;
 
 namespace FoodSaverWebApp.Entities
 {
-    [Table(tableName: "tags")]
+    [Table(tableName: "tag")]
     public class Tag : BaseModel
     {
         [PrimaryKey(columnName: "id")]
