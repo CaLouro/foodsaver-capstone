@@ -5,8 +5,6 @@ namespace FoodSaverWebApp.Services
 {
     public class AuthService : DbConnection, IAuthService
     {
-        public AuthService() { InitializeDatabaseConnection(); }
-
         public async Task<string?> SignIn(LoginModel loginModel)
         {
             Supabase.Gotrue.Session? session = await _database.Auth.SignIn(loginModel.Email, loginModel.Password);

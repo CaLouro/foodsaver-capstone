@@ -5,8 +5,6 @@ namespace FoodSaverWebApp.Services
 {
     public class BusinessService : DbConnection, IBusinessService
     {
-        public BusinessService() { InitializeDatabaseConnection(); }
-        
         public async Task<ICollection<Business>> GetAllBusinesses()
         {
             var result = await _database

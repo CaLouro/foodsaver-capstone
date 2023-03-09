@@ -3,6 +3,11 @@
     public class DbConnection
     {
         protected Supabase.Client _database;
+
+        public DbConnection()
+        {
+            InitializeDatabaseConnection();
+        }
         
         protected async void InitializeDatabaseConnection()
         {
