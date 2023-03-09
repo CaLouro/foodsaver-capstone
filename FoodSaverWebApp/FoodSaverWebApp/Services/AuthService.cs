@@ -5,7 +5,7 @@ namespace FoodSaverWebApp.Services
 {
     public class AuthService : IAuthService
     {
-        private IDbConnection _connection;
+        private readonly IDbConnection _connection;
         public AuthService(IDbConnection connection)
         {
             _connection = connection;

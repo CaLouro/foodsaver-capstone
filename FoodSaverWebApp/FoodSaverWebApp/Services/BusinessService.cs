@@ -5,7 +5,7 @@ namespace FoodSaverWebApp.Services
 {
     public class BusinessService : IBusinessService
     {
-        private IDbConnection _connection;
+        private readonly IDbConnection _connection;
         public BusinessService(IDbConnection connection)
         {
             _connection = connection;
