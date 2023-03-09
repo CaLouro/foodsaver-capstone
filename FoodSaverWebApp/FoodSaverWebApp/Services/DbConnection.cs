@@ -1,8 +1,10 @@
-﻿namespace FoodSaverWebApp.Services
+﻿using Supabase;
+
+namespace FoodSaverWebApp.Services
 {
     internal class DbConnection : IDbConnection
     {
-        private Supabase.Client _database;
+        private Client _database;
 
         public DbConnection()
         {
@@ -18,7 +20,7 @@
             await _database.InitializeAsync();
         }
 
-        public Supabase.Client AccessDatabase()
+        public Client AccessDatabase()
         {
             return _database;
         }
