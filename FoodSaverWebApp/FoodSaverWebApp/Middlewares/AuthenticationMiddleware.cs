@@ -1,5 +1,4 @@
 ﻿using FoodSaverWebApp.Services;
-using System.Net;
 
 namespace FoodSaverWebApp.Middlewares
 {
