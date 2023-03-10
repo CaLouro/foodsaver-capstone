@@ -21,7 +21,7 @@ namespace FoodSaverWebApp.Entities
         [Reference(typeof(Address))]
         public Address Address { get; set; }
 
-        [Reference(typeof(Tag))]
-        public List<Tag> Tags { get; set; }
+        [Reference(typeof(Tag), shouldFilterTopLevel: false)]
+        public List<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

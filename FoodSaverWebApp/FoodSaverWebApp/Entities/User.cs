@@ -15,7 +15,7 @@ namespace FoodSaverWebApp.Entities
         [Column(columnName: "account_uid")]
         public string AccountId { get; set; }
 
-        [Reference(typeof(UserBusiness))]
-        public List<UserBusiness> Businesses { get; set; }
+        [Reference(typeof(UserBusiness), shouldFilterTopLevel: false)]
+        public List<UserBusiness> Businesses { get; set; } = new List<UserBusiness>();
     }
 }
