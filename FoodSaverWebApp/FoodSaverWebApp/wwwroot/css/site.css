@@ -14,13 +14,33 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background: #FCFAFA;
+}
+
+main {
+    margin: 0 auto;
+    max-width: 1200px;
+    height: 90vh;
+}
+
+#mainPage {
+    padding: 0;
+    margin: 0;
+}
+
+footer {
+    margin: 0 auto;
+}
+footer .container {
+    padding: 0;
+    max-width: 1200px;
 }
 
 /* Styles for register/login forms */
 .login-card {
-    width: 30rem;
-    padding: 3rem;
+    padding: 6rem;
+    font-family: 'Varela Round', sans-serif;
 }
 
 .login-card h1 {
@@ -36,13 +56,18 @@ body {
 
 .login-card input {
     border-radius: 8px;
-    box-shadow: #c7c7c7 0 5px 8px -5px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 4px 20px -10px;
 }
 
 .login-card input[type=submit] {
     padding: 0.6rem 0;
     border: none;
-    box-shadow: #8a8a8a 0 5px 8px -5px;
+    background: #0CCA4A;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 4px 20px -10px;
+}
+
+.login-card input[type=submit]:hover {
+    background: #09a93d;
 }
 
 .login-card label {
@@ -62,7 +87,7 @@ body {
 
 .login-card a {
     text-decoration: none;
-    color: #0a58ca;
+    color: #6E8387;
     padding: 0.6rem 0;
     border-radius: 8px;
 
@@ -70,6 +95,29 @@ body {
 }
 
 .login-card a:hover {
-    color: #0a58ca;
+    color: #6E8387;
     background-color: rgba(0, 0, 0, 5%);
+}
+
+.user-form-card {
+    background: white;
+    width: 100%;
+    height: 90vh;
+}
+.user-form-image {
+    position: relative;
+    overflow: visible;
+    padding: 0;
+}
+.user-form-image div {
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(10, 176, 64, 0.6) 0%, rgba(12, 236, 61, 0.6) 100%), url("../images/table-of-food.jpg");
+    background-size: cover;
+}
+
+.user-form-card .row {
+    margin: 0;
+    padding: 0;
+    height: inherit;
 }

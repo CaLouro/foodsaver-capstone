@@ -1,0 +1,37 @@
+﻿
+.nav-container {
+    max-width: 1200px;
+    min-height: 100px;
+    padding: 0;
+}
+
+.custom-text {
+    font-family: 'Varela Round', sans-serif;
+    color: #6E8387;
+    transition: color 250ms;
+}
+.custom-text:hover {
+    color: black;
+}
+
+.nav-left-link {
+    margin: 0 20px;
+}
+
+.nav-title {
+    font-size: 36px;
+    font-family: 'Sansita Swashed', cursive;
+    color: #0CCA4A;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    margin-bottom: 10px;
+    margin-right: 25px;
+    transition: color 250ms;
+}
+.nav-title:hover {
+    color: #09af3f;
+}
+
+.navbar-toggler {
+    box-shadow: 0 0 0 2px #C8D3D5;
+}
