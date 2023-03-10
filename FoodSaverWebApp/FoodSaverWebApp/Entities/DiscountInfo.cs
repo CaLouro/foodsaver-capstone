@@ -3,22 +3,22 @@ using Postgrest.Models;
 
 namespace FoodSaverWebApp.Entities
 {
-    [Table(tableName: "discount_info")]
+    [Table("discount_info")]
     public class DiscountInfo : BaseModel
     {
-        [PrimaryKey(columnName: "id")]
+        [PrimaryKey("id")]
         public int DiscountInfoId { get; set; }
 
-        [Column(columnName: "quantity_available")]
+        [Column("quantity_available")]
         public int? QuantityAvailable { get; set; }
 
-        [Column(columnName: "price")]
+        [Column("price")]
         public float Price { get; set; }
 
-        [Column(columnName: "availability_starts")]
+        [Column("availability_starts")]
         public DateTime? AvailabilityStarts { get; set; }
 
-        [Column(columnName: "availability_ends")]
+        [Column("availability_ends")]
         public DateTime? AvailabilityEnds { get; set; }
 
         [Reference(typeof(Item))]
