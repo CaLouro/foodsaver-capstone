@@ -17,5 +17,15 @@ namespace FoodSaverWebApp.Entities
 
         [Reference(typeof(UserBusiness), shouldFilterTopLevel: false)]
         public List<UserBusiness> Businesses { get; set; } = new List<UserBusiness>();
+
+        public bool IsAdmin()
+        {
+            return Businesses.Exists(b => b.IsAdmin);
+        }
+
+        public bool IsAdmin(int id)
+        {
+            return Businesses.Exists(b => b.Id == id && b.IsAdmin);
+        }
     }
 }
