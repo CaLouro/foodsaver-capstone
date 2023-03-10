@@ -6,14 +6,14 @@ namespace FoodSaverWebApp.Middlewares
     {
         private readonly RequestDelegate _next;
         private readonly IAuthService _authService;
-        private readonly List<string> _publicPaths;
+        private readonly HashSet<string> _publicPaths;
 
         public AuthenticationMiddleware(RequestDelegate next, IAuthService authService)
         {
             _next = next;
             _authService = authService;
 
-            _publicPaths = new List<string>()
+            _publicPaths = new HashSet<string>()
             {
                 "/",
                 "/Register",
@@ -26,7 +26,10 @@ namespace FoodSaverWebApp.Middlewares
             var user = await _authService.GetActiveUser();
             var requestPath = context.Request.Path;
 
-            if (!_publicPaths.Contains(requestPath) && user == null)
+            bool isNotAuthenticated = user == null;
+            bool isNotPublicPath = !_publicPaths.Contains(requestPath);
+
+            if (isNotPublicPath && isNotAuthenticated)
             {
                 context.Response.Redirect("/Login");
             }
