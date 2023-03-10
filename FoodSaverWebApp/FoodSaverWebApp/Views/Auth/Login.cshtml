@@ -7,11 +7,12 @@
 
 <div class="user-form-card">
     <div class="row justify-content-between">
-        <div class="login-card col-6 animate-500 slideDown">
+        <div class="login-card col-6">
             <h1>Login</h1>
 
             <form asp-action="Login">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger unassigned-errors"></div>
+                
                 <div class="form-group">
                     <label asp-for="Email" class="control-label"></label>
                     <input asp-for="Email" class="form-control"/>
@@ -22,8 +23,12 @@
                     <input asp-for="Password" class="form-control" type="password"/>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
+                <div class="form-group stay-logged-in">
+                    @Html.CheckBoxFor(m => m.StayLoggedIn)
+                    <label class="control-label">Stay logged in?</label>
+                </div>
                 <div class="form-group">
-                    <div class="d-flex row-cols-2 justify-content-between">
+                    <div class="d-flex row-cols-2 justify-content-between checkbox-spacing">
                         <a asp-action="Registration" asp-controller="Auth" class="btn col-4">Sign Up</a>
                         <input type="submit" value="Login" class="btn btn-primary col-7"/>
                     </div>

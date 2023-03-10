@@ -5,12 +5,12 @@
     padding: 0;
 }
 
-.custom-text {
+.nav-link {
     font-family: 'Varela Round', sans-serif;
     color: #6E8387;
     transition: color 250ms;
 }
-.custom-text:hover {
+.nav-link:hover {
     color: black;
 }
 

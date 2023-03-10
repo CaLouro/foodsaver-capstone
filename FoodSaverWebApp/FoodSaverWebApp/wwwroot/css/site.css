@@ -47,14 +47,14 @@ footer .container {
     width: 100%;
     text-align: center;
     margin-top: 3rem;
-    margin-bottom: 6rem;
+    margin-bottom: 4rem;
 }
 
 .login-card .form-group {
     margin-bottom: 0.75rem;
 }
 
-.login-card input {
+.login-card input *:not(input[type=checkbox]) {
     border-radius: 8px;
     box-shadow: rgba(0, 0, 0, 0.3) 0 4px 20px -10px;
 }
@@ -70,6 +70,15 @@ footer .container {
     background: #09a93d;
 }
 
+.stay-logged-in {
+    margin-top: 1rem;
+}
+.stay-logged-in input {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-right: 0.5rem;
+}
+
 .login-card label {
     margin-top: 0;
     margin-bottom: 0.5rem;
@@ -81,8 +90,12 @@ footer .container {
     font-size: 12px;
 }
 
-.login-card .form-group .d-flex {
+.login-card .form-group div {
     margin-top: 2.5rem;
+}
+
+.login-card .form-group div[class*="checkbox-spacing"] {
+    margin-top: 0;
 }
 
 .login-card a {
@@ -120,4 +133,12 @@ footer .container {
     margin: 0;
     padding: 0;
     height: inherit;
+}
+
+.unassigned-errors {
+    margin-bottom: 1rem;
+}
+.unassigned-errors ul {
+    list-style: none;
+    padding-left: 0;
 }
