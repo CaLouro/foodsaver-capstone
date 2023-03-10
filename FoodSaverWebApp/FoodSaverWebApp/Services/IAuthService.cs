@@ -3,7 +3,7 @@ using FoodSaverWebApp.Models;
 
 namespace FoodSaverWebApp.Services
 {
-    public interface IDbManager
+    public interface IAuthService
     {
 		/// <summary>
 		/// Signs into an account with the given LoginModel.

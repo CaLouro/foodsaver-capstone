@@ -3,25 +3,25 @@ using Postgrest.Models;
 
 namespace FoodSaverWebApp.Entities
 {
-    [Table(tableName: "address")]
+    [Table("address")]
     public class Address : BaseModel
     {
-        [PrimaryKey(columnName: "id")]
+        [PrimaryKey("id")]
         public int Addressid { get; set; }
 
-        [Column(columnName: "line1")]
+        [Column("line1")]
         public string Line1 { get; set; }
 
-        [Column(columnName: "line2")]
+        [Column("line2")]
         public string? Line2 { get; set; }
 
-        [Column(columnName: "city")]
+        [Column("city")]
         public string City { get; set; }
 
-        [Column(columnName: "province_code")]
+        [Column("province_code")]
         public string ProvinceCode { get; set; }
 
-        [Column(columnName: "postal_code")]
+        [Column("postal_code")]
         public string PostalCode { get; set; }
     }
 }

@@ -1,0 +1,28 @@
+﻿using Supabase;
+
+namespace FoodSaverWebApp.Services
+{
+    internal class DbConnection : IDbConnection
+    {
+        private Client _database;
+
+        public DbConnection()
+        {
+            InitializeDatabaseConnection();
+        }
+
+        private async void InitializeDatabaseConnection()
+        {
+            const string url = "https://bjgctikxmsxwksxpcbpr.supabase.co";
+            const string key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJqZ2N0aWt4bXN4d2tzeHBjYnByIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODIzODc4MiwiZXhwIjoxOTkzODE0NzgyfQ.qIUUqkzzcXnzzRhQKv72qmrUXsU3zFolmpVHtS2PeHY";
+
+            _database = new Client(url, key);
+            await _database.InitializeAsync();
+        }
+
+        public Client AccessDatabase()
+        {
+            return _database;
+        }
+    }
+}
