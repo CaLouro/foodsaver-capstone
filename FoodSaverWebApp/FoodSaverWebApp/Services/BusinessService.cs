@@ -1,5 +1,4 @@
-﻿using System.Data;
-using FoodSaverWebApp.Entities;
+﻿using FoodSaverWebApp.Entities;
 
 namespace FoodSaverWebApp.Services
 {

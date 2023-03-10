@@ -16,6 +16,10 @@ builder.Services.AddSession(options =>
 builder.Services.AddSingleton<IDbConnection, DbConnection>();
 builder.Services.AddSingleton<IAuthService, AuthService>();
 builder.Services.AddScoped<IBusinessService, BusinessService>();
+builder.Services.AddScoped<IItemService, ItemService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IDiscountInfoService, DiscountInfoService>();
+builder.Services.AddScoped<ITagService, TagService>();
 
 var app = builder.Build();
 

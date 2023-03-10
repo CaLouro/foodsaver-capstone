@@ -3,19 +3,19 @@ using Postgrest.Models;
 
 namespace FoodSaverWebApp.Entities
 {
-    [Table(tableName: "item")]
+    [Table("item")]
     public class Item : BaseModel
     {
-        [PrimaryKey(columnName: "id")]
+        [PrimaryKey("id")]
         public int ItemId { get; set; }
 
-        [Column(columnName: "name")]
+        [Column("name")]
         public string Name { get; set; }
 
-        [Column(columnName: "description")]
+        [Column("description")]
         public string? Description { get; set; }
 
-        [Column(columnName: "standard_price")]
+        [Column("standard_price")]
         public float? StandardPrice { get; set; }
 
         [Reference(typeof(Business))]

@@ -3,16 +3,16 @@ using Postgrest.Models;
 
 namespace FoodSaverWebApp.Entities
 {
-    [Table(tableName: "tags")]
+    [Table("tag")]
     public class Tag : BaseModel
     {
-        [PrimaryKey(columnName: "id")]
+        [PrimaryKey("id")]
         public int TagId { get; set; }
 
-        [Column(columnName: "name")]
+        [Column("name")]
         public string Name { get; set; }
 
-        [Column(columnName: "description")]
+        [Column("description")]
         public string? Description { get; set; }
     }
 }
