@@ -5,12 +5,14 @@
 <div class="home-page">
     <div class="bg-image">
         <div class="image-overlay"></div>
-        <img src="images/table-of-food.jpg" />
+        <img alt="Decorative Image: Top view of table with many foods and plates surrounded by chairs." src="images/table-of-food.jpg"/>
     </div>
-    
+
     <div class="landing-content">
         <div class="landing-title">Food Saver</div>
         <div class="landing-slogan">Reduce food waste one dish at a time</div>
-        <button class="landing-button">Begin Now</button>
+        <button type="button" class="landing-button" onclick="location.href='@Url.Action("Index", "Dashboard")'">
+            Begin Now
+        </button>
     </div>
 </div>
