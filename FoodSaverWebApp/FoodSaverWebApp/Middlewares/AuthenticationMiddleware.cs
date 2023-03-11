@@ -18,6 +18,7 @@ namespace FoodSaverWebApp.Middlewares
                 "/",
                 "/Signup",
                 "/Login",
+                "/Privacy",
             };
         }
 

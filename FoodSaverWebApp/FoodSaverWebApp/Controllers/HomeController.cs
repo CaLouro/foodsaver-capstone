@@ -13,11 +13,13 @@ namespace FoodSaverWebApp.Controllers
             _logger = logger;
         }
 
+        [HttpGet("/")]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet("/Privacy")]
         public IActionResult Privacy()
         {
             return View();
