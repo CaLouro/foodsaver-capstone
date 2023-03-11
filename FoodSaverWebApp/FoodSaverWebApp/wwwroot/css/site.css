@@ -95,13 +95,16 @@ footer .container {
     font-size: 16px;
     color: #6E8387;
     background-color: #FCFAFA;
-    border-radius: 15px;
+    border-radius: 10px;
     border: none;
-    transition: background-color 400ms;
+    transition: background-color 150ms;
 }
 .landing-button:hover {
     color: #6E8387;
     background-color: #e3e3e3;
+}
+.landing-button:active {
+    background-color: #b6b6b6;
 }
 
 /* Styles for register/login forms */
@@ -121,14 +124,15 @@ footer .container {
     margin-bottom: 0.75rem;
 }
 
-.login-card input *:not(input[type=checkbox]) {
-    border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0 4px 20px -10px;
+.login-card input:not(input[type=checkbox]) {
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 4px 20px -10px;
 }
 
 .login-card input[type=submit] {
     padding: 0.6rem 0;
     border: none;
+    border-radius: 10px;
     background: #0CCA4A;
     box-shadow: rgba(0, 0, 0, 0.3) 0 4px 20px -10px;
 }
