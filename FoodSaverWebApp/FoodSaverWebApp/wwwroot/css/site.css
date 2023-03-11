@@ -60,10 +60,14 @@ body {
 }
 
 /* Main styling for page content */
+.main-container {
+    overflow: hidden;
+    width: 100%;
+}
+
 main {
     margin: 0 auto;
     max-width: 1200px;
-    height: 90vh;
 }
 
 #mainPage {
@@ -95,9 +99,9 @@ footer .container .footer-link {
 
 .home-page {
     width: 100%;
-    height: 90vh;
+    height: 50rem;
 }
-
+/*
 .bg-image {
     position: absolute;
     overflow: visible;
@@ -116,6 +120,38 @@ footer .container .footer-link {
     background-origin: content-box;
     background-image: linear-gradient(180deg, rgba(10, 176, 64, 0.6) 0%, rgba(12, 236, 61, 0.6) 100%), url("../images/table-of-food.jpg");
     background-size: cover;
+}
+*/
+.bg-image {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    overflow: visible;
+    width: inherit;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding: 0;
+    z-index: -1;
+}
+
+.bg-image img {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+.bg-image::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    display: inline-block;
+    background-image: linear-gradient(180deg, rgba(10, 176, 64, 0.6) 0%, rgba(12, 236, 61, 0.6) 100%);
 }
 
 .landing-content {
@@ -255,18 +291,48 @@ footer .container .footer-link {
 .user-form-card {
     background: white;
     width: 100%;
-    height: 90vh;
 }
-.user-form-image {
-    position: relative;
+
+.login-form-image {
+    display: flex;
     overflow: visible;
+    width: 50%;
+    height: 50rem;
     padding: 0;
 }
-.user-form-image div {
-    width: 200%;
+
+.login-form-image img {
+    display: block;
     height: 100%;
-    background: linear-gradient(180deg, rgba(10, 176, 64, 0.6) 0%, rgba(12, 236, 61, 0.6) 100%), url("../images/table-of-food.jpg");
-    background-size: cover;
+}
+.login-form-image::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 85%;
+    display: inline-block;
+    background-image: linear-gradient(180deg, rgba(10, 176, 64, 0.6) 0%, rgba(12, 236, 61, 0.6) 100%);
+}
+
+.signup-form-image {
+    display: flex;
+    overflow: visible;
+    width: 50%;
+    height: 55rem;
+    padding: 0;
+}
+
+.signup-form-image img {
+    display: block;
+    height: 100%;
+}
+.signup-form-image::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 85%;
+    display: inline-block;
+    background-image: linear-gradient(180deg, rgba(10, 176, 64, 0.6) 0%, rgba(12, 236, 61, 0.6) 100%);
 }
 
 .user-form-card .row {
@@ -276,7 +342,13 @@ footer .container .footer-link {
 }
 
 @media only screen and (max-width: 991px) {
-    .user-form-image {
+    .user-form-card {
+        max-width: 40rem;
+    }
+    .login-form-image {
+        display: none;
+    }
+    .signup-form-image {
         display: none;
     }
 }
