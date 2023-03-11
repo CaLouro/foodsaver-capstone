@@ -1,3 +1,4 @@
+using FoodSaverWebApp.Middlewares;
 using FoodSaverWebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,7 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddSingleton<IDbConnection, DbConnection>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddSingleton<IAuthService, AuthService>();
 builder.Services.AddScoped<IBusinessService, BusinessService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
@@ -34,7 +35,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseSession();
-app.UseAuthorization();
+
+app.UseStatusCodePagesWithRedirects("/");
+
+app.UseMiddleware<AuthenticationMiddleware>();
+app.UseMiddleware<AuthorizationMiddleware>();
 
 app.MapControllerRoute(
     name: "default",
