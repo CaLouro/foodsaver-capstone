@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FoodSaverWebApp</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/FoodSaverWebApp.styles.css" asp-append-version="true" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - Food Saver</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/FoodSaverWebApp.styles.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/animation.css" asp-append-version="true"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,23 +57,23 @@
         </div>
     </nav>
 </header>
-    <div class="main-container">
-        <main role="main">
-            <div id="mainPage">
-                @RenderBody()
-            </div>
-        </main>
-    </div>
-
-    <footer class="footer text-muted">
-        <div class="container">
-            &copy; 2023 Food Saver
-            <a asp-area="" asp-controller="Home" asp-action="Privacy" class="footer-link">Privacy</a>
+<div class="main-container">
+    <main role="main">
+        <div id="mainPage">
+            @RenderBody()
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    </main>
+</div>
+
+<footer class="footer text-muted">
+    <div class="container">
+        &copy; 2023 Food Saver
+        <a asp-area="" asp-controller="Home" asp-action="Privacy" class="footer-link">Privacy</a>
+    </div>
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", false)
 </body>
 </html>
