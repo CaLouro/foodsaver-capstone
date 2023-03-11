@@ -1,4 +1,3 @@
-using FoodSaverWebApp.Entities;
 using FoodSaverWebApp.Middlewares;
 using FoodSaverWebApp.Services;
 
@@ -36,6 +35,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseSession();
+
+app.UseStatusCodePagesWithRedirects("/");
 
 app.UseMiddleware<AuthenticationMiddleware>();
 app.UseMiddleware<AuthorizationMiddleware>();
