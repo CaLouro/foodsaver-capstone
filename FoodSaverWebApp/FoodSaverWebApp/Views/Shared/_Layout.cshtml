@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FoodSaverWebApp.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/animation.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/css/navigation.css" asp-append-version="true"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@400;600&family=Varela+Round&display=swap" rel="stylesheet">
@@ -39,7 +38,7 @@
                     @if (Context.Session.GetString("_UserToken") == null)
                     {
                         <li class="nav-item">
-                            <a class="nav-link custom-text" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+                            <a class="nav-link nav-right-link" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
                         </li>
                     }
                     else
@@ -66,9 +65,10 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer text-muted">
         <div class="container">
-            &copy; 2023 - Food Saver - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 Food Saver
+            <a asp-area="" asp-controller="Home" asp-action="Privacy" class="footer-link">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

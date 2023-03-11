@@ -18,6 +18,48 @@ body {
     background: #FCFAFA;
 }
 
+/* Navigation styling */
+.nav-container {
+    max-width: 1200px;
+    min-height: 100px;
+    padding: 0 1rem;
+}
+
+.nav-link {
+    font-family: 'Varela Round', sans-serif;
+    color: #6E8387;
+    transition: color 250ms;
+}
+.nav-link:hover {
+    color: black;
+}
+
+.nav-left-link {
+    margin: 0 20px;
+}
+.nav-right-link {
+    margin-left: 20px;
+}
+
+.nav-title {
+    font-size: 32px;
+    font-family: 'Sansita Swashed', cursive;
+    color: #0CCA4A;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    margin-bottom: 10px;
+    margin-right: 25px;
+    transition: color 250ms;
+}
+.nav-title:hover {
+    color: #09af3f;
+}
+
+.navbar-toggler {
+    box-shadow: 0 0 0 2px #C8D3D5;
+}
+
+/* Main styling for page content */
 main {
     margin: 0 auto;
     max-width: 1200px;
@@ -29,13 +71,24 @@ main {
     margin: 0;
 }
 
+
+/* Footer styling */
 footer {
     background-color: white;
     margin: 0 auto;
+    
+    box-shadow: 0 -4px 20px -10px rgba(0, 0, 0, 0.1);
+
+    font-family: 'Varela Round', sans-serif;
+    color: #6E8387;
 }
 footer .container {
-    padding: 0;
+    padding: 0 1rem;
     max-width: 1200px;
+}
+footer .container .footer-link {
+    text-decoration: none;
+    margin: 0 1.2rem;
 }
 
 /* Home Page styling */
@@ -107,10 +160,26 @@ footer .container {
     background-color: #b6b6b6;
 }
 
+@media only screen and (max-width: 501px) {
+    .landing-title {
+        font-size: 60px;
+        line-height: 4rem;
+    }
+    .landing-slogan {
+        font-size: 14px;
+    }
+}
+
 /* Styles for register/login forms */
 .login-card {
     padding: 6rem;
     font-family: 'Varela Round', sans-serif;
+}
+
+@media only screen and (max-width: 450px) {
+    .login-card {
+        padding: 6rem 3rem;
+    }
 }
 
 .login-card h1 {
@@ -204,6 +273,12 @@ footer .container {
     margin: 0;
     padding: 0;
     height: inherit;
+}
+
+@media only screen and (max-width: 991px) {
+    .user-form-image {
+        display: none;
+    }
 }
 
 .unassigned-errors {
