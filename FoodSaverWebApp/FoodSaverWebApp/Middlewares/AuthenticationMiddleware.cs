@@ -16,7 +16,7 @@ namespace FoodSaverWebApp.Middlewares
             _publicPaths = new HashSet<string>()
             {
                 "/",
-                "/Register",
+                "/Signup",
                 "/Login",
             };
         }
