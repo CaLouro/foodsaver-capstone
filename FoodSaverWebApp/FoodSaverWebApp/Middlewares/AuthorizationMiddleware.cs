@@ -30,13 +30,10 @@ namespace FoodSaverWebApp.Middlewares
             }
 
             var requestPath = context.Request.Path;
-            if (!requestPath.StartsWithSegments(_adminPath))
-            {
-                await _next(context);
-                return;
-            }
 
-            if (!user!.IsAdmin())
+            bool isProtectedPath = context.Request.Path.StartsWithSegments(_adminPath);
+            bool isNotAdminUser = !user?.IsAdmin() ?? true;
+            if (isProtectedPath && isNotAdminUser)
             {
                 context.Response.Redirect("/Dashboard");
             }
