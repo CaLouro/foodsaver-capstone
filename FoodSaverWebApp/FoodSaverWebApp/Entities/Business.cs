@@ -17,6 +17,9 @@ namespace FoodSaverWebApp.Entities
 
         [Column("contact_phone")]
         public string? ContactPhone { get; set; }
+        
+        [Column("address_id")]
+        public int AddressId { get; set; }
 
         [Reference(typeof(Address))]
         public Address Address { get; set; }

@@ -66,11 +66,10 @@ namespace FoodSaverWebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                //Address? address = await _addressService.ReturnAddressOnInsert(storeRegistrationModel.Address);
-                Address? address = await _addressService.GetAddress(12);
+                Address? address = await _addressService.ReturnAddressOnInsert(storeRegistrationModel.Address);
 
                 if (address != null)
-                    storeRegistrationModel.Business.Address = address;
+                    storeRegistrationModel.Business.AddressId = address.Addressid;
 
                 Business? business = await _businessService.ReturnBusinessOnInsert(storeRegistrationModel.Business);
 
