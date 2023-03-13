@@ -2,19 +2,23 @@
 using Supabase;
 using Supabase.Gotrue;
 using Supabase.Interfaces;
-using Client = Supabase.Client;
 
 namespace FoodSaverWebApp.Services
 {
     internal class DbConnection : IDbConnection
     {
-        private Client _database;
+        private Supabase.Client _database;
 
+        private readonly ILogger<DbConnection> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ISupabaseSessionHandler _supabaseSessionHandler;
 
-        public DbConnection(ISupabaseSessionHandler supabaseSessionHandler)
+        public DbConnection(ISupabaseSessionHandler supabaseSessionHandler, IHttpContextAccessor httpContextAccessor,
+            ILogger<DbConnection> logger)
         {
             _supabaseSessionHandler = supabaseSessionHandler;
+            _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
             InitializeDatabaseConnection();
         }
 
@@ -29,13 +33,55 @@ namespace FoodSaverWebApp.Services
                 SessionHandler = _supabaseSessionHandler
             };
 
-            _database = new Client(url, key, options);
+            _database = new Supabase.Client(url, key, options);
+            _database.Auth.StateChanged += AuthOnStateChanged;
+
             await _database.InitializeAsync();
         }
 
-        public Client AccessDatabase()
+        public Supabase.Client AccessDatabase()
         {
             return _database;
+        }
+
+        private void AuthOnStateChanged(object? sender, ClientStateChanged clientState)
+        {
+            if (sender is Supabase.Gotrue.Client client)
+            {
+                _logger.LogInformation("Auth state changed to: " + clientState.State);
+                switch (clientState.State)
+                {
+                    case Constants.AuthState.SignedIn:
+                    case Constants.AuthState.UserUpdated:
+                    case Constants.AuthState.PasswordRecovery:
+                    case Constants.AuthState.TokenRefreshed:
+                        SetHttpSessionData(client.CurrentUser);
+                        break;
+                    case Constants.AuthState.SignedOut:
+                        RemoveHttpSessionData();
+                        break;
+                }
+            }
+        }
+
+        private void SetHttpSessionData(User user)
+        {
+            string displayName;
+            if (user.UserMetadata.ContainsKey("display_name"))
+            {
+                displayName = (string)user.UserMetadata["display_name"];
+            }
+            else
+            {
+                displayName = "Anonymous User";
+            }
+
+            _httpContextAccessor.HttpContext?.Session.SetString("_DisplayName", displayName);
+        }
+
+        private void RemoveHttpSessionData()
+        {
+            _httpContextAccessor.HttpContext?.Session.Remove("_DisplayName");
         }
     }
 
