@@ -1,0 +1,15 @@
+﻿@model Business
+
+@{
+    ViewBag.Title = "Store Address";
+}
+
+<h1>@Model.Name</h1>
+<h3>Address:</h3>
+<p>
+    Line1: @Model.Address.Line1<br />
+    Line2: @Model.Address.Line2<br />
+    City: @Model.Address.City<br />
+    Province Code: @Model.Address.ProvinceCode<br />
+    Postal Code: @Model.Address.PostalCode<br />
+</p>

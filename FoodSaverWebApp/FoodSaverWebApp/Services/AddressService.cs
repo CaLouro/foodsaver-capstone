@@ -1,4 +1,6 @@
 ﻿using FoodSaverWebApp.Entities;
+using Postgrest;
+using Postgrest.Responses;
 
 namespace FoodSaverWebApp.Services
 {
@@ -34,6 +36,15 @@ namespace FoodSaverWebApp.Services
             await _connection.AccessDatabase()
                 .From<Address>()
                 .Insert(address);
+        }
+
+        public async Task<Address?> ReturnAddressOnInsert(Address address)
+        {
+            ModeledResponse<Address> result =  await _connection.AccessDatabase()
+                .From<Address>()
+                .Insert(address, new QueryOptions{ Returning = QueryOptions.ReturnType.Representation});
+
+            return result.Models[0];
         }
 
         public async void UpdateAddress(Address address)

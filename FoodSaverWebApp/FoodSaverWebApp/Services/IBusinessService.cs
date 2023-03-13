@@ -24,6 +24,13 @@ namespace FoodSaverWebApp.Services
         public void InsertBusiness(Business business);
         
         /// <summary>
+        /// Returns the business entity that was just inserted. Useful for getting the incremented id
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public Task<Business?> ReturnBusinessOnInsert(Business business);
+        
+        /// <summary>
         /// Update an existing Business entity inside of the database
         /// </summary>
         /// <param name="business"></param>
@@ -34,5 +41,11 @@ namespace FoodSaverWebApp.Services
         /// </summary>
         /// <param name="businessId"></param>
         public void DeleteBusiness(int businessId);
+
+        /// <summary>
+        /// Links the active session user to the created business
+        /// </summary>
+        /// <param name="business"></param>
+        public void LinkUserToBusiness(Business business);
     }
 }

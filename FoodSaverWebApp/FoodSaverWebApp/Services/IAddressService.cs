@@ -22,6 +22,13 @@ namespace FoodSaverWebApp.Services
         /// </summary>
         /// <param name="address"></param>
         public void InsertAddress(Address address);
+
+        /// <summary>
+        /// Returns the address entity that was just inserted. Useful for getting the incremented id
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public Task<Address?> ReturnAddressOnInsert(Address address);
         
         /// <summary>
         /// Update an existing Address entity inside of the database

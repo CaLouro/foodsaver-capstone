@@ -1,7 +1,29 @@
-﻿@{
+﻿@model ICollection<Business>
+
+@{
     ViewData["Title"] = "Dashboard - Stores";
 }
 
-<div class="text-center">
-    <h1 class="display-4">@ViewData["Title"]</h1>
-</div>
+<a asp-action="RegisterStore" asp-controller="Dashboard">New Store</a>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Contact Email</th>
+        <th>Contact Phone</th>
+        <th>Location</th>
+    </tr>
+    </thead>
+    
+    <tbody>
+    @foreach (Business business in Model)
+    {
+        <tr>
+            <td>@business.Name</td>
+            <td>@business.ContactEmail</td>
+            <td>@business.ContactPhone</td>
+            <td><a asp-action="StoreAddress" asp-route-businessId="@business.BusinessId">See location</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
