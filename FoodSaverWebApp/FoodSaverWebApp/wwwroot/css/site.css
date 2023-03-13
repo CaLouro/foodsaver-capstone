@@ -1,24 +1,28 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+@media (min-width: 768px) {  
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-    margin-bottom: 60px;
+    padding-bottom: 60px;
     background: #FCFAFA;
 }
 
 /* Navigation styling */
+nav {
+    z-index: 2;
+}
+
 .nav-container {
     max-width: 1200px;
     min-height: 100px;
@@ -85,6 +89,7 @@ footer {
 
     font-family: 'Varela Round', sans-serif;
     color: #6E8387;
+    z-index: 2;
 }
 footer .container {
     padding: 0 1rem;
@@ -101,57 +106,25 @@ footer .container .footer-link {
     width: 100%;
     height: 50rem;
 }
-/*
+
 .bg-image {
     position: absolute;
     overflow: visible;
-    width: inherit;
+    width: 100vw;
     height: 100%;
     padding: 0;
     top: 0;
     left: 0;
     z-index: -1;
 }
-.bg-image .image-overlay {
-    width: calc(100% + 5.6rem);
+.image-overlay {
+    width: inherit;
     height: inherit;
     background-position: center;
     background-attachment: inherit;
     background-origin: content-box;
     background-image: linear-gradient(180deg, rgba(10, 176, 64, 0.6) 0%, rgba(12, 236, 61, 0.6) 100%), url("../images/table-of-food.jpg");
     background-size: cover;
-}
-*/
-.bg-image {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    overflow: visible;
-    width: inherit;
-    height: 100%;
-    top: 0;
-    left: 0;
-    padding: 0;
-    z-index: -1;
-}
-
-.bg-image img {
-    display: block;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-.bg-image::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    display: inline-block;
-    background-image: linear-gradient(180deg, rgba(10, 176, 64, 0.6) 0%, rgba(12, 236, 61, 0.6) 100%);
 }
 
 .landing-content {
@@ -210,12 +183,6 @@ footer .container .footer-link {
 .login-card {
     padding: 6rem;
     font-family: 'Varela Round', sans-serif;
-}
-
-@media only screen and (max-width: 450px) {
-    .login-card {
-        padding: 6rem 3rem;
-    }
 }
 
 .login-card h1 {
@@ -289,50 +256,24 @@ footer .container .footer-link {
 }
 
 .user-form-card {
-    background: white;
+    background-color: white;
     width: 100%;
 }
 
 .login-form-image {
     display: flex;
     overflow: visible;
-    width: 50%;
-    height: 50rem;
-    padding: 0;
-}
-
-.login-form-image img {
-    display: block;
-    height: 100%;
-}
-.login-form-image::after {
-    content: '';
     position: absolute;
-    width: 50%;
-    height: 85%;
-    display: inline-block;
-    background-image: linear-gradient(180deg, rgba(10, 176, 64, 0.6) 0%, rgba(12, 236, 61, 0.6) 100%);
-}
-
-.signup-form-image {
-    display: flex;
-    overflow: visible;
-    width: 50%;
-    height: 55rem;
-    padding: 0;
-}
-
-.signup-form-image img {
-    display: block;
+    width: 50vw;
     height: 100%;
+    top: 0;
+    left: 50%;
+    padding: 0;
+    z-index: 0;
 }
-.signup-form-image::after {
-    content: '';
-    position: absolute;
-    width: 50%;
-    height: 85%;
-    display: inline-block;
-    background-image: linear-gradient(180deg, rgba(10, 176, 64, 0.6) 0%, rgba(12, 236, 61, 0.6) 100%);
+
+.login-form-image .image-overlay {
+    background-position: left;
 }
 
 .user-form-card .row {
@@ -341,22 +282,26 @@ footer .container .footer-link {
     height: inherit;
 }
 
-@media only screen and (max-width: 991px) {
-    .user-form-card {
-        max-width: 40rem;
-    }
-    .login-form-image {
-        display: none;
-    }
-    .signup-form-image {
-        display: none;
-    }
-}
-
 .unassigned-errors {
     margin-bottom: 1rem;
 }
 .unassigned-errors ul {
     list-style: none;
     padding-left: 0;
+}
+
+@media only screen and (max-width: 991px) {
+    .user-form-card {
+        max-width: 40rem;
+        margin: 0 auto;
+    }
+    .login-form-image {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .login-card {
+        padding: 6rem 3rem;
+    }
 }
