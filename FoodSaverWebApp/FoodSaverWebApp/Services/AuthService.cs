@@ -37,12 +37,12 @@ namespace FoodSaverWebApp.Services
                 .Auth
                 .SignUp(registerModel.Email, registerModel.Password, new SignUpOptions { Data = userMetadata });
 
-            AddUserInformation(registerModel.Name, session.User.Id);
+            await AddUserInformation(registerModel.Name, session.User.Id);
 
             return session?.AccessToken;
         }
 
-        private async void AddUserInformation(string displayName, string uid)
+        private async Task AddUserInformation(string displayName, string uid)
         {
             User user = new User
             {

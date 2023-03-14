@@ -27,7 +27,7 @@ namespace FoodSaverWebApp.Controllers
             {
                 try
                 {
-                    var token = await _auth.CreateAccount(authModel);
+                    await _auth.CreateAccount(authModel);
 
                     return RedirectToAction("Index", "Home");
                 }
