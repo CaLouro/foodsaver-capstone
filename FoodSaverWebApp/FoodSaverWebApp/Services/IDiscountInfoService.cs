@@ -21,18 +21,18 @@ namespace FoodSaverWebApp.Services
         /// Insert the given DiscountInfo entity into the database
         /// </summary>
         /// <param name="discountInfo"></param>
-        public void InsertDiscountInfo(DiscountInfo discountInfo);
+        public Task InsertDiscountInfo(DiscountInfo discountInfo);
         
         /// <summary>
         /// Update an existing DiscountInfo entity inside of the database
         /// </summary>
         /// <param name="discountInfo"></param>
-        public void UpdateDiscountInfo(DiscountInfo discountInfo);
+        public Task UpdateDiscountInfo(DiscountInfo discountInfo);
         
         /// <summary>
         /// Delete a DiscountInfo entity from the database given the discountInfoId
         /// </summary>
         /// <param name="discountInfoId"></param>
-        public void DeleteDiscountInfo(int discountInfoId);
+        public Task DeleteDiscountInfo(int discountInfoId);
     }
 }

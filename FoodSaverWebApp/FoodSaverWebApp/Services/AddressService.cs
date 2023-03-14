@@ -25,13 +25,13 @@ namespace FoodSaverWebApp.Services
         {
             Address? result = await _connection.AccessDatabase()
                 .From<Address>()
-                .Where(x => x.Addressid == addressId)
+                .Where(x => x.AddressId == addressId)
                 .Single();
 
             return result;
         }
 
-        public async void InsertAddress(Address address)
+        public async Task InsertAddress(Address address)
         {
             await _connection.AccessDatabase()
                 .From<Address>()
@@ -47,18 +47,18 @@ namespace FoodSaverWebApp.Services
             return result.Models[0];
         }
 
-        public async void UpdateAddress(Address address)
+        public async Task UpdateAddress(Address address)
         {
             await _connection.AccessDatabase()
                 .From<Address>()
                 .Update(address);
         }
 
-        public async void DeleteAddress(int addressId)
+        public async Task DeleteAddress(int addressId)
         {
             await _connection.AccessDatabase()
                 .From<Address>()
-                .Where(x => x.Addressid == addressId)
+                .Where(x => x.AddressId == addressId)
                 .Delete();
         }
     }

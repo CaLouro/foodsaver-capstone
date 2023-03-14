@@ -1,0 +1,41 @@
+﻿@model Item
+
+@{
+    ViewBag.Title = "Edit Store";
+}
+
+<div class="row d-flex justify-content-center">
+    <div class="form-card animate-300 slideDown">
+        <h1>Login</h1>
+        
+        <form asp-action="AdminEditStore">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.ValidationSummary()
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Name</label>
+                <input asp-for="Name" class="form-control"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Contact Email</label>
+                <input asp-for="Description" class="form-control" type="text"/>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StandardPrice" class="control-label">Contact Phone</label>
+                <input asp-for="StandardPrice" class="form-control" type="number"/>
+                <span asp-validation-for="StandardPrice" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <div class="d-flex row-cols-1">
+                    <input type="submit" value="Add" class="btn btn-primary"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

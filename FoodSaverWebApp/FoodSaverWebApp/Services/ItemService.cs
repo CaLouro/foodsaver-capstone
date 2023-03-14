@@ -29,21 +29,21 @@ namespace FoodSaverWebApp.Services
             return result;
         }
 
-        public async void InsertItem(Item item)
+        public async Task InsertItem(Item item)
         {
             await _connection.AccessDatabase()
                 .From<Item>()
                 .Insert(item);
         }
 
-        public async void UpdateItem(Item item)
+        public async Task UpdateItem(Item item)
         {
             await _connection.AccessDatabase()
                 .From<Item>()
                 .Update(item);
         }
 
-        public async void DeleteItem(int itemId)
+        public async Task DeleteItem(int itemId)
         {
             await _connection.AccessDatabase()
                 .From<Item>()

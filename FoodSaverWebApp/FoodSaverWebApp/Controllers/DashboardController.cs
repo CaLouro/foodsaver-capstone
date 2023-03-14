@@ -33,45 +33,29 @@ namespace FoodSaverWebApp.Controllers
         [HttpGet("/Dashboard/RegisterStore")]
         public IActionResult RegisterStore()
         {
-            StoreRegistrationModel storeRegistrationModel = new StoreRegistrationModel()
+            StoreModel storeModel = new StoreModel()
             {
-                Business = new Business(),
-                Address = new Address(),
-                ProvinceCodes = new List<string>()
-                {
-                    "NL",
-                    "PE",
-                    "NS",
-                    "NB",
-                    "QC",
-                    "ON",
-                    "MB",
-                    "NL",
-                    "AB",
-                    "BC",
-                    "YT",
-                    "NT",
-                    "NU"
-                }
+                Business = new Business()
             };
+
+            storeModel.Business.Address = new Address();
             
-            return View(storeRegistrationModel);
+            return View(storeModel);
         }
         
         [HttpPost("/Dashboard/RegisterStore")]
-        public async Task<IActionResult> RegisterStore(StoreRegistrationModel storeRegistrationModel)
+        public async Task<IActionResult> RegisterStore(StoreModel storeModel)
         {
             ModelState.Remove("ProvinceCodes");
-            ModelState.Remove("Business.Address");
 
             if (ModelState.IsValid)
             {
-                Address? address = await _addressService.ReturnAddressOnInsert(storeRegistrationModel.Address);
+                Address? address = await _addressService.ReturnAddressOnInsert(storeModel.Business.Address);
 
                 if (address != null)
-                    storeRegistrationModel.Business.AddressId = address.Addressid;
+                    storeModel.Business.AddressId = address.AddressId;
 
-                Business? business = await _businessService.ReturnBusinessOnInsert(storeRegistrationModel.Business);
+                Business? business = await _businessService.ReturnBusinessOnInsert(storeModel.Business);
 
                 if (business != null)
                     _businessService.LinkUserToBusiness(business);
@@ -79,7 +63,7 @@ namespace FoodSaverWebApp.Controllers
                 return RedirectToAction("Stores");
             }
             
-            storeRegistrationModel.ProvinceCodes = new List<string>()
+            storeModel.ProvinceCodes = new List<string>()
             {
                 "NL",
                 "PE",
@@ -96,7 +80,7 @@ namespace FoodSaverWebApp.Controllers
                 "NU"
             };
 
-            return View(storeRegistrationModel);
+            return View(storeModel);
         }
 
         [HttpGet("/Dashboard/Store/{businessId}/Address")]

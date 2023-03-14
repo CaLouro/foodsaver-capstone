@@ -21,7 +21,7 @@ namespace FoodSaverWebApp.Services
         /// Insert the given Address entity into the database
         /// </summary>
         /// <param name="address"></param>
-        public void InsertAddress(Address address);
+        public Task InsertAddress(Address address);
 
         /// <summary>
         /// Returns the address entity that was just inserted. Useful for getting the incremented id
@@ -34,12 +34,12 @@ namespace FoodSaverWebApp.Services
         /// Update an existing Address entity inside of the database
         /// </summary>
         /// <param name="address"></param>
-        public void UpdateAddress(Address address);
+        public Task UpdateAddress(Address address);
         
         /// <summary>
         /// Delete a Address entity from the database given the addressId
         /// </summary>
         /// <param name="addressId"></param>
-        public void DeleteAddress(int addressId);
+        public Task DeleteAddress(int addressId);
     }
 }

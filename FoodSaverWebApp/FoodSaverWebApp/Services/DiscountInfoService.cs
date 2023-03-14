@@ -29,21 +29,21 @@ namespace FoodSaverWebApp.Services
             return result;
         }
 
-        public async void InsertDiscountInfo(DiscountInfo discountInfo)
+        public async Task InsertDiscountInfo(DiscountInfo discountInfo)
         {
             await _connection.AccessDatabase()
                 .From<DiscountInfo>()
                 .Insert(discountInfo);
         }
 
-        public async void UpdateDiscountInfo(DiscountInfo discountInfo)
+        public async Task UpdateDiscountInfo(DiscountInfo discountInfo)
         {
             await _connection.AccessDatabase()
                 .From<DiscountInfo>()
                 .Update(discountInfo);
         }
 
-        public async void DeleteDiscountInfo(int discountInfoId)
+        public async Task DeleteDiscountInfo(int discountInfoId)
         {
             await _connection.AccessDatabase()
                 .From<DiscountInfo>()

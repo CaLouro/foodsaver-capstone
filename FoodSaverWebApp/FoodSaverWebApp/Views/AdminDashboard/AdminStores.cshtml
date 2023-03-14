@@ -1,0 +1,32 @@
+﻿@model ICollection<Business>
+
+@{
+    ViewData["Title"] = "Admin - Stores";
+}
+
+<a asp-action="RegisterStore" asp-controller="Dashboard">New Store</a>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Contact Email</th>
+        <th>Contact Phone</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    
+    <tbody>
+    @foreach (Business business in Model)
+    {
+        <tr>
+            <td>@business.Name</td>
+            <td>@business.ContactEmail</td>
+            <td>@business.ContactPhone</td>
+            <td>
+                <a asp-action="AdminEditStore" asp-route-businessId="@business.BusinessId">Edit</a> | 
+                <a asp-action="AdminDeleteStore" asp-route-businessId="@business.BusinessId">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

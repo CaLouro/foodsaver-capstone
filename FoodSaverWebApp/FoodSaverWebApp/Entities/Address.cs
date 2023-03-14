@@ -7,7 +7,7 @@ namespace FoodSaverWebApp.Entities
     public class Address : BaseModel
     {
         [PrimaryKey("id")]
-        public int Addressid { get; set; }
+        public int AddressId { get; set; }
 
         [Column("line1")]
         public string Line1 { get; set; }

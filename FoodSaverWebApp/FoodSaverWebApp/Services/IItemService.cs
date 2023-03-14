@@ -21,18 +21,18 @@ namespace FoodSaverWebApp.Services
         /// Insert the given Item entity into the database
         /// </summary>
         /// <param name="item"></param>
-        public void InsertItem(Item item);
+        public Task InsertItem(Item item);
         
         /// <summary>
         /// Update an existing Item entity inside of the database
         /// </summary>
         /// <param name="item"></param>
-        public void UpdateItem(Item item);
+        public Task UpdateItem(Item item);
         
         /// <summary>
         /// Delete a Item entity from the database given the itemId
         /// </summary>
         /// <param name="itemId"></param>
-        public void DeleteItem(int itemId);
+        public Task DeleteItem(int itemId);
     }
 }

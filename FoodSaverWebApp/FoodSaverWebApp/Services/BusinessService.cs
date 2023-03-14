@@ -14,13 +14,31 @@ namespace FoodSaverWebApp.Services
             _authService = authService;
         }
         
-        public async Task<ICollection<Business>> GetAllBusinesses()
+        public async Task<ICollection<Business?>> GetAllBusinesses()
         {
             var result = await _connection.AccessDatabase()
                 .From<Business>()
                 .Get();
 
             return result.Models;
+        }
+
+        public async Task<ICollection<Business?>> GetAllBusinessesUnderAdmin(User user)
+        {
+            List<object> userBusinessIds = new List<object>();
+
+            foreach (UserBusiness userBusiness in user.Businesses)
+            {
+                if (userBusiness.IsAdmin)
+                    userBusinessIds.Add(userBusiness.BusinessId);
+            }
+            
+            ModeledResponse<Business>? businessResult = await _connection.AccessDatabase()
+                .From<Business>()
+                .Filter(x => x.BusinessId, Constants.Operator.In, userBusinessIds)
+                .Get();
+
+            return businessResult.Models;
         }
 
         public async Task<Business?> GetBusiness(int businessId)
@@ -33,7 +51,7 @@ namespace FoodSaverWebApp.Services
             return result;
         }
 
-        public async void InsertBusiness(Business business)
+        public async Task InsertBusiness(Business business)
         {
             await _connection.AccessDatabase()
                 .From<Business>()
@@ -49,22 +67,36 @@ namespace FoodSaverWebApp.Services
             return result.Models[0];
         }
 
-        public async void UpdateBusiness(Business business)
+        public async Task UpdateBusiness(Business business)
         {
             await _connection.AccessDatabase()
                 .From<Business>()
                 .Update(business);
         }
 
-        public async void DeleteBusiness(int businessId)
+        public async Task DeleteBusiness(int businessId)
         {
+            // Not a fan for the 4 queries, but delete cascade is not easy to enable
+            
+            await _connection.AccessDatabase()
+                .From<UserBusiness>()
+                .Where(x => x.BusinessId == businessId)
+                .Delete();
+
+            Business? business = await GetBusiness(businessId);
             await _connection.AccessDatabase()
                 .From<Business>()
                 .Where(x => x.BusinessId == businessId)
                 .Delete();
+
+            if (business != null)
+                await _connection.AccessDatabase()
+                    .From<Address>()
+                    .Where(x => x.AddressId == business.AddressId)
+                    .Delete();
         }
 
-        public async void LinkUserToBusiness(Business business)
+        public async Task LinkUserToBusiness(Business business)
         {
             User? user = await _authService.GetActiveUser();
 

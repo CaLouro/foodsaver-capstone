@@ -8,7 +8,15 @@ namespace FoodSaverWebApp.Services
         /// Retrieves a list of type ICollection for Business entities
         /// </summary>
         /// <returns></returns>
-        public Task<ICollection<Business>> GetAllBusinesses();
+        public Task<ICollection<Business?>> GetAllBusinesses();
+        
+        /// <summary>
+        /// Retrieves a list of type ICollection for Business entities that have the isAdmin bool set to true for a
+        /// particular user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public Task<ICollection<Business?>> GetAllBusinessesUnderAdmin(User user);
         
         /// <summary>
         /// Retrieves a single Business entity given the businessId
@@ -21,7 +29,7 @@ namespace FoodSaverWebApp.Services
         /// Insert the given Business entity into the database
         /// </summary>
         /// <param name="business"></param>
-        public void InsertBusiness(Business business);
+        public Task InsertBusiness(Business business);
         
         /// <summary>
         /// Returns the business entity that was just inserted. Useful for getting the incremented id
@@ -34,18 +42,18 @@ namespace FoodSaverWebApp.Services
         /// Update an existing Business entity inside of the database
         /// </summary>
         /// <param name="business"></param>
-        public void UpdateBusiness(Business business);
+        public Task UpdateBusiness(Business business);
         
         /// <summary>
         /// Delete a Business entity from the database given the businessId
         /// </summary>
         /// <param name="businessId"></param>
-        public void DeleteBusiness(int businessId);
+        public Task DeleteBusiness(int businessId);
 
         /// <summary>
         /// Links the active session user to the created business
         /// </summary>
         /// <param name="business"></param>
-        public void LinkUserToBusiness(Business business);
+        public Task LinkUserToBusiness(Business business);
     }
 }

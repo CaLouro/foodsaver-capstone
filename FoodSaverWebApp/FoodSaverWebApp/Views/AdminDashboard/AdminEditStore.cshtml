@@ -1,14 +1,14 @@
 ﻿@model StoreModel
 
 @{
-    ViewBag.Title = "Register Store";
+    ViewBag.Title = "Edit Store";
 }
 
 <div class="row d-flex justify-content-center">
     <div class="form-card animate-300 slideDown">
         <h1>Login</h1>
         
-        <form asp-action="RegisterStore">
+        <form asp-action="AdminEditStore">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.ValidationSummary()
             <div class="form-group">
@@ -54,9 +54,14 @@
                 <input asp-for="Business.Address.PostalCode" class="form-control" type="text"/>
                 <span asp-validation-for="Business.Address.PostalCode" class="text-danger"></span>
             </div>
+            
+            <input asp-for="Business.BusinessId" value="@Model.Business.BusinessId" hidden />
+            <input asp-for="Business.AddressId" value="@Model.Business.AddressId" hidden />
+            <input asp-for="Business.Address.AddressId" value="@Model.Business.Address.AddressId" hidden />
+            
             <div class="form-group">
                 <div class="d-flex row-cols-1">
-                    <input type="submit" value="Register" class="btn btn-primary"/>
+                    <input type="submit" value="Update" class="btn btn-primary"/>
                 </div>
             </div>
         </form>
