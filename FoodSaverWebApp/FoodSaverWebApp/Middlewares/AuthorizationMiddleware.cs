@@ -5,19 +5,17 @@ namespace FoodSaverWebApp.Middlewares
     public class AuthorizationMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IAuthService _authService;
         private readonly PathString _adminPath;
 
-        public AuthorizationMiddleware(RequestDelegate next, IAuthService authService)
+        public AuthorizationMiddleware(RequestDelegate next)
         {
             _next = next;
-            _authService = authService;
             _adminPath = new PathString("/Admin");
         }
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, IAuthService authService)
         {
-            var user = await _authService.GetActiveUser();
+            var user = await authService.GetActiveUser();
             if (user == null)
             {
                 // This middleware does not makes checks in case the user is not authenticated
@@ -29,10 +27,9 @@ namespace FoodSaverWebApp.Middlewares
                 return;
             }
 
-            var requestPath = context.Request.Path;
+            var isProtectedPath = context.Request.Path.StartsWithSegments(_adminPath);
+            var isNotAdminUser = !user?.IsAdmin() ?? true;
 
-            bool isProtectedPath = context.Request.Path.StartsWithSegments(_adminPath);
-            bool isNotAdminUser = !user?.IsAdmin() ?? true;
             if (isProtectedPath && isNotAdminUser)
             {
                 context.Response.Redirect("/Dashboard");
