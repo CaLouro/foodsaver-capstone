@@ -108,7 +108,7 @@ namespace FoodSaverWebApp.Services
                 JsonConvert.SerializeObject(session),
                 new CookieOptions
                 {
-                    Expires = DateTimeOffset.Now.AddDays(30)
+                    Expires = DateTime.Now.AddDays(30)
                 });
 
             return Task.FromResult(true);
