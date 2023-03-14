@@ -74,8 +74,7 @@ namespace FoodSaverWebApp.Controllers
         public async Task<IActionResult> Logout()
         {
             await _auth.SignOut();
-
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
