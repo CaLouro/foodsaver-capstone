@@ -1,14 +1,22 @@
-﻿namespace FoodSaverWebApp.Models
+﻿using Newtonsoft.Json;
+
+namespace FoodSaverWebApp.Models
 {
     public class LoginError
     {
-        public string error { get; set; }
-        public string error_description { get; set; }
+        [JsonProperty("error")]
+        public string Error { get; set; }
+        
+        [JsonProperty("error_description")]
+        public string ErrorDescription { get; set; }
     }
 
     public class RegisterError
     {
-        public int code { get; set; }
-        public string msg { get; set; }
+        [JsonProperty("code")]
+        public int Code { get; set; }
+        
+        [JsonProperty("msg")]
+        public string Message { get; set; }
     }
 }

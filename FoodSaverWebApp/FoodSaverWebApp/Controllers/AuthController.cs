@@ -1,7 +1,7 @@
 ﻿using FoodSaverWebApp.Models;
 using FoodSaverWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace FoodSaverWebApp.Controllers
 {
@@ -33,8 +33,8 @@ namespace FoodSaverWebApp.Controllers
                 }
                 catch (Supabase.Gotrue.BadRequestException ex)
                 {
-                    RegisterError? result = JsonSerializer.Deserialize<RegisterError>(ex.Content);
-                    ModelState.AddModelError(string.Empty, result.msg);
+                    var result = JsonConvert.DeserializeObject<RegisterError>(ex.Content);
+                    ModelState.AddModelError(string.Empty, result.Message);
                     return View();
                 }
             }
@@ -61,8 +61,8 @@ namespace FoodSaverWebApp.Controllers
                 }
                 catch (Supabase.Gotrue.BadRequestException ex)
                 {
-                    LoginError? result = JsonSerializer.Deserialize<LoginError>(ex.Content);
-                    ModelState.AddModelError(string.Empty, result.error_description);
+                    var result = JsonConvert.DeserializeObject<LoginError>(ex.Content);
+                    ModelState.AddModelError(string.Empty, result.ErrorDescription);
                     return View();
                 }
             }
