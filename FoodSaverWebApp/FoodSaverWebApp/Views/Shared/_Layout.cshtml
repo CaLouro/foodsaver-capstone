@@ -25,10 +25,7 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link nav-left-link" asp-area="" asp-controller="Home" asp-action="">Stores</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-left-link" asp-area="" asp-controller="Home" asp-action="">Deals</a>
+                        <a class="nav-link nav-left-link" asp-area="" asp-controller="Dashboard" asp-action="Stores">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-left-link" asp-area="" asp-controller="Home" asp-action="">Vision</a>
@@ -48,6 +45,8 @@
                                 @Context.Session.GetString("_DisplayName")
                             </a>
                             <div class="dropdown-menu dropdown-menu-end animate-300 slideDown" aria-labelledby="accountNavDropDown">
+                                <a class="dropdown-item" asp-controller="AdminDashboard" asp-action="AdminStores">Admin Dashboard</a>
+                                <a class="dropdown-item" asp-controller="Dashboard" asp-action="RegisterStore">Register Store</a>
                                 <a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Log Out</a>
                             </div>
                         </li>
