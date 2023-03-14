@@ -1,0 +1,69 @@
+﻿@model StoreModel
+
+@{
+    ViewBag.Title = "Register Store";
+}
+
+<a asp-action="Stores" asp-controller="Dashboard">Back</a>
+<div class="row d-flex justify-content-center">
+    <div class="login-card">
+        <h1>Register Store</h1>
+        
+        <form asp-action="AdminRegisterStore">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="Business.Name" class="control-label">Name</label>
+                <input asp-for="Business.Name" class="form-control"/>
+                <span asp-validation-for="Business.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Business.ContactEmail" class="control-label">Contact Email</label>
+                <input asp-for="Business.ContactEmail" class="form-control" type="email"/>
+                <span asp-validation-for="Business.ContactEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Business.ContactPhone" class="control-label">Contact Phone</label>
+                <input asp-for="Business.ContactPhone" class="form-control" type="phone"/>
+                <span asp-validation-for="Business.ContactPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Business.Address.Line1" class="control-label">Line 1</label>
+                <input asp-for="Business.Address.Line1" class="form-control" type="text"/>
+                <span asp-validation-for="Business.Address.Line1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Business.Address.Line2" class="control-label">Line 2</label>
+                <input asp-for="Business.Address.Line2" class="form-control" type="text"/>
+                <span asp-validation-for="Business.Address.Line2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Business.Address.City" class="control-label">City</label>
+                <input asp-for="Business.Address.City" class="form-control" type="text"/>
+                <span asp-validation-for="Business.Address.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Business.Address.ProvinceCode" class="control-label">Province</label>
+                <select asp-for="Business.Address.ProvinceCode" 
+                        asp-items="@(new SelectList(Model.ProvinceCodes))">
+                    <option>Select a province</option>
+                </select>
+                <span asp-validation-for="Business.Address.ProvinceCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Business.Address.PostalCode" class="control-label">Postal Code</label>
+                <input asp-for="Business.Address.PostalCode" class="form-control" type="text"/>
+                <span asp-validation-for="Business.Address.PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="d-flex row-cols-1">
+                    <input type="submit" value="Register" class="btn btn-primary"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

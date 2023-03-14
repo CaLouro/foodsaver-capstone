@@ -1,0 +1,39 @@
+﻿@model ItemListModel
+
+@{
+    ViewData["Title"] = "Admin - Store Items";
+}
+
+<h1>@Model.Business.Name</h1>
+
+<a asp-action="AdminStores" asp-controller="AdminDashboard">Back</a> | 
+<a asp-action="AdminAddItem" asp-controller="AdminDashboard" asp-route-businessId="@Model.Business.BusinessId">New Item</a>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Standard Price</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    
+    <tbody>
+    @foreach (Item item in Model.Items)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Description</td>
+            <td>@($"{item.StandardPrice:c}")</td>
+            <td>
+                <a asp-action="AdminEditItem"
+                   asp-route-businessId="@Model.Business.BusinessId"
+                   asp-route-itemId="@item.ItemId">Edit</a> | 
+                <a asp-action="AdminDeleteItem"
+                   asp-route-businessId="@Model.Business.BusinessId"
+                   asp-route-itemId="@item.ItemId">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

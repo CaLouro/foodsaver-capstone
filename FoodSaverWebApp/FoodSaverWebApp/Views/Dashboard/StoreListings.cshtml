@@ -1,0 +1,30 @@
+﻿@model ItemListModel
+
+@{
+    ViewBag.Title = "Store Listings";
+}
+
+<h1>@Model.Business.Name</h1>
+<h4>Address: @Model.Business.Address.Line1 @Model.Business.Address.City, @Model.Business.Address.ProvinceCode</h4>
+
+<a asp-action="Stores" asp-controller="Dashboard">Back</a>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Standard Price</th>
+    </tr>
+    </thead>
+    
+    <tbody>
+    @foreach (Item item in Model.Items)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Description</td>
+            <td>@($"{item.StandardPrice:c}")</td>
+        </tr>
+    }
+    </tbody>
+</table>

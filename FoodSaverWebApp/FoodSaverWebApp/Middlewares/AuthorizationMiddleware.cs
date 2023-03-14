@@ -32,7 +32,7 @@ namespace FoodSaverWebApp.Middlewares
 
             if (isProtectedPath && isNotAdminUser)
             {
-                context.Response.Redirect("/Dashboard");
+                context.Response.Redirect("/Dashboard/Stores");
             }
 
             await _next(context);

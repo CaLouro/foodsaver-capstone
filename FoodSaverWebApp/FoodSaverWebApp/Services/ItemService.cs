@@ -19,6 +19,16 @@ namespace FoodSaverWebApp.Services
             return result.Models;
         }
 
+        public async Task<ICollection<Item>> GetAllItemsForBusiness(int businessId)
+        {
+            var result = await _connection.AccessDatabase()
+                .From<Item>()
+                .Where(i => i.BusinessId == businessId)
+                .Get();
+
+            return result.Models;
+        }
+
         public async Task<Item?> GetItem(int itemId)
         {
             Item? result = await _connection.AccessDatabase()
@@ -29,21 +39,21 @@ namespace FoodSaverWebApp.Services
             return result;
         }
 
-        public async void InsertItem(Item item)
+        public async Task InsertItem(Item item)
         {
             await _connection.AccessDatabase()
                 .From<Item>()
                 .Insert(item);
         }
 
-        public async void UpdateItem(Item item)
+        public async Task UpdateItem(Item item)
         {
             await _connection.AccessDatabase()
                 .From<Item>()
                 .Update(item);
         }
 
-        public async void DeleteItem(int itemId)
+        public async Task DeleteItem(int itemId)
         {
             await _connection.AccessDatabase()
                 .From<Item>()

@@ -1,9 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
+using FoodSaverWebApp.Entities;
+using FoodSaverWebApp.Models;
+using FoodSaverWebApp.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FoodSaverWebApp.Controllers
 {
     public class DashboardController : Controller
     {
+        private IBusinessService _businessService;
+        private IAddressService _addressService;
+        private IItemService _itemService;
+        public DashboardController(IBusinessService businessService,
+            IAddressService addressService,
+            IItemService itemService)
+        {
+            _businessService = businessService;
+            _addressService = addressService;
+            _itemService = itemService;
+        }
+        
         [HttpGet("/Dashboard")]
         public IActionResult Index()
         {
@@ -11,15 +27,31 @@ namespace FoodSaverWebApp.Controllers
         }
 
         [HttpGet("/Dashboard/Stores")]
-        public IActionResult Stores()
+        public async Task<IActionResult> Stores()
         {
-            return View();
+            ICollection<Business> businesses = await _businessService.GetAllBusinesses();
+            
+            return View(businesses);
+        }
+
+        [HttpGet("/Dashboard/Store/{businessId}")]
+        public async Task<IActionResult> StoreListings(int businessId)
+        {
+            ItemListModel itemListModel = new ItemListModel()
+            {
+                Items = await _itemService.GetAllItemsForBusiness(businessId),
+                Business = await _businessService.GetBusiness(businessId)
+            };
+
+            return View(itemListModel);
         }
 
         [HttpGet("/Dashboard/Deals")]
-        public IActionResult Deals()
+        public async Task<IActionResult> Deals()
         {
-            return View();
+            ICollection<Item> items = await _itemService.GetAllItems();
+
+            return View(items);
         }
     }
 }
