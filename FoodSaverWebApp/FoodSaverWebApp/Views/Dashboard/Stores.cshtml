@@ -15,7 +15,7 @@
         <th>Name</th>
         <th>Contact Email</th>
         <th>Contact Phone</th>
-        <th>Location</th>
+        <th>Item Listings</th>
     </tr>
     </thead>
     
@@ -26,7 +26,7 @@
             <td>@business.Name</td>
             <td>@business.ContactEmail</td>
             <td>@business.ContactPhone</td>
-            <td><a asp-action="StoreAddress" asp-route-businessId="@business.BusinessId">See location</a></td>
+            <td><a asp-action="StoreListings" asp-route-businessId="@business.BusinessId">See Listings</a></td>
         </tr>
     }
     </tbody>

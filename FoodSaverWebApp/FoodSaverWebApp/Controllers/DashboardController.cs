@@ -34,12 +34,16 @@ namespace FoodSaverWebApp.Controllers
             return View(businesses);
         }
 
-        [HttpGet("/Dashboard/Store/{businessId}/Address")]
-        public async Task<IActionResult> StoreAddress(int businessId)
+        [HttpGet("/Dashboard/Store/{businessId}")]
+        public async Task<IActionResult> StoreListings(int businessId)
         {
-            Business? business = await _businessService.GetBusiness(businessId);
+            ItemListModel itemListModel = new ItemListModel()
+            {
+                Items = await _itemService.GetAllItemsForBusiness(businessId),
+                Business = await _businessService.GetBusiness(businessId)
+            };
 
-            return View(business);
+            return View(itemListModel);
         }
 
         [HttpGet("/Dashboard/Deals")]
