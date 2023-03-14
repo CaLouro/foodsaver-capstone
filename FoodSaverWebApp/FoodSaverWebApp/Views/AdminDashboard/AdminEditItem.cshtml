@@ -6,8 +6,8 @@
 
 <a asp-action="AdminStoreItems" asp-controller="AdminDashboard" asp-route-businessId="@Model.BusinessId">Back</a>
 <div class="row d-flex justify-content-center">
-    <div class="form-card animate-300 slideDown">
-        <h1>Item</h1>
+    <div class="login-card">
+        <h1>Edit Item</h1>
         
         <form asp-action="AdminEditItem">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -33,7 +33,7 @@
             
             <div class="form-group">
                 <div class="d-flex row-cols-1">
-                    <input type="submit" value="Edit" class="btn btn-primary"/>
+                    <input type="submit" value="Update" class="btn btn-primary"/>
                 </div>
             </div>
         </form>

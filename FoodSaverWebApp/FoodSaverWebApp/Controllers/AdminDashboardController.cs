@@ -49,6 +49,68 @@ namespace FoodSaverWebApp.Controllers
         }
         
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/Register/Store")]
+        public IActionResult AdminRegisterStore()
+        {
+            StoreModel storeModel = new StoreModel()
+            {
+                Business = new Business()
+            };
+
+            storeModel.Business.Address = new Address();
+            
+            return View(storeModel);
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="storeModel"></param>
+        /// <returns></returns>
+        [HttpPost("/Register/Store")]
+        public async Task<IActionResult> AdminRegisterStore(StoreModel storeModel)
+        {
+            ModelState.Remove("ProvinceCodes");
+
+            if (ModelState.IsValid)
+            {
+                Address? address = await _addressService.ReturnAddressOnInsert(storeModel.Business.Address);
+
+                if (address != null)
+                    storeModel.Business.AddressId = address.AddressId;
+
+                Business? business = await _businessService.ReturnBusinessOnInsert(storeModel.Business);
+
+                if (business != null)
+                    _businessService.LinkUserToBusiness(business);
+                
+                return RedirectToAction("AdminStores", "AdminDashboard");
+            }
+            
+            storeModel.ProvinceCodes = new List<string>()
+            {
+                "NL",
+                "PE",
+                "NS",
+                "NB",
+                "QC",
+                "ON",
+                "MB",
+                "NL",
+                "AB",
+                "BC",
+                "YT",
+                "NT",
+                "NU"
+            };
+
+            return View(storeModel);
+        }
+        
+        /// <summary>
         /// Sends a StoreModel that contains the selected business to be edited
         /// </summary>
         /// <param name="businessId"></param>
