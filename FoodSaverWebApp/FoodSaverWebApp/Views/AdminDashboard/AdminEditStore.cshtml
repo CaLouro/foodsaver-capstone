@@ -10,7 +10,7 @@
         
         <form asp-action="AdminEditStore">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Html.ValidationSummary()
+            
             <div class="form-group">
                 <label asp-for="Business.Name" class="control-label">Name</label>
                 <input asp-for="Business.Name" class="form-control"/>

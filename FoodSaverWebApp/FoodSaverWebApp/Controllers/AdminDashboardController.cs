@@ -32,6 +32,10 @@ namespace FoodSaverWebApp.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Returns a list of businesses that the active user is an admin of to the desired view
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("/Admin/Stores")]
         public async Task<IActionResult> AdminStores()
         {
@@ -44,6 +48,11 @@ namespace FoodSaverWebApp.Controllers
             return View(businesses);
         }
         
+        /// <summary>
+        /// Sends a StoreModel that contains the selected business to be edited
+        /// </summary>
+        /// <param name="businessId"></param>
+        /// <returns></returns>
         [HttpGet("/Admin/Store/{businessId}/Edit")]
         public async Task<IActionResult> AdminEditStore(int businessId)
         {
@@ -53,6 +62,12 @@ namespace FoodSaverWebApp.Controllers
             return View(storeModel);
         }
         
+        /// <summary>
+        /// Verify that the information edited meets the models requirements and
+        /// update the business and address appropriately
+        /// </summary>
+        /// <param name="storeModel"></param>
+        /// <returns></returns>
         [HttpPost("/Admin/Store/{businessId}/Edit")]
         public async Task<IActionResult> AdminEditStore(StoreModel storeModel)
         {
@@ -70,12 +85,83 @@ namespace FoodSaverWebApp.Controllers
             return View(storeModel);
         }
 
+        /// <summary>
+        /// Delete the business and everything associated with it
+        /// </summary>
+        /// <param name="businessId"></param>
+        /// <returns></returns>
         [HttpGet("/Admin/Store/{businessId}/Delete")]
         public async Task<IActionResult> AdminDeleteStore(int businessId)
         {
             await _businessService.DeleteBusiness(businessId);
             
             return RedirectToAction("AdminStores");
+        }
+        
+        /// <summary>
+        /// Get a list of items for the selected business
+        /// </summary>
+        /// <param name="businessId"></param>
+        /// <returns></returns>
+        [HttpGet("/Admin/Store/{businessId}/Item/List")]
+        public async Task<IActionResult> AdminStoreItems(int businessId)
+        {
+            ItemListModel itemListModel = new ItemListModel()
+            {
+                Items = await _itemService.GetAllItemsForBusiness(businessId),
+                Business = await _businessService.GetBusiness(businessId)
+            };
+
+            return View(itemListModel);
+        }
+
+        /// <summary>
+        /// Create a new item for the user to add information to
+        /// </summary>
+        /// <param name="businessId"></param>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        [HttpGet("/Admin/Store/{businessId}/Item/Add")]
+        public IActionResult AdminAddItem(int businessId)
+        {
+            Item item = new Item()
+            {
+                BusinessId = businessId
+            };
+            
+            return View(item);
+        }
+        
+        /// <summary>
+        /// Add item to database if the item meets the model requirements
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        [HttpPost("/Admin/Store/{businessId}/Item/Add")]
+        public async Task<IActionResult> AdminAddItem(Item item)
+        {
+            ModelState.Remove("Business");
+            
+            if (ModelState.IsValid)
+            {
+                await _itemService.InsertItem(item);
+                
+                return RedirectToAction("AdminStoreItems", new { businessId = item.BusinessId });
+            }
+
+            return View(item);
+        }
+        
+        [HttpGet("/Admin/Store/{businessId}/Item/{itemId}/Edit")]
+        public async Task<IActionResult> AdminEditItem(int businessId, int itemId)
+        {
+            return Ok();
+        }
+        
+        [HttpGet("/Admin/Store/{businessId}/Item/{itemId}/Delete")]
+        public async Task<IActionResult> AdminDeleteItem(int businessId, int itemId)
+        {
+            return Ok();
         }
     }
 }

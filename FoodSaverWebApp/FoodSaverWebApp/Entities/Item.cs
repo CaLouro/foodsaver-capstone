@@ -18,7 +18,10 @@ namespace FoodSaverWebApp.Entities
         [Column("standard_price")]
         public float? StandardPrice { get; set; }
 
-        [Reference(typeof(Business))]
+        [Column("business_id")]
+        public int BusinessId { get; set; }
+        
+        [Reference(typeof(Business), shouldFilterTopLevel: false)]
         public Business Business { get; set; }
     }
 }

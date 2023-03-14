@@ -9,7 +9,14 @@ namespace FoodSaverWebApp.Services
         /// </summary>
         /// <returns></returns>
         public Task<ICollection<Item>> GetAllItems();
-        
+
+        /// <summary>
+        /// Retrieves a list of type ICollection for Item entities that have the given businessId
+        /// </summary>
+        /// <param name="businessId"></param>
+        /// <returns></returns>
+        public Task<ICollection<Item>> GetAllItemsForBusiness(int businessId);
+
         /// <summary>
         /// Retrieves a single Item entity given the itemId
         /// </summary>

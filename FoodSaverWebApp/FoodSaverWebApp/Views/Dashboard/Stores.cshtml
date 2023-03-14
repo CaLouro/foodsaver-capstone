@@ -4,6 +4,11 @@
     ViewData["Title"] = "Dashboard - Stores";
 }
 
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<a asp-action="AdminStores" asp-controller="AdminDashboard">Admin Dashboard</a> | 
 <a asp-action="RegisterStore" asp-controller="Dashboard">New Store</a>
 <table class="table table-striped">
     <thead>

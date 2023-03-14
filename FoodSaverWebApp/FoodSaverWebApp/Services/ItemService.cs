@@ -19,6 +19,16 @@ namespace FoodSaverWebApp.Services
             return result.Models;
         }
 
+        public async Task<ICollection<Item>> GetAllItemsForBusiness(int businessId)
+        {
+            var result = await _connection.AccessDatabase()
+                .From<Item>()
+                .Where(i => i.BusinessId == businessId)
+                .Get();
+
+            return result.Models;
+        }
+
         public async Task<Item?> GetItem(int itemId)
         {
             Item? result = await _connection.AccessDatabase()

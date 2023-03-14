@@ -60,7 +60,7 @@ namespace FoodSaverWebApp.Controllers
                 if (business != null)
                     _businessService.LinkUserToBusiness(business);
                 
-                return RedirectToAction("Stores");
+                return RedirectToAction("AdminStores", "AdminDashboard");
             }
             
             storeModel.ProvinceCodes = new List<string>()
