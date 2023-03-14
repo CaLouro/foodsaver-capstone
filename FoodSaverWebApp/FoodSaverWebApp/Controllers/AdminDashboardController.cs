@@ -152,16 +152,52 @@ namespace FoodSaverWebApp.Controllers
             return View(item);
         }
         
+        /// <summary>
+        /// Send the Item entity that was selected to the view
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
         [HttpGet("/Admin/Store/{businessId}/Item/{itemId}/Edit")]
-        public async Task<IActionResult> AdminEditItem(int businessId, int itemId)
+        public async Task<IActionResult> AdminEditItem(int itemId)
         {
-            return Ok();
+            Item? item = await _itemService.GetItem(itemId);
+            
+            return View(item);
         }
         
+        /// <summary>
+        /// Verifies that the edited info meets the model requirements and updates the item
+        /// </summary>
+        /// <param name="businessId"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        [HttpPost("/Admin/Store/{businessId}/Item/{itemId}/Edit")]
+        public async Task<IActionResult> AdminEditItem(int businessId, Item item)
+        {
+            ModelState.Remove("Business");
+
+            if (ModelState.IsValid)
+            {
+                await _itemService.UpdateItem(item);
+
+                return RedirectToAction("AdminStoreItems", new { businessId = businessId });
+            }
+            
+            return View(item);
+        }
+        
+        /// <summary>
+        /// Deletes the item
+        /// </summary>
+        /// <param name="businessId"></param>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
         [HttpGet("/Admin/Store/{businessId}/Item/{itemId}/Delete")]
         public async Task<IActionResult> AdminDeleteItem(int businessId, int itemId)
         {
-            return Ok();
+            await _itemService.DeleteItem(itemId);
+            
+            return RedirectToAction("AdminStoreItems", new { businessId = businessId });
         }
     }
 }

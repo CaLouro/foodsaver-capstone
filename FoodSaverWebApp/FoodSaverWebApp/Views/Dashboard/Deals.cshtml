@@ -1,7 +1,37 @@
-﻿@{
+﻿@model ICollection<Item>
+
+@{
     ViewData["Title"] = "Dashboard - Deals";
 }
 
 <div class="text-center">
     <h1 class="display-4">@ViewData["Title"]</h1>
 </div>
+
+<a asp-action="AdminStores" asp-controller="AdminDashboard">Admin Dashboard</a> | 
+<a asp-action="Stores" asp-controller="Dashboard">Stores</a>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Location</th>
+        <th>Business</th>
+    </tr>
+    </thead>
+    
+    <tbody>
+    @foreach (Item item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Description</td>
+            <td>@($"{item.StandardPrice:c}")</td>
+            <td>@item.Business.Address.City, @item.Business.Address.Line1</td>
+            <td>@item.Business.Name</td>
+        </tr>
+    }
+    </tbody>
+</table>

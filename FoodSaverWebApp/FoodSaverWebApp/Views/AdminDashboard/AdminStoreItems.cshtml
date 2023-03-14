@@ -24,10 +24,14 @@
         <tr>
             <td>@item.Name</td>
             <td>@item.Description</td>
-            <td>@item.StandardPrice</td>
+            <td>@($"{item.StandardPrice:c}")</td>
             <td>
-                <a asp-action="AdminEditItem" asp-route-itemId="@item.ItemId">Edit</a> | 
-                <a asp-action="AdminDeleteItem" asp-route-itemId="@item.ItemId">Delete</a>
+                <a asp-action="AdminEditItem"
+                   asp-route-businessId="@Model.Business.BusinessId"
+                   asp-route-itemId="@item.ItemId">Edit</a> | 
+                <a asp-action="AdminDeleteItem"
+                   asp-route-businessId="@Model.Business.BusinessId"
+                   asp-route-itemId="@item.ItemId">Delete</a>
             </td>
         </tr>
     }
