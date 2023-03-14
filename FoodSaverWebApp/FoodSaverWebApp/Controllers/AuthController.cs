@@ -14,13 +14,13 @@ namespace FoodSaverWebApp.Controllers
             _auth = auth;
         }
 
-        [HttpGet("/Register")]
+        [HttpGet("/Signup")]
         public IActionResult Registration()
         {
             return View();
         }
 
-        [HttpPost("/Register")]
+        [HttpPost("/Signup")]
         public async Task<IActionResult> Registration(RegisterModel authModel)
         {
             if (ModelState.IsValid)
@@ -74,8 +74,7 @@ namespace FoodSaverWebApp.Controllers
         public async Task<IActionResult> Logout()
         {
             await _auth.SignOut();
-
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
