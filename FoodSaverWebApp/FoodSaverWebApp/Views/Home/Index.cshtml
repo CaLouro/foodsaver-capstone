@@ -1,5 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Welcome";
 }
 
-<a asp-action="Stores" asp-controller="Dashboard">Dashboard</a>
+<div class="home-page">
+    <div class="bg-image">
+        <div class="image-overlay"></div>
+        
+    </div>
+
+    <div class="landing-content">
+        <div class="landing-title">Food Saver</div>
+        <div class="landing-slogan">Reduce food waste one dish at a time</div>
+        <button type="button" class="landing-button" onclick="location.href='@Url.Action("Index", "Dashboard")'">
+            Begin Now
+        </button>
+    </div>
+</div>

@@ -1,10 +1,12 @@
 using FoodSaverWebApp.Middlewares;
 using FoodSaverWebApp.Services;
+using Supabase.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromSeconds(10);
@@ -12,8 +14,10 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddSingleton<IDbConnection, DbConnection>();
-builder.Services.AddSingleton<IAuthService, AuthService>();
+
+builder.Services.AddScoped<ISupabaseSessionHandler, CustomSessionHandler>();
+builder.Services.AddScoped<IDbConnection, DbConnection>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IBusinessService, BusinessService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<IAddressService, AddressService>();

@@ -1,41 +1,47 @@
 ﻿@model FoodSaverWebApp.Models.RegisterModel
 
 @{
-    ViewData["Title"] = "Registration";
+    ViewData["Title"] = "Sign Up";
 }
 
-<div class="row d-flex justify-content-center">
-    <div class="col-md-5 form-card animate-300 slideDown">
-        <h1>Sign Up</h1>
-        
-        <form asp-action="Registration">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control"/>
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control"/>
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" type="password"/>
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label">Confirm Password</label>
-                <input asp-for="ConfirmPassword" class="form-control" type="password"/>
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="d-flex row-cols-1">
-                    <input type="submit" value="Sign Up" class="btn btn-primary"/>
+
+<div class="user-form-card">
+    <div class="row">
+        <div class="login-card col-lg-6">
+            <h1>Sign Up</h1>
+            
+            <form asp-action="Registration">
+                <div asp-validation-summary="ModelOnly" class="text-danger unassigned-errors"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control"/>
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control"/>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" type="password"/>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword" class="control-label">Confirm Password</label>
+                    <input asp-for="ConfirmPassword" class="form-control" type="password"/>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="d-flex row-cols-1">
+                        <input type="submit" value="Sign Up" class="btn btn-primary"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="login-form-image">
+            <div class="image-overlay"></div>
+        </div>
     </div>
 </div>
 
