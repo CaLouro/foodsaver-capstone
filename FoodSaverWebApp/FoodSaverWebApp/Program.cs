@@ -9,7 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromDays(30);
+    options.IdleTimeout = TimeSpan.MaxValue;
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
