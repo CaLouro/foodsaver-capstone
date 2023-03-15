@@ -15,8 +15,9 @@ builder.Services.AddSession(options =>
 });
 
 
-builder.Services.AddScoped<ISupabaseSessionHandler, CustomSessionHandler>();
-builder.Services.AddScoped<IDbConnection, DbConnection>();
+builder.Services.AddSingleton<ISupabaseSessionHandler, CustomSessionHandler>();
+builder.Services.AddSingleton<IDbConnection, DbConnection>();
+
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IBusinessService, BusinessService>();
 builder.Services.AddScoped<IItemService, ItemService>();
