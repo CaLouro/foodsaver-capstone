@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Food Saver</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/FoodSaverWebApp.styles.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/animation.css" asp-append-version="true"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,7 +42,7 @@
                     else
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link custom-text" href="#" data-bs-toggle="dropdown" id="accountNavDropDown">
+                            <a class="nav-link nav-right-link" href="#" data-bs-toggle="dropdown" id="accountNavDropDown">
                                 @Context.Session.GetString("_DisplayName")
                             </a>
                             <div class="dropdown-menu dropdown-menu-end animate-300 slideDown" aria-labelledby="accountNavDropDown">
