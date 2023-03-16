@@ -27,10 +27,9 @@ namespace FoodSaverWebApp.Services
         {
             List<object> userBusinessIds = new List<object>();
 
-            foreach (UserBusiness userBusiness in user.Businesses)
+            foreach (UserBusiness userBusiness in user.Businesses.FindAll(b => b.IsAdmin))
             {
-                if (userBusiness.IsAdmin)
-                    userBusinessIds.Add(userBusiness.BusinessId);
+                userBusinessIds.Add(userBusiness.BusinessId);
             }
             
             ModeledResponse<Business>? businessResult = await _connection.AccessDatabase()

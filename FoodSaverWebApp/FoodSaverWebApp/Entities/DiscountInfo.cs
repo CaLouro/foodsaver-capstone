@@ -21,7 +21,12 @@ namespace FoodSaverWebApp.Entities
         [Column("availability_ends")]
         public DateTime? AvailabilityEnds { get; set; }
 
-        [Reference(typeof(Item))]
-        public Item Item { get; set; }
+        [Column("item_id")]
+        public int itemId { get; set; }
+
+        public bool isActive()
+        {
+            return (DateTime.Now >= AvailabilityStarts && DateTime.Now < AvailabilityEnds);
+        }
     }
 }

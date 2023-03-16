@@ -305,3 +305,9 @@ footer .container .footer-link {
         padding: 6rem 3rem;
     }
 }
+
+/* Dashboard Style */
+
+#dashboardItemView {
+    display: none;
+}

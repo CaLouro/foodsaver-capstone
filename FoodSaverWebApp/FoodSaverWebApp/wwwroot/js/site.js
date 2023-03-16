@@ -1,4 +1,13 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+let store = document.getElementById("dashboardStoreView");
+let item = document.getElementById("dashboardItemView");
 
-// Write your JavaScript code.
+function toggleStoreView() {
+    store.style.display = 'block';
+    item.style.display = 'none';
+}
+
+function toggleItemView() {
+    store.style.display = 'none';
+    item.style.display = 'block';
+}

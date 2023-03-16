@@ -1,7 +1,22 @@
-﻿@{
+﻿@model DashboardModel
+
+@{
     ViewData["Title"] = "Dashboard";
 }
 
 <div class="text-center">
     <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<button onclick="toggleStoreView()">Stores</button> | 
+<button onclick="toggleItemView()">Items</button>
+
+<div>
+    <div id="dashboardStoreView">
+        <partial name="_DashboardStoresPartial" model="Model.Businesses"/>
+    </div>
+
+    <div id="dashboardItemView">
+        <partial name="_DashboardItemsPartial" model="Model.Items"/>
+    </div>
 </div>

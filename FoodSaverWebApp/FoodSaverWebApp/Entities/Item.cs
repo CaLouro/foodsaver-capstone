@@ -23,5 +23,20 @@ namespace FoodSaverWebApp.Entities
         
         [Reference(typeof(Business), shouldFilterTopLevel: false)]
         public Business Business { get; set; }
+
+        
+        [Reference(typeof(DiscountInfo), shouldFilterTopLevel: false)]
+        public List<DiscountInfo> DiscountInfo { get; set; } = new List<DiscountInfo>();
+
+        public DiscountInfo? ActiveDiscount()
+        {
+            foreach (DiscountInfo discountInfo in DiscountInfo)
+            {
+                if (discountInfo.isActive())
+                    return discountInfo;
+            }
+
+            return null;
+        }
     }
 }

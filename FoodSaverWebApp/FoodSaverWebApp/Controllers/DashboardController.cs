@@ -21,15 +21,21 @@ namespace FoodSaverWebApp.Controllers
         }
         
         [HttpGet("/Dashboard")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            DashboardModel dashboardModel = new DashboardModel()
+            {
+                Businesses = await _businessService.GetAllBusinesses(),
+                Items = await _itemService.GetAllItems()
+            };
+            
+            return View(dashboardModel);
         }
 
         [HttpGet("/Dashboard/Stores")]
         public async Task<IActionResult> Stores()
         {
-            ICollection<Business> businesses = await _businessService.GetAllBusinesses();
+            ICollection<Business?> businesses = await _businessService.GetAllBusinesses();
             
             return View(businesses);
         }
