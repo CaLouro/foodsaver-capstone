@@ -140,17 +140,7 @@
                     isFavorite: isFavorite
                 },
                 success: () => {
-                    console.log("The request was successful");
-                },
-                error: () => {
-                    // Flips back the favorite button if an error occurs
-                    let span = $(event.currentTarget);
-                    if ( span.attr("data-favorite-state") === "True" ) {
-                        span.attr("data-favorite-state", "False");
-                        
-                    } else if ( span.attr("data-favorite-state") === "False" ) {
-                        span.attr("data-favorite-state", "True");
-                    }    
+                    // We ignore the response not to reload the page
                 }
             });
         }

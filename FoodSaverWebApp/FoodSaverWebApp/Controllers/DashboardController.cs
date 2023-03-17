@@ -1,4 +1,5 @@
-﻿using FoodSaverWebApp.Entities;
+﻿using System.Net;
+using FoodSaverWebApp.Entities;
 using FoodSaverWebApp.Models;
 using FoodSaverWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -64,12 +65,13 @@ namespace FoodSaverWebApp.Controllers
         [HttpPost("/Dashboard/ToggleFavorite")]
         public async Task<IActionResult> BusinessFavoriteToggle(int? businessId, bool? isFavorite)
         {
-            if (businessId != null && isFavorite != null)
+            if (businessId == null || isFavorite == null)
             {
-                await _businessService.ToggleBusinessFavorite((int)businessId, (bool)isFavorite);
+                return new StatusCodeResult(StatusCodes.Status400BadRequest);
             }
 
-            return RedirectToAction("Index");
+            await _businessService.ToggleBusinessFavorite((int)businessId, (bool)isFavorite);
+            return new OkResult();
         }
     }
 }
