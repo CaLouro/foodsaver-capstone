@@ -14,4 +14,8 @@
         <PackageReference Include="supabase-csharp" Version="0.8.4" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\icons\arrow-right.svg" />
+    </ItemGroup>
+
 </Project>
