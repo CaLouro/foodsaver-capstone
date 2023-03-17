@@ -8,12 +8,13 @@ namespace FoodSaverWebApp.Services
     {
         private readonly IDbConnection _connection;
         private IAuthService _authService;
+
         public BusinessService(IDbConnection connection, IAuthService authService)
         {
             _connection = connection;
             _authService = authService;
         }
-        
+
         public async Task<ICollection<Business?>> GetAllBusinesses()
         {
             var result = await _connection.AccessDatabase()
@@ -32,7 +33,7 @@ namespace FoodSaverWebApp.Services
                 if (userBusiness.IsAdmin)
                     userBusinessIds.Add(userBusiness.BusinessId);
             }
-            
+
             ModeledResponse<Business>? businessResult = await _connection.AccessDatabase()
                 .From<Business>()
                 .Filter(x => x.BusinessId, Constants.Operator.In, userBusinessIds)
@@ -57,12 +58,12 @@ namespace FoodSaverWebApp.Services
                 .From<Business>()
                 .Insert(business);
         }
-        
+
         public async Task<Business?> ReturnBusinessOnInsert(Business business)
         {
-            ModeledResponse<Business> result =  await _connection.AccessDatabase()
+            ModeledResponse<Business> result = await _connection.AccessDatabase()
                 .From<Business>()
-                .Insert(business, new QueryOptions{ Returning = QueryOptions.ReturnType.Representation});
+                .Insert(business, new QueryOptions { Returning = QueryOptions.ReturnType.Representation });
 
             return result.Models[0];
         }
@@ -77,7 +78,7 @@ namespace FoodSaverWebApp.Services
         public async Task DeleteBusiness(int businessId)
         {
             // Not a fan for the 4 queries, but delete cascade is not easy to enable
-            
+
             await _connection.AccessDatabase()
                 .From<UserBusiness>()
                 .Where(x => x.BusinessId == businessId)
@@ -106,10 +107,66 @@ namespace FoodSaverWebApp.Services
                 BusinessId = business.BusinessId,
                 IsAdmin = true
             };
-            
+
             await _connection.AccessDatabase()
                 .From<UserBusiness>()
                 .Insert(userBusiness);
+        }
+
+        public async Task ToggleBusinessFavorite(int businessId, bool isFavorite)
+        {
+            var user = await _authService.GetActiveUser();
+            if (user == null)
+            {
+                return;
+            }
+
+            bool isInsert = false;
+            var userBusinessRelationship = user.Businesses.Find(b => b.BusinessId == businessId);
+            if (userBusinessRelationship == null)
+            {
+                userBusinessRelationship = new UserBusiness()
+                {
+                    UserId = user.UserId,
+                    BusinessId = businessId,
+                    IsFavorite = isFavorite,
+                };
+                isInsert = true;
+            }
+            else
+            {
+                userBusinessRelationship.IsFavorite = isFavorite;
+            }
+
+            if (isInsert)
+            {
+                await _connection.AccessDatabase()
+                    .From<UserBusiness>()
+                    .Insert(userBusinessRelationship);
+            }
+            else
+            {
+                await _connection.AccessDatabase()
+                    .From<UserBusiness>()
+                    .Update(userBusinessRelationship);
+            }
+        }
+
+        public async Task<ICollection<UserBusiness>> GetUserFavoriteBusinesses()
+        {
+            var user = await _authService.GetActiveUser();
+            if (user == null)
+            {
+                return new List<UserBusiness>();
+            }
+
+            var userBusinesses = await _connection.AccessDatabase()
+                .From<UserBusiness>()
+                .Where(x => x.UserId == user.UserId)
+                .Where(x => x.IsFavorite == true)
+                .Get();
+
+            return userBusinesses.Models;
         }
     }
 }

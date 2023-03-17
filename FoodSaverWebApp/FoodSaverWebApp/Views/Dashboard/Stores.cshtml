@@ -1,14 +1,14 @@
-﻿@model ICollection<Business>
+﻿@model StoreDashboardModel
 
 @{
     ViewData["Title"] = "Dashboard - Stores";
 }
 
 <div class="dashboard-sidebar">
-    
+
 </div>
 <div class="dashboard-center-container">
-    
+
     <div class="dashboard-navigation">
         <div class="v-center">
             <button class="dashboard-nav-button dashboard-nav-button-active">Stores</button>
@@ -17,13 +17,32 @@
     </div>
 
     <div class="dashboard-results">
-        @foreach (Business business in Model)
+        @foreach (Business business in Model.Businesses)
         {
             <div class="dashboard-result-card">
                 <div class="v-center">
                     <div class="dashboard-result-card-left">
                         <h4>@business.Name</h4>
                         <p>Tags</p>
+
+                        @* The favorite icon *@
+                        <span
+                            class="favoriteIconWrapper"
+                            onclick="toggleFavorite()"
+                            data-business-id="@business.BusinessId"
+                            data-favorite-state="@Model.IsFavoriteBusiness(business)">
+                            <i
+                                class="material-icons favoriteIcon"
+                                data-is-favorite="True">
+                                favorite
+                            </i>
+                            <i
+                                class="material-icons favoriteIcon"
+                                data-is-favorite="False">
+                                favorite_border
+                            </i>
+                        </span>
+
                     </div>
                     <div class="dashboard-result-card-right">
                         Test
@@ -32,7 +51,7 @@
             </div>
         }
     </div>
-    
+
     <div class="dashboard-page-nav">
         <a href="#"><</a><!--
         --><a href="#" class="active-page">1</a><!--
@@ -46,27 +65,94 @@
 
 <!--
 
-        <table class="table table-striped dashboard-results">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Contact Email</th>
-                <th>Contact Phone</th>
-                <th>Item Listings</th>
-            </tr>
-            </thead>
+<table class="table table-striped dashboard-results">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Contact Email</th>
+        <th>Contact Phone</th>
+        <th>Item Listings</th>
+    </tr>
+    </thead>
 
-            <tbody>
-            @foreach (Business business in Model)
-            {
-                <tr>
-                    <td>@business.Name</td>
-                    <td>@business.ContactEmail</td>
-                    <td>@business.ContactPhone</td>
-                    <td><a asp-action="StoreListings" asp-route-businessId="@business.BusinessId">See Listings</a></td>
-                </tr>
-            }
-            </tbody>
-        </table>
+    <tbody>
+    @foreach (Business business in Model.Businesses)
+    {
+        <tr>
+            <td>@business.Name</td>
+            <td>@business.ContactEmail</td>
+            <td>@business.ContactPhone</td>
+            <td><a asp-action="StoreListings" asp-route-businessId="@business.BusinessId">See Listings</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
 
 -->
+
+<style>
+    .favoriteIconWrapper {
+        display: inline-block;
+    }
+
+    .favoriteIconWrapper[data-favorite-state="True"] .favoriteIcon[data-is-favorite="True"],
+    .favoriteIconWrapper[data-favorite-state="False"] .favoriteIcon[data-is-favorite="False"] {
+        display: inline-block;
+    }
+    
+    .favoriteIconWrapper[data-favorite-state="True"] .favoriteIcon[data-is-favorite="False"],
+    .favoriteIconWrapper[data-favorite-state="False"] .favoriteIcon[data-is-favorite="True"] {
+        display: none;
+    }
+    
+    .favoriteIcon {
+        cursor: pointer;
+    }
+        
+    .favoriteIcon[data-is-favorite="True"] {
+        color: red;
+    }
+    
+    .favoriteIcon[data-is-favorite="False"] {
+        color: gray;
+    }
+</style>
+
+@section Scripts{
+    <script type="text/javascript">
+        function toggleFavorite() {            
+            let span = $(event.currentTarget);
+            if ( span.attr("data-favorite-state") === "True" ) {
+                span.attr("data-favorite-state", "False");
+                
+            } else if ( span.attr("data-favorite-state") === "False" ) {
+                span.attr("data-favorite-state", "True");
+            }
+            
+            let businessId = Number.parseInt(span.attr("data-business-id"));
+            let isFavorite = span.attr("data-favorite-state") === "True";
+            
+            $.ajax({
+                type: "POST",
+                url: "/Dashboard/ToggleFavorite",
+                data: {
+                    businessId: businessId,
+                    isFavorite: isFavorite
+                },
+                success: () => {
+                    console.log("The request was successful");
+                },
+                error: () => {
+                    // Flips back the favorite button if an error occurs
+                    let span = $(event.currentTarget);
+                    if ( span.attr("data-favorite-state") === "True" ) {
+                        span.attr("data-favorite-state", "False");
+                        
+                    } else if ( span.attr("data-favorite-state") === "False" ) {
+                        span.attr("data-favorite-state", "True");
+                    }    
+                }
+            });
+        }
+    </script>
+}
