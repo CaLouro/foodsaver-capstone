@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using FoodSaverWebApp.Services
+@inject IAuthService AuthService
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -34,6 +37,12 @@
                     <li class="nav-item">
                         <a class="nav-link nav-left-link" asp-area="" asp-controller="Dashboard" asp-action="Stores">Dashboard</a>
                     </li>
+                    @if ((await AuthService.GetActiveUser())?.IsAdmin() ?? false)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link nav-left-link" asp-area="" asp-controller="AdminDashboard" asp-action="AdminStores">Admin Dashboard</a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link nav-left-link" asp-area="" asp-controller="Home" asp-action="">Vision</a>
                     </li>
@@ -52,7 +61,6 @@
                                 @Context.Session.GetString("_DisplayName")
                             </a>
                             <div class="dropdown-menu dropdown-menu-end animate-300 slideDown" aria-labelledby="accountNavDropDown">
-                                <a class="dropdown-item" asp-controller="AdminDashboard" asp-action="AdminStores">Admin Dashboard</a>
                                 <a class="dropdown-item" asp-controller="AdminDashboard" asp-action="AdminRegisterStore">Register Store</a>
                                 <a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Log Out</a>
                             </div>
