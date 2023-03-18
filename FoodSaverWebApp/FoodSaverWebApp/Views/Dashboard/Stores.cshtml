@@ -32,12 +32,12 @@
                             data-business-id="@business.BusinessId"
                             data-favorite-state="@Model.IsFavoriteBusiness(business)">
                             <i
-                                class="material-icons favoriteIcon"
+                                class="material-icons favoriteIcon animate-300 fadeIn noSelect"
                                 data-is-favorite="True">
                                 favorite
                             </i>
                             <i
-                                class="material-icons favoriteIcon"
+                                class="material-icons favoriteIcon animate-300 fadeIn noSelect"
                                 data-is-favorite="False">
                                 favorite_border
                             </i>
@@ -89,34 +89,6 @@
 </table>
 
 -->
-
-<style>
-    .favoriteIconWrapper {
-        display: inline-block;
-    }
-
-    .favoriteIconWrapper[data-favorite-state="True"] .favoriteIcon[data-is-favorite="True"],
-    .favoriteIconWrapper[data-favorite-state="False"] .favoriteIcon[data-is-favorite="False"] {
-        display: inline-block;
-    }
-    
-    .favoriteIconWrapper[data-favorite-state="True"] .favoriteIcon[data-is-favorite="False"],
-    .favoriteIconWrapper[data-favorite-state="False"] .favoriteIcon[data-is-favorite="True"] {
-        display: none;
-    }
-    
-    .favoriteIcon {
-        cursor: pointer;
-    }
-        
-    .favoriteIcon[data-is-favorite="True"] {
-        color: red;
-    }
-    
-    .favoriteIcon[data-is-favorite="False"] {
-        color: gray;
-    }
-</style>
 
 @section Scripts{
     <script type="text/javascript">
