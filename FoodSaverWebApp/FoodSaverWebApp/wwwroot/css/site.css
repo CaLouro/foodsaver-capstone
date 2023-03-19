@@ -2,7 +2,7 @@ html {
     font-size: 14px;
 }
 
-@media (min-width: 768px) {  
+@media (min-width: 768px) {
     html {
         font-size: 16px;
     }
@@ -17,6 +17,17 @@ body {
     padding-bottom: 60px;
     background: #FCFAFA;
     font-family: 'Varela Round', sans-serif;
+}
+
+.noSelect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                     supported by Chrome, Edge, Opera and Firefox */
 }
 
 /* Navigation styling */
@@ -35,6 +46,7 @@ nav {
     color: #6E8387;
     transition: color 250ms;
 }
+
 .nav-link:hover {
     color: black;
 }
@@ -42,6 +54,7 @@ nav {
 .nav-left-link {
     margin: 0 20px;
 }
+
 .nav-right-link {
     margin-left: 20px;
     color: #6E8387;
@@ -57,6 +70,7 @@ nav {
     margin-right: 25px;
     transition: color 250ms;
 }
+
 .nav-title:hover {
     color: #09af3f;
 }
@@ -86,17 +100,19 @@ main {
 footer {
     background-color: white;
     margin: 0 auto;
-    
+
     box-shadow: 0 -4px 20px -10px rgba(0, 0, 0, 0.1);
 
     font-family: 'Varela Round', sans-serif;
     color: #6E8387;
     z-index: 2;
 }
+
 footer .container {
     padding: 0 1rem;
     max-width: 1200px;
 }
+
 footer .container .footer-link {
     text-decoration: none;
     margin: 0 1.2rem;
@@ -119,6 +135,7 @@ footer .container .footer-link {
     left: 0;
     z-index: -1;
 }
+
 .image-overlay {
     width: inherit;
     height: inherit;
@@ -143,6 +160,7 @@ footer .container .footer-link {
     line-height: 6rem;
     color: #FCFAFA;
 }
+
 .landing-slogan {
     margin: 0;
     padding: 0;
@@ -163,10 +181,12 @@ footer .container .footer-link {
     border: none;
     transition: background-color 150ms;
 }
+
 .landing-button:hover {
     color: #6E8387;
     background-color: #e3e3e3;
 }
+
 .landing-button:active {
     background-color: #b6b6b6;
 }
@@ -176,6 +196,7 @@ footer .container .footer-link {
         font-size: 60px;
         line-height: 4rem;
     }
+
     .landing-slogan {
         font-size: 14px;
     }
@@ -218,6 +239,7 @@ footer .container .footer-link {
 .stay-logged-in {
     margin-top: 1rem;
 }
+
 .stay-logged-in input {
     width: 1.1rem;
     height: 1.1rem;
@@ -287,6 +309,7 @@ footer .container .footer-link {
 .unassigned-errors {
     margin-bottom: 1rem;
 }
+
 .unassigned-errors ul {
     list-style: none;
     padding-left: 0;
@@ -297,6 +320,7 @@ footer .container .footer-link {
         max-width: 40rem;
         margin: 0 auto;
     }
+
     .login-form-image {
         display: none;
     }
