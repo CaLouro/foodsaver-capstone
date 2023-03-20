@@ -45,16 +45,17 @@
                         </div>
                     </button>
                     <div class="card-first card-section-container"
-                         style="width: 55%;">
+                         style="width: 50%;">
                         <div class="v-center">
                             <h4>@business.Name</h4>
                             <span>Tags</span>
                         </div>
                     </div>
                     <div class="card-secondary card-section-container"
-                         style="width: 25%;">
+                         style="width: 30%;">
                         <div class="v-center">
-                            Test
+                            <p>@business.Address.Line1</p>
+                            <p>@business.Address.City, @business.Address.ProvinceCode</p>
                         </div>
                     </div>
                     <button class="card-icon card-section-container"
@@ -71,44 +72,7 @@
             </div>
         }
     </div>
-
-    @* <div class="dashboard-page-nav"> *@
-    @*     <a href="#"><</a><!-- *@
-    @*     --><a href="#" class="active-page">1</a><!-- *@
-    @*     --><a href="#">2</a><!-- *@
-    @*     --><a href="#">3</a><!-- *@
-    @*     --><a href="#">4</a><!-- *@
-    @*     --><a href="#">5</a><!-- *@
-    @*     --><a href="#">></a> *@
-    @* </div> *@
 </div>
-
-<!--
-
-<table class="table table-striped dashboard-results">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Contact Email</th>
-        <th>Contact Phone</th>
-        <th>Item Listings</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    @foreach (Business business in Model.Businesses)
-    {
-        <tr>
-            <td>@business.Name</td>
-            <td>@business.ContactEmail</td>
-            <td>@business.ContactPhone</td>
-            <td><a asp-action="StoreListings" asp-route-businessId="@business.BusinessId">See Listings</a></td>
-        </tr>
-    }
-    </tbody>
-</table>
-
--->
 
 @section Scripts{
     <script type="text/javascript">

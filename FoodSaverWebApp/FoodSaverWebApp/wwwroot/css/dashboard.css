@@ -167,6 +167,11 @@
     padding: 0 1rem;
 }
 
+.card-secondary > .v-center > p {
+    margin: 0;
+    padding: 0;
+}
+
 @media (max-width: 400px) {
     .dashboard-page-nav a {
         font-size: 14px;
