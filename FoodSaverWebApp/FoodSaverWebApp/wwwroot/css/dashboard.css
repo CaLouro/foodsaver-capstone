@@ -9,6 +9,16 @@
     transform: translateY(-50%);
 }
 
+.h-center {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
 .dashboard-center-container {
     background-color: white;
     width: 100%;
@@ -59,12 +69,24 @@
     color: black;
 }
 
+.dashboard-nav-search-container {
+    max-width: 500px;
+}
+
+.dashboard-nav-search-container div span {
+    width: 100%;
+    color: #6E8387;
+}
+
 .dashboard-nav-search {
     display: inline-block;
     border-radius: 10px;
     border: 1px solid rgb(200, 211, 213);
+    width: 80%;
     height: 2.4rem;
     padding: 0.4rem;
+    margin: 0 0.5rem;
+    color: black;
 }
 
 .dashboard-results {
