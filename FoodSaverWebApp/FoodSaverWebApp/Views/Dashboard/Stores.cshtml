@@ -20,33 +20,53 @@
         @foreach (Business business in Model.Businesses)
         {
             <div class="dashboard-result-card">
-                <div class="v-center">
-                    <div class="dashboard-result-card-left">
-                        <h4>@business.Name</h4>
-                        <p>Tags</p>
-
-                        @* The favorite icon *@
-                        <span
-                            class="favoriteIconWrapper"
+                <div class="v-center d-flex justify-content-between" style="height:100%;">
+                    <button class="card-icon card-section-container"
+                            style="border-radius: 20px 0 0 20px;"
                             onclick="toggleFavorite()"
-                            data-business-id="@business.BusinessId"
-                            data-favorite-state="@Model.IsFavoriteBusiness(business)">
-                            <i
-                                class="material-icons favoriteIcon animate-300 fadeIn noSelect"
-                                data-is-favorite="True">
-                                favorite
-                            </i>
-                            <i
-                                class="material-icons favoriteIcon animate-300 fadeIn noSelect"
-                                data-is-favorite="False">
-                                favorite_border
-                            </i>
-                        </span>
-
+                            button-for="favorite">
+                        <div class="v-center">
+                            @* The favorite icon *@
+                            <span
+                                class="favoriteIconWrapper"
+                                data-business-id="@business.BusinessId"
+                                data-favorite-state="@Model.IsFavoriteBusiness(business)">
+                                <i
+                                    class="material-icons favoriteIcon animate-300 fadeIn noSelect"
+                                    data-is-favorite="True">
+                                    favorite
+                                </i>
+                                <i
+                                    class="material-icons favoriteIcon animate-300 fadeIn noSelect"
+                                    data-is-favorite="False">
+                                    favorite_border
+                                </i>
+                            </span>
+                        </div>
+                    </button>
+                    <div class="card-first card-section-container"
+                         style="width: 55%;">
+                        <div class="v-center">
+                            <h4>@business.Name</h4>
+                            <span>Tags</span>
+                        </div>
                     </div>
-                    <div class="dashboard-result-card-right">
-                        Test
+                    <div class="card-secondary card-section-container"
+                         style="width: 25%;">
+                        <div class="v-center">
+                            Test
+                        </div>
                     </div>
+                    <button class="card-icon card-section-container"
+                            style="border-radius: 0 20px 20px 0;"
+                            button-for="select"
+                            onclick="location.href='@Url.Action("StoreListings", "Dashboard", new { businessId = @business.BusinessId })'">
+                        <div class="v-center">
+                            <i class="material-icons arrowForwardIcon">
+                                arrow_forward_ios
+                            </i>
+                        </div>
+                    </button>
                 </div>
             </div>
         }
@@ -93,7 +113,7 @@
 @section Scripts{
     <script type="text/javascript">
         function toggleFavorite() {            
-            let span = $(event.currentTarget);
+            let span = $(event.currentTarget).find('div span');
             if ( span.attr("data-favorite-state") === "True" ) {
                 span.attr("data-favorite-state", "False");
                 

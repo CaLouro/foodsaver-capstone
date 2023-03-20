@@ -93,8 +93,14 @@
 
 .dashboard-result-card-right {
     float: right;
+    padding-right: 2rem;
 }
 
+.card-section-container {
+    position: relative;
+}
+
+/*
 .dashboard-page-nav {
     max-width: 500px;
     margin: 0 auto;
@@ -122,6 +128,43 @@
 .dashboard-page-nav .active-page {
     background-color: #0CCA4A;
     color: #FCFAFA;
+}
+*/
+
+.dashboard-result-card-left .card-main-text {
+    margin-left: 3rem;
+}
+
+.dashboard-result-card-right .card-main-text {
+    margin-right: 3rem;
+}
+
+.card-icon {
+    background: none;
+    text-align: center;
+    width: 10%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    transition: background-color 150ms;
+}
+
+.card-icon[button-for="favorite"]:hover {
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+.card-icon[button-for="select"]:hover {
+    background-color: rgb(200, 211, 213, 0.5);
+}
+
+.card-first {
+    height: 100%;
+    padding: 0 1rem;
+}
+
+.card-secondary {
+    height: 100%;
+    padding: 0 1rem;
 }
 
 @media (max-width: 400px) {
