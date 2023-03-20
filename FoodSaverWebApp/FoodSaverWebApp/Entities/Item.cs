@@ -32,7 +32,7 @@ namespace FoodSaverWebApp.Entities
         {
             foreach (DiscountInfo discountInfo in DiscountInfo)
             {
-                if (discountInfo.isActive())
+                if (discountInfo.IsActive())
                     return discountInfo;
             }
 
