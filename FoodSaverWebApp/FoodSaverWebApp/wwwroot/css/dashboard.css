@@ -9,15 +9,6 @@
     transform: translateY(-50%);
 }
 
-.dashboard-sidebar {
-    display: none;
-    background-color: #FCFAFA;
-    width: 300px;
-    height: calc(100vh - 176px);
-    position: absolute;
-    left: 0;
-}
-
 .dashboard-center-container {
     background-color: white;
     width: 100%;
@@ -38,12 +29,14 @@
     position: relative;
     background-color: #FCFAFA;
     width: 100%;
-    height: 4.5rem;
-    padding: 0 1.5rem;
 
     border-radius: 0 0 10px 10px;
     border-bottom: 2px solid;
     border-color: #C8D3D5;
+}
+
+.dashboard-navigation .v-center {
+    padding: 0 1.5rem;
 }
 
 .dashboard-nav-button {
@@ -66,6 +59,14 @@
     color: black;
 }
 
+.dashboard-nav-search {
+    display: inline-block;
+    border-radius: 10px;
+    border: 1px solid rgb(200, 211, 213);
+    height: 2.4rem;
+    padding: 0.4rem;
+}
+
 .dashboard-results {
     width: 75%;
     margin: 0 auto;
@@ -81,62 +82,8 @@
     box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.25);
 }
 
-.dashboard-result-card-left {
-    float: left;
-    padding-left: 2rem;
-}
-
-.dashboard-result-card-left p {
-    margin: 0;
-    padding: 0;
-}
-
-.dashboard-result-card-right {
-    float: right;
-    padding-right: 2rem;
-}
-
 .card-section-container {
     position: relative;
-}
-
-/*
-.dashboard-page-nav {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 0.5rem;
-    text-align: center;
-}
-
-.dashboard-page-nav a {
-    display: inline-block;
-    background: none;
-    text-decoration: none;
-    font-size: 18px;
-    color: #6E8387;
-    padding: 0.5rem 1rem;
-    margin: 0 0.5rem;
-    border-radius: 10px;
-    transition: background 250ms, color 250ms;
-}
-
-.dashboard-page-nav a:not(.active-page):hover {
-    background: rgba(0, 0, 0, 0.1);
-    color: black;
-}
-
-.dashboard-page-nav .active-page {
-    background-color: #0CCA4A;
-    color: #FCFAFA;
-}
-*/
-
-.dashboard-result-card-left .card-main-text {
-    margin-left: 3rem;
-}
-
-.dashboard-result-card-right .card-main-text {
-    margin-right: 3rem;
 }
 
 .card-icon {
@@ -154,20 +101,15 @@
 }
 
 .card-icon[button-for="select"]:hover {
-    background-color: rgb(200, 211, 213, 0.5);
+    background-color: rgba(200, 211, 213, 0.5);
 }
 
-.card-first {
+.card-text {
     height: 100%;
     padding: 0 1rem;
 }
 
-.card-secondary {
-    height: 100%;
-    padding: 0 1rem;
-}
-
-.card-secondary > .v-center > p {
+.card-text > .v-center > p {
     margin: 0;
     padding: 0;
 }

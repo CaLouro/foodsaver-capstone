@@ -62,6 +62,21 @@ namespace FoodSaverWebApp.Controllers
             return View(items);
         }
 
+        [HttpGet("/Dashboard/Favorites")]
+        public async Task<IActionResult> Favorites()
+        {
+            var business = await _businessService.GetAllBusinesses();
+            var userBusinesses = await _businessService.GetUserFavoriteBusinesses();
+
+            var model = new StoreDashboardModel
+            {
+                Businesses = business.ToList(),
+                FavoriteBusinesses = userBusinesses.ToList(),
+            };
+
+            return View(model);
+        }
+
         [HttpPost("/Dashboard/ToggleFavorite")]
         public async Task<IActionResult> BusinessFavoriteToggle(int? businessId, bool? isFavorite)
         {

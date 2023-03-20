@@ -4,33 +4,49 @@
     ViewData["Title"] = "Dashboard - Deals";
 }
 
-<div class="text-center">
-    <h1 class="display-4">@ViewData["Title"]</h1>
+<div class="dashboard-center-container">
+    <div class="dashboard-navigation"
+         style="height: 4.5rem;">
+        <div class="v-center">
+            <button class="dashboard-nav-button"
+                    onclick="location.href='@Url.Action("Stores", "Dashboard")'">Stores</button>
+            <button class="dashboard-nav-button dashboard-nav-button-active">Products</button>
+            <button class="dashboard-nav-button"
+                    style="float:right; margin: 0;"
+                    onclick="location.href='@Url.Action("Favorites", "Dashboard")'">Favorites</button>
+        </div>
+    </div>
+
+    <div class="dashboard-results">
+        @foreach (Item item in Model)
+        {
+            <div class="dashboard-result-card">
+                <div class="v-center d-flex justify-content-between" style="height:100%;">
+                    <div class="card-text card-section-container"
+                         style="width: 50%; padding-left: 3rem;">
+                        <div class="v-center">
+                            <h4>@item.Name <span style="font-size: 16px;">@($"{item.StandardPrice:c}")</span></h4>
+                            <span>@item.Description</span>
+                        </div>
+                    </div>
+                    <div class="card-text card-section-container"
+                         style="width: 40%;">
+                        <div class="v-center">
+                            <p>@item.Business.Name</p>
+                            <p style="color:rgba(0, 0, 0, 0.4)">@item.Business.Address.Line1, @item.Business.Address.City, @item.Business.Address.ProvinceCode</p>
+                        </div>
+                    </div>
+                    <button class="card-icon card-section-container"
+                            style="border-radius: 0 20px 20px 0;"
+                            button-for="select">
+                        <div class="v-center">
+                            <i class="material-icons arrowForwardIcon">
+                                arrow_forward_ios
+                            </i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
 </div>
-
-<a asp-action="Stores" asp-controller="Dashboard">Stores</a>
-
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Location</th>
-        <th>Business</th>
-    </tr>
-    </thead>
-    
-    <tbody>
-    @foreach (Item item in Model)
-    {
-        <tr>
-            <td>@item.Name</td>
-            <td>@item.Description</td>
-            <td>@($"{item.StandardPrice:c}")</td>
-            <td>@item.Business.Address.City, @item.Business.Address.Line1</td>
-            <td>@item.Business.Name</td>
-        </tr>
-    }
-    </tbody>
-</table>

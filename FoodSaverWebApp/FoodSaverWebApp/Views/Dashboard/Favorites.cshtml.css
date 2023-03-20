@@ -1,0 +1,30 @@
+﻿.favoriteIconWrapper {
+    display: inline-block;
+}
+
+.favoriteIconWrapper[data-favorite-state="True"] .favoriteIcon[data-is-favorite="True"],
+.favoriteIconWrapper[data-favorite-state="False"] .favoriteIcon[data-is-favorite="False"] {
+    display: inline-block;
+}
+
+.favoriteIconWrapper[data-favorite-state="True"] .favoriteIcon[data-is-favorite="False"],
+.favoriteIconWrapper[data-favorite-state="False"] .favoriteIcon[data-is-favorite="True"] {
+    display: none;
+}
+
+.favoriteIcon {
+    cursor: pointer;
+}
+
+.favoriteIcon[data-is-favorite="True"] {
+    color: red;
+}
+
+.favoriteIcon[data-is-favorite="False"] {
+    color: gray;
+}
+
+.arrowForwardIcon {
+    cursor: pointer;
+    color: gray;
+}

@@ -4,27 +4,55 @@
     ViewBag.Title = "Store Listings";
 }
 
-<h1>@Model.Business.Name</h1>
-<h4>Address: @Model.Business.Address.Line1 @Model.Business.Address.City, @Model.Business.Address.ProvinceCode</h4>
+<div class="dashboard-center-container">
+    <div class="dashboard-navigation"
+         style="height: 9rem;">
+        <p>Still working on this</p>
+        <div class="v-center">
+            <button class="dashboard-nav-button"
+                    onclick="location.href='@Url.Action("Stores", "Dashboard")'">Stores</button>
+            <button class="dashboard-nav-button"
+                    onclick="location.href='@Url.Action("Deals", "Dashboard")'">Products</button>
+            <button class="dashboard-nav-button"
+                    style="float:right; margin: 0;"
+                    onclick="location.href='@Url.Action("Favorites", "Dashboard")'">Favorites</button>
+            <div style="display: inline-block;">
+                <input type="text"
+                       class="dashboard-nav-search"
+                       id="dashboardSearch"/>
+            </div>
+        </div>
+    </div>
 
-<a asp-action="Stores" asp-controller="Dashboard">Back</a>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Standard Price</th>
-    </tr>
-    </thead>
-    
-    <tbody>
-    @foreach (Item item in Model.Items)
-    {
-        <tr>
-            <td>@item.Name</td>
-            <td>@item.Description</td>
-            <td>@($"{item.StandardPrice:c}")</td>
-        </tr>
-    }
-    </tbody>
-</table>
+    <div class="dashboard-results">
+        @foreach (Item item in Model.Items)
+        {
+            <div class="dashboard-result-card">
+                <div class="v-center d-flex justify-content-between" style="height:100%;">
+                    <div class="card-text card-section-container"
+                         style="width: 40%; padding-left: 3rem;">
+                        <div class="v-center">
+                            <h4>@item.Name</h4>
+                            <span>@($"{item.StandardPrice:c}")</span>
+                        </div>
+                    </div>
+                    <div class="card-text card-section-container"
+                         style="width: 50%;">
+                        <div class="v-center">
+                            <p>@item.Description</p>
+                        </div>
+                    </div>
+                    <button class="card-icon card-section-container"
+                            style="border-radius: 0 20px 20px 0;"
+                            button-for="select">
+                        <div class="v-center">
+                            <i class="material-icons arrowForwardIcon">
+                                arrow_forward_ios
+                            </i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
