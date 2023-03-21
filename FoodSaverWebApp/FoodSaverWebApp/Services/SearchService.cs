@@ -15,7 +15,7 @@ namespace FoodSaverWebApp.Services
 
                 var results = PerformSearch(businessList, objectTokens, searchTokens);
 
-                searchResult = results.Values.ToList();
+                searchResult = results.Values.Reverse().ToList();
             });
 
             return searchResult;
@@ -28,11 +28,11 @@ namespace FoodSaverWebApp.Services
 
         protected string[] BreakdownSearchParameters(string searchFrase, ISet<Tag>? tags)
         {
-            var tokens = new List<string>(searchFrase.Split(" "));
+            var tokens = new List<string>(searchFrase.ToLower().Split(" "));
 
             if (tags != null)
             {
-                tokens.AddRange(tags.ToList().ConvertAll(t => t.Name));
+                tokens.AddRange(tags.ToList().ConvertAll(t => t.Name.ToLower()));
             }
 
             return tokens.ToArray();
@@ -62,36 +62,37 @@ namespace FoodSaverWebApp.Services
             tokens.AddRange(
                 business.Address
                     .PresentAddress(showProvince: true, showPostalCode: true)
+                    .ToLower()
                     .Replace(",", "")
                     .Split(" "));
 
             tokens.AddRange(
                 business.Tags
-                    .ConvertAll(t => t.Name));
+                    .ConvertAll(t => t.Name.ToLower()));
 
             if (business.ContactEmail != null)
             {
-                tokens.Add(business.ContactEmail);
+                tokens.Add(business.ContactEmail.ToLower());
             }
 
             if (business.ContactPhone != null)
             {
-                tokens.Add(business.ContactPhone);
+                tokens.Add(business.ContactPhone.ToLower());
             }
 
             return tokens.ToArray();
         }
 
-        protected SortedDictionary<int, T> PerformSearch<T>(List<T> list, string[][] objectsTokens, string[] searchTokens)
+        protected SortedDictionary<int, T> PerformSearch<T>(List<T> objects, string[][] objectsTokens, string[] searchTokens)
         {
             var results = new SortedDictionary<int, T>();
 
-            for (int i = 0; i <= list.Count; i++)
+            for (int i = 0; i <= objects.Count; i++)
             {
                 var count = CountTokenMatches(objectsTokens[i], searchTokens);
                 if (count > 0)
                 {
-                    results.Add(count, list[i]);
+                    results.Add(count, objects[i]);
                 }
             }
 
