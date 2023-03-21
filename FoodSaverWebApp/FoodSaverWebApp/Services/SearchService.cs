@@ -4,13 +4,13 @@ namespace FoodSaverWebApp.Services
 {
     public class SearchService : ISearchService
     {
-        public async Task<List<Business>> Search(List<Business> businessList, string searchFrase, ISet<Tag>? tags = null)
+        public async Task<List<Business>> Search(List<Business> businessList, string searchPhrase, ISet<Tag>? tags = null)
         {
             var searchResult = new List<Business>();
 
             await Task.Run(() =>
             {
-                var searchTokens = BreakdownSearchParameters(searchFrase, tags);
+                var searchTokens = BreakdownSearchParameters(searchPhrase, tags);
                 var objectTokens = BreakdownBusinessList(businessList);
 
                 var results = PerformSearch(businessList, objectTokens, searchTokens);
@@ -82,9 +82,9 @@ namespace FoodSaverWebApp.Services
             return tokens.ToArray();
         }
 
-        protected SortedList<int, T> PerformSearch<T>(List<T> list, string[][] objectsTokens, string[] searchTokens)
+        protected SortedDictionary<int, T> PerformSearch<T>(List<T> list, string[][] objectsTokens, string[] searchTokens)
         {
-            var results = new SortedList<int, T>();
+            var results = new SortedDictionary<int, T>();
 
             for (int i = 0; i <= list.Count; i++)
             {
