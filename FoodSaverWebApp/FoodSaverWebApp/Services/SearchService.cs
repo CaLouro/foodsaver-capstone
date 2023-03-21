@@ -7,7 +7,6 @@ namespace FoodSaverWebApp.Services
         public async Task<List<Business>> Search(List<Business> businessList, string searchPhrase, ISet<Tag>? tags = null)
         {
             var searchResult = new List<Business>();
-
             await Task.Run(() =>
             {
                 var searchTokens = BreakdownSearchParameters(searchPhrase, tags);
@@ -17,14 +16,12 @@ namespace FoodSaverWebApp.Services
 
                 searchResult = results.Values.Reverse().ToList();
             });
-
             return searchResult;
         }
 
         public async Task<List<DiscountInfo>> Search(List<DiscountInfo> discountInfos, string searchPhrase, ISet<Tag>? tags = null)
         {
             var searchResult = new List<DiscountInfo>();
-
             await Task.Run(() =>
             {
                 var searchTokens = BreakdownSearchParameters(searchPhrase, tags);
@@ -34,31 +31,26 @@ namespace FoodSaverWebApp.Services
 
                 searchResult = results.Values.Reverse().ToList();
             });
-
             return searchResult;
         }
 
         protected string[] BreakdownSearchParameters(string searchPhrase, ISet<Tag>? tags)
         {
             var tokens = new List<string>(searchPhrase.ToLower().Split(" "));
-
             if (tags != null)
             {
                 tokens.AddRange(tags.ToList().ConvertAll(t => t.Name.ToLower()));
             }
-
             return tokens.ToArray();
         }
 
         protected string[][] BreakdownBusinessList(List<Business> businessList)
         {
             var tokens = new string[businessList.Count][];
-
             for (int i = 0; i < businessList.Count; i++)
             {
                 tokens[i] = BreakdownBusiness(businessList[i]);
             }
-
             return tokens;
         }
 
@@ -98,12 +90,10 @@ namespace FoodSaverWebApp.Services
         protected string[][] BreakdownDiscountInfoList(List<DiscountInfo> discountList)
         {
             var tokens = new string[discountList.Count][];
-
             for (int i = 0; i < discountList.Count; i++)
             {
                 tokens[i] = BreakdownDiscountInfo(discountList[i]);
             }
-
             return tokens;
         }
 
@@ -133,7 +123,6 @@ namespace FoodSaverWebApp.Services
         protected SortedDictionary<int, T> PerformSearch<T>(List<T> objects, string[][] objectsTokens, string[] searchTokens)
         {
             var results = new SortedDictionary<int, T>();
-
             for (int i = 0; i <= objects.Count; i++)
             {
                 var count = CountTokenMatches(objectsTokens[i], searchTokens);
@@ -142,26 +131,16 @@ namespace FoodSaverWebApp.Services
                     results.Add(count, objects[i]);
                 }
             }
-
             return results;
         }
 
         protected int CountTokenMatches(string[] objectTokens, string[] searchTokens)
         {
-            int count = 0;
-
-            foreach (var oToken in objectTokens)
-            {
-                foreach (var sToken in searchTokens)
-                {
-                    if (oToken == sToken)
-                    {
-                        count++;
-                    }
-                }
-            }
-
-            return count;
+            return (
+                from oToken in objectTokens 
+                from sToken in searchTokens 
+                where oToken == sToken 
+                select oToken).Count();
         }
     }
 }
