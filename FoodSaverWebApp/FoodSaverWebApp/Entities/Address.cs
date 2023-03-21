@@ -1,5 +1,6 @@
 ﻿using Postgrest.Attributes;
 using Postgrest.Models;
+using System.Text;
 
 namespace FoodSaverWebApp.Entities
 {
@@ -23,5 +24,35 @@ namespace FoodSaverWebApp.Entities
 
         [Column("postal_code")]
         public string PostalCode { get; set; }
+
+        public string PresentAddress(bool showCity = true, bool showProvince = false, bool showPostalCode = false)
+        {
+            var buffer = new StringBuilder(Line1);
+
+            if (Line2 != null)
+            {
+                buffer.Append(Line2);
+            }
+
+            if (showCity)
+            {
+                buffer.Append(", ");
+                buffer.Append(City);
+            }
+
+            if (showProvince)
+            {
+                buffer.Append(", ");
+                buffer.Append(ProvinceCode);
+            }
+
+            if (showPostalCode)
+            {
+                buffer.Append(", ");
+                buffer.Append(PostalCode);
+            }
+
+            return buffer.ToString();
+        }
     }
 }
