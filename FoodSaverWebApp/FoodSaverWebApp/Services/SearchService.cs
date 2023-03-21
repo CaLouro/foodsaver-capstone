@@ -21,14 +21,26 @@ namespace FoodSaverWebApp.Services
             return searchResult;
         }
 
-        public async Task<List<DiscountInfo>> Search(List<DiscountInfo> discountInfos, string searchFrase, ISet<Tag>? tags = null)
+        public async Task<List<DiscountInfo>> Search(List<DiscountInfo> discountInfos, string searchPhrase, ISet<Tag>? tags = null)
         {
-            return discountInfos;
+            var searchResult = new List<DiscountInfo>();
+
+            await Task.Run(() =>
+            {
+                var searchTokens = BreakdownSearchParameters(searchPhrase, tags);
+                var objectTokens = BreakdownDiscountInfoList(discountInfos);
+
+                var results = PerformSearch(discountInfos, objectTokens, searchTokens);
+
+                searchResult = results.Values.Reverse().ToList();
+            });
+
+            return searchResult;
         }
 
-        protected string[] BreakdownSearchParameters(string searchFrase, ISet<Tag>? tags)
+        protected string[] BreakdownSearchParameters(string searchPhrase, ISet<Tag>? tags)
         {
-            var tokens = new List<string>(searchFrase.ToLower().Split(" "));
+            var tokens = new List<string>(searchPhrase.ToLower().Split(" "));
 
             if (tags != null)
             {
@@ -79,6 +91,41 @@ namespace FoodSaverWebApp.Services
             {
                 tokens.Add(business.ContactPhone.ToLower());
             }
+
+            return tokens.ToArray();
+        }
+
+        protected string[][] BreakdownDiscountInfoList(List<DiscountInfo> discountList)
+        {
+            var tokens = new string[discountList.Count][];
+
+            for (int i = 0; i < discountList.Count; i++)
+            {
+                tokens[i] = BreakdownDiscountInfo(discountList[i]);
+            }
+
+            return tokens;
+        }
+
+        protected string[] BreakdownDiscountInfo(DiscountInfo discount)
+        {
+            var tokens = new List<string>();
+
+            tokens.AddRange(
+                discount.Item.Name
+                    .ToLower()
+                    .Split(" "));
+
+            if (discount.Item.Description != null)
+            {
+                tokens.AddRange(
+                    discount.Item.Description
+                        .ToLower()
+                        .Split(" "));
+            }
+
+            tokens.AddRange(
+                BreakdownBusiness(discount.Item.Business));
 
             return tokens.ToArray();
         }
