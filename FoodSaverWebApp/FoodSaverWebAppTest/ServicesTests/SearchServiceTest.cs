@@ -7,7 +7,7 @@
         [TestCase("Coffee Shop", ExpectedResult = new string[] { "coffee", "shop" })]
         public string[] BreakdownSearchParameters_SearchStringNoTags(string searchInput)
         {
-            return BreakdownSearchParameters(searchInput, null);
+            return TokenizeSearchParameters(searchInput, null);
         }
     }
 }

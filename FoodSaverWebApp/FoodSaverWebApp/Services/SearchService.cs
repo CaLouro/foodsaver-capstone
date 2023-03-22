@@ -2,59 +2,98 @@
 
 namespace FoodSaverWebApp.Services
 {
+    public delegate string[][] Tokenizer<T>(List<T> objects);
+
+    public delegate string[] TokenizeObject<T>(T obj);
+
     public class SearchService : ISearchService
     {
-        public async Task<List<Business>> Search(List<Business> businessList, string searchPhrase, ISet<Tag>? tags = null)
+        public Task<List<Business>> Search(List<Business> businessList, string searchPhrase,
+            ISet<Tag>? tags = null)
         {
-            var searchResult = new List<Business>();
-            await Task.Run(() =>
-            {
-                var searchTokens = BreakdownSearchParameters(searchPhrase, tags);
-                var objectTokens = BreakdownBusinessList(businessList);
-
-                var results = PerformSearch(businessList, objectTokens, searchTokens);
-
-                searchResult = results.Values.Reverse().ToList();
-            });
-            return searchResult;
+            return SetupSearch(businessList, list => TokenizeManyObjects(list, TokenizeBusiness),
+                searchPhrase, tags);
         }
 
-        public async Task<List<DiscountInfo>> Search(List<DiscountInfo> discountInfos, string searchPhrase, ISet<Tag>? tags = null)
+        public Task<List<DiscountInfo>> Search(List<DiscountInfo> discountList, string searchPhrase,
+            ISet<Tag>? tags = null)
         {
-            var searchResult = new List<DiscountInfo>();
-            await Task.Run(() =>
-            {
-                var searchTokens = BreakdownSearchParameters(searchPhrase, tags);
-                var objectTokens = BreakdownDiscountInfoList(discountInfos);
-
-                var results = PerformSearch(discountInfos, objectTokens, searchTokens);
-
-                searchResult = results.Values.Reverse().ToList();
-            });
-            return searchResult;
+            return SetupSearch(discountList, list => TokenizeManyObjects(list, TokenizeDiscountInfo), searchPhrase,
+                tags);
         }
 
-        protected string[] BreakdownSearchParameters(string searchPhrase, ISet<Tag>? tags)
+        public Task<List<Item>> Search(List<Item> itemsList, string searchPhrase, ISet<Tag>? tags = null)
+        {
+            return SetupSearch(itemsList, list => TokenizeManyObjects(list, TokenizeItem), searchPhrase, tags);
+        }
+
+        protected async Task<List<T>> SetupSearch<T>(List<T> objects, Tokenizer<T> objectsTokenizer,
+            string searchPhrase,
+            ISet<Tag>? tags)
+        {
+            var searchResults = new List<T>();
+            await Task.Run(() =>
+            {
+                searchPhrase = searchPhrase.Trim();
+                var searchTokens = TokenizeSearchParameters(searchPhrase, tags);
+                var objectTokens = objectsTokenizer(objects);
+
+                var results = ActSearch(objects, objectTokens, searchTokens);
+                searchResults = results.Values.Reverse().ToList();
+            });
+
+            return searchResults;
+        }
+
+        protected SortedDictionary<int, T> ActSearch<T>(List<T> objects, string[][] objectsTokens,
+            string[] searchTokens)
+        {
+            var results = new SortedDictionary<int, T>();
+
+            for (int i = 0; i <= objects.Count; i++)
+            {
+                var count = CountTokenMatches(objectsTokens[i], searchTokens);
+                if (count > 0)
+                {
+                    results.Add(count, objects[i]);
+                }
+            }
+
+            return results;
+        }
+
+        protected int CountTokenMatches(string[] objectTokens, string[] searchTokens)
+        {
+            return (
+                from oToken in objectTokens
+                from sToken in searchTokens
+                where oToken == sToken
+                select oToken).Count();
+        }
+
+        protected string[] TokenizeSearchParameters(string searchPhrase, ISet<Tag>? tags)
         {
             var tokens = new List<string>(searchPhrase.ToLower().Split(" "));
             if (tags != null)
             {
                 tokens.AddRange(tags.ToList().ConvertAll(t => t.Name.ToLower()));
             }
+
             return tokens.ToArray();
         }
 
-        protected string[][] BreakdownBusinessList(List<Business> businessList)
+        protected string[][] TokenizeManyObjects<T>(List<T> objects, TokenizeObject<T> tokenizer)
         {
-            var tokens = new string[businessList.Count][];
-            for (int i = 0; i < businessList.Count; i++)
+            var tokens = new string[objects.Count][];
+            for (int i = 0; i < objects.Count; i++)
             {
-                tokens[i] = BreakdownBusiness(businessList[i]);
+                tokens[i] = tokenizer(objects[i]);
             }
+
             return tokens;
         }
 
-        protected string[] BreakdownBusiness(Business business)
+        protected string[] TokenizeBusiness(Business business)
         {
             var tokens = new List<string>();
 
@@ -87,60 +126,32 @@ namespace FoodSaverWebApp.Services
             return tokens.ToArray();
         }
 
-        protected string[][] BreakdownDiscountInfoList(List<DiscountInfo> discountList)
+        protected string[] TokenizeDiscountInfo(DiscountInfo discount)
         {
-            var tokens = new string[discountList.Count][];
-            for (int i = 0; i < discountList.Count; i++)
-            {
-                tokens[i] = BreakdownDiscountInfo(discountList[i]);
-            }
-            return tokens;
+            return TokenizeItem(discount.Item);
         }
 
-        protected string[] BreakdownDiscountInfo(DiscountInfo discount)
+        protected string[] TokenizeItem(Item item)
         {
             var tokens = new List<string>();
 
             tokens.AddRange(
-                discount.Item.Name
+                item.Name
                     .ToLower()
                     .Split(" "));
 
-            if (discount.Item.Description != null)
+            if (item.Description != null)
             {
                 tokens.AddRange(
-                    discount.Item.Description
+                    item.Description
                         .ToLower()
                         .Split(" "));
             }
 
             tokens.AddRange(
-                BreakdownBusiness(discount.Item.Business));
+                TokenizeBusiness(item.Business));
 
             return tokens.ToArray();
-        }
-
-        protected SortedDictionary<int, T> PerformSearch<T>(List<T> objects, string[][] objectsTokens, string[] searchTokens)
-        {
-            var results = new SortedDictionary<int, T>();
-            for (int i = 0; i <= objects.Count; i++)
-            {
-                var count = CountTokenMatches(objectsTokens[i], searchTokens);
-                if (count > 0)
-                {
-                    results.Add(count, objects[i]);
-                }
-            }
-            return results;
-        }
-
-        protected int CountTokenMatches(string[] objectTokens, string[] searchTokens)
-        {
-            return (
-                from oToken in objectTokens 
-                from sToken in searchTokens 
-                where oToken == sToken 
-                select oToken).Count();
         }
     }
 }
