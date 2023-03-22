@@ -4,35 +4,53 @@
     ViewData["Title"] = "Admin Dashboard - Stores";
 }
 
-<div class="text-center">
-    <h1 class="display-4">@ViewData["Title"]</h1>
-</div>
+<div class="dashboard-center-container">
+    <div class="dashboard-navigation"
+         style="height: 4.5rem;">
+        <div class="v-center">
+        </div>
+        <div class="h-center dashboard-nav-search-container">
+            <div class="v-center d-flex justify-content-center">
+                <span>Search:
+                    <input type="text"
+                           class="dashboard-nav-search"
+                           id="dashboardSearch"/>
+                </span>
+            </div>
+        </div>
+    </div>
 
-<a asp-action="AdminRegisterStore" asp-controller="AdminDashboard">New Store</a>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Contact Email</th>
-        <th>Contact Phone</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    
-    <tbody>
-    @foreach (Business business in Model)
-    {
-        <tr>
-            <td><a asp-action="AdminStoreItems"
-                   asp-controller="AdminDashboard"
-                   asp-route-businessId="@business.BusinessId">@business.Name</a></td>
-            <td>@business.ContactEmail</td>
-            <td>@business.ContactPhone</td>
-            <td>
-                <a asp-action="AdminEditStore" asp-route-businessId="@business.BusinessId">Edit</a> | 
-                <a asp-action="AdminDeleteStore" asp-route-businessId="@business.BusinessId">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+    <div class="dashboard-results">
+        @foreach (Business business in Model)
+        {
+            <div class="dashboard-result-card">
+                <div class="v-center d-flex justify-content-between" style="height:100%;">
+                    <div class="card-text card-section-container"
+                         style="width: 50%; padding-left: 3rem;">
+                        <div class="v-center">
+                            <h4>@business.Name</h4>
+                            <span>Tags</span>
+                        </div>
+                    </div>
+                    <div class="card-text card-section-container"
+                         style="width: 40%;">
+                        <div class="v-center">
+                            <p>@business.Address.Line1</p>
+                            <p>@business.Address.City, @business.Address.ProvinceCode</p>
+                        </div>
+                    </div>
+                    <button class="card-icon card-section-container"
+                            style="border-radius: 0 20px 20px 0;"
+                            button-for="select"
+                            onclick="location.href='@Url.Action("AdminStoreItems", "AdminDashboard", new { businessId = @business.BusinessId })'">
+                        <div class="v-center">
+                            <i class="material-icons dashboard-icon">
+                                arrow_forward_ios
+                            </i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

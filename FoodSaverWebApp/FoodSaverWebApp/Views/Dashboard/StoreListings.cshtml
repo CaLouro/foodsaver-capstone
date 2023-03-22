@@ -1,7 +1,7 @@
 ﻿@model ItemListModel
 
 @{
-    ViewBag.Title = "Store Listings";
+    ViewBag.Title = $"{@Model.Business.Name} Listings";
 }
 
 <div class="dashboard-center-container">
@@ -16,11 +16,6 @@
             <button class="dashboard-nav-button"
                     style="float:right; margin: 0;"
                     onclick="location.href='@Url.Action("Favorites", "Dashboard")'">Favorites</button>
-            <div style="display: inline-block;">
-                <input type="text"
-                       class="dashboard-nav-search"
-                       id="dashboardSearch"/>
-            </div>
         </div>
     </div>
 

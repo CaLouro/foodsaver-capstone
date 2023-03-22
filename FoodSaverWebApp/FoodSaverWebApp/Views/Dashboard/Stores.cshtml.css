@@ -23,8 +23,3 @@
 .favoriteIcon[data-is-favorite="False"] {
     color: gray;
 }
-
-.arrowForwardIcon {
-    cursor: pointer;
-    color: gray;
-}
