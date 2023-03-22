@@ -34,7 +34,6 @@ namespace FoodSaverWebApp.Services
             var searchResults = new List<T>();
             await Task.Run(() =>
             {
-                searchPhrase = searchPhrase.Trim();
                 var searchTokens = TokenizeSearchParameters(searchPhrase, tags);
                 var objectTokens = objectsTokenizer(objects);
 
@@ -71,9 +70,22 @@ namespace FoodSaverWebApp.Services
                 select oToken).Count();
         }
 
-        protected string[] TokenizeSearchParameters(string searchPhrase, ISet<Tag>? tags)
+        /// <summary>
+        /// Transforms the search phrase and the tags into a list of 'tokens', lowercase single-word strings.
+        /// </summary>
+        /// <param name="searchPhrase"></param>
+        /// <param name="tags"></param>
+        /// <returns></returns>
+        protected string[] TokenizeSearchParameters(string? searchPhrase, ISet<Tag>? tags)
         {
-            var tokens = new List<string>(searchPhrase.ToLower().Split(" "));
+            var tokens = new List<string>();
+
+            if (!string.IsNullOrWhiteSpace(searchPhrase))
+            {
+                tokens.AddRange(searchPhrase.Trim().ToLower()
+                    .Split(" ", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+            }
+            
             if (tags != null)
             {
                 tokens.AddRange(tags.ToList().ConvertAll(t => t.Name.ToLower()));
