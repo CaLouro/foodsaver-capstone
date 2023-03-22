@@ -61,6 +61,12 @@ namespace FoodSaverWebApp.Services
             return results;
         }
 
+        /// <summary>
+        /// Counts how many of the same tokens exists in both 'objectTokens' and 'searchTokens'.
+        /// </summary>
+        /// <param name="objectTokens"></param>
+        /// <param name="searchTokens"></param>
+        /// <returns></returns>
         protected int CountTokenMatches(string[] objectTokens, string[] searchTokens)
         {
             return (

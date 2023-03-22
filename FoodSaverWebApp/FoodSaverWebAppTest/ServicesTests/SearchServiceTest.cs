@@ -1,4 +1,5 @@
-﻿namespace FoodSaverWebAppTest.ServicesTests
+﻿// ReSharper disable RedundantExplicitArrayCreation
+namespace FoodSaverWebAppTest.ServicesTests
 {
     [TestFixture]
     public class SearchServiceTest : SearchService
@@ -37,6 +38,51 @@
             }
 
             return TokenizeSearchParameters(searchInput, tagSet);
+        }
+
+        [TestCase(
+            new string[] { },
+            new string[] { },
+            ExpectedResult = 0)]
+        [TestCase(
+            new string[] { },
+            new string[] { "pizza", "italian" },
+            ExpectedResult = 0)]
+        [TestCase(
+            new string[] { "coffee", "shop", "drinks", "art" },
+            new string[] { },
+            ExpectedResult = 0)]
+        [TestCase(
+            new string[] { "coffee", "shop", "drinks", "art" },
+            new string[] { "pizza", "italian" },
+            ExpectedResult = 0)]
+        [TestCase(
+            new string[] { "coffee", "shop", "drinks", "art" },
+            new string[] { "coffee" },
+            ExpectedResult = 1)]
+        [TestCase(
+            new string[] { "coffee", "shop", "drinks", "art" },
+            new string[] { "drinks" },
+            ExpectedResult = 1)]
+        [TestCase(
+            new string[] { "coffee", "shop", "drinks", "art" },
+            new string[] { "coffee", "shop" },
+            ExpectedResult = 2)]
+        [TestCase(
+            new string[] { "coffee", "shop", "drinks", "art" },
+            new string[] { "shop", "art" },
+            ExpectedResult = 2)]
+        [TestCase(
+            new string[] { "coffee", "shop", "drinks", "art" },
+            new string[] { "coffee", "shop", "drinks", "art" },
+            ExpectedResult = 4)]
+        [TestCase(
+            new string[] { "coffee", "shop", "drinks", "art" },
+            new string[] { "art", "coffee", "drinks", "shop" },
+            ExpectedResult = 4)]
+        public int CountTokenMatches_VariousInputs(string[] objectTokens, string[] searchTokens)
+        {
+            return CountTokenMatches(objectTokens, searchTokens);
         }
     }
 }
