@@ -7,7 +7,7 @@ namespace FoodSaverWebApp.Controllers
 {
     public class AuthController : Controller
     {
-        private IAuthService _auth;
+        private readonly IAuthService _auth;
 
         public AuthController(IAuthService auth)
         {
@@ -23,23 +23,23 @@ namespace FoodSaverWebApp.Controllers
         [HttpPost("/Signup")]
         public async Task<IActionResult> Registration(RegisterModel authModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    await _auth.CreateAccount(authModel);
-
-                    return RedirectToAction("Index", "Home");
-                }
-                catch (Supabase.Gotrue.BadRequestException ex)
-                {
-                    var result = JsonConvert.DeserializeObject<RegisterError>(ex.Content);
-                    ModelState.AddModelError(string.Empty, result.Message);
-                    return View();
-                }
+                return View();
             }
 
-            return RedirectToAction("Index", "Home");
+            try
+            {
+                await _auth.CreateAccount(authModel);
+            }
+            catch (Supabase.Gotrue.BadRequestException ex)
+            {
+                var result = JsonConvert.DeserializeObject<RegisterError>(ex.Content);
+                ModelState.AddModelError(string.Empty, result.Message);
+                return View();
+            }
+
+            return RedirectToAction("Index", "Dashboard");
         }
 
         [HttpGet("/Login")]
@@ -51,23 +51,23 @@ namespace FoodSaverWebApp.Controllers
         [HttpPost("/Login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    await _auth.SignIn(loginModel);
-
-                    return RedirectToAction("Index", "Home");
-                }
-                catch (Supabase.Gotrue.BadRequestException ex)
-                {
-                    var result = JsonConvert.DeserializeObject<LoginError>(ex.Content);
-                    ModelState.AddModelError(string.Empty, result.ErrorDescription);
-                    return View();
-                }
+                return View();
             }
 
-            return View();
+            try
+            {
+                await _auth.SignIn(loginModel);
+            }
+            catch (Supabase.Gotrue.BadRequestException ex)
+            {
+                var result = JsonConvert.DeserializeObject<LoginError>(ex.Content);
+                ModelState.AddModelError(string.Empty, result.ErrorDescription);
+                return View();
+            }
+
+            return RedirectToAction("Index", "Dashboard");
         }
 
         [HttpGet("/Logout")]
