@@ -340,15 +340,15 @@ namespace FoodSaverWebAppTest.ServicesTests
 
         #region TokenizeDiscountInfo Tests
 
-        [TestCaseSource(typeof(TokenizeDiscountInfoTestData), nameof(TokenizeDiscountInfoTestData.BusinessValues))]
-        public string[] TokenizeDiscountInfo_BusinessValues(DiscountInfo item)
+        [TestCaseSource(typeof(TokenizeDiscountInfoTestData), nameof(TokenizeDiscountInfoTestData.DiscountInfoValues))]
+        public string[] TokenizeDiscountInfo_DiscountInfoValues(DiscountInfo item)
         {
             return TokenizeDiscountInfo(item);
         }
 
         private class TokenizeDiscountInfoTestData
         {
-            public static IEnumerable BusinessValues
+            public static IEnumerable DiscountInfoValues
             {
                 get
                 {
@@ -460,15 +460,15 @@ namespace FoodSaverWebAppTest.ServicesTests
 
         #region TokenizeItem Tests
 
-        [TestCaseSource(typeof(TokenizeItemTestData), nameof(TokenizeItemTestData.BusinessValues))]
-        public string[] TokenizeItem_BusinessValues(Item item)
+        [TestCaseSource(typeof(TokenizeItemTestData), nameof(TokenizeItemTestData.ItemValues))]
+        public string[] TokenizeItem_ItemValues(Item item)
         {
             return TokenizeItem(item);
         }
 
         private class TokenizeItemTestData
         {
-            public static IEnumerable BusinessValues
+            public static IEnumerable ItemValues
             {
                 get
                 {
