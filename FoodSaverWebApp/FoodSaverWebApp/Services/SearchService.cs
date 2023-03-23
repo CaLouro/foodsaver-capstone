@@ -161,6 +161,11 @@ namespace FoodSaverWebApp.Services
             return TokenizeItem(discount.Item);
         }
 
+        /// <summary>
+        /// Generates an array of tokens based on meaningful information about the Item object. 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         protected string[] TokenizeItem(Item item)
         {
             var tokens = new List<string>();

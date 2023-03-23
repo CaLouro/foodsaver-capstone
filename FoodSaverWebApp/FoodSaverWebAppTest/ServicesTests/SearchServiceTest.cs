@@ -337,5 +337,116 @@ namespace FoodSaverWebAppTest.ServicesTests
         }
 
         #endregion
+
+        #region TokenizeItem Tests
+
+        [TestCaseSource(typeof(TokenizeItemTestData), nameof(TokenizeItemTestData.BusinessValues))]
+        public string[] TokenizeItem_BusinessValues(Item item)
+        {
+            return TokenizeItem(item);
+        }
+
+        private class TokenizeItemTestData
+        {
+            public static IEnumerable BusinessValues
+            {
+                get
+                {
+                    yield return new TestCaseData(new Item
+                    {
+                        Name = "Espresso",
+                        Business = new Business
+                        {
+                            Name = "Test Store",
+                            Address = new Address
+                            {
+                                Line1 = "123 Apple Street",
+                                City = "Toronto",
+                                ProvinceCode = "ON",
+                                PostalCode = "A1B2C3"
+                            }
+                        }
+                    }).Returns(new string[]
+                    {
+                        "espresso",
+                        "test",
+                        "store",
+                        "123",
+                        "apple",
+                        "street",
+                        "toronto",
+                        "on",
+                        "a1b2c3"
+                    });
+
+                    yield return new TestCaseData(new Item
+                    {
+                        Name = "Single Espresso",
+                        Business = new Business
+                        {
+                            Name = "Test Store",
+                            Address = new Address
+                            {
+                                Line1 = "123 Apple Street",
+                                City = "Toronto",
+                                ProvinceCode = "ON",
+                                PostalCode = "A1B2C3"
+                            }
+                        }
+                    }).Returns(new string[]
+                    {
+                        "single",
+                        "espresso",
+                        "test",
+                        "store",
+                        "123",
+                        "apple",
+                        "street",
+                        "toronto",
+                        "on",
+                        "a1b2c3"
+                    });
+
+                    yield return new TestCaseData(new Item
+                    {
+                        Name = "Single Espresso",
+                        Description = "A cup of nice and hot single espresso.",
+                        Business = new Business
+                        {
+                            Name = "Test Store",
+                            Address = new Address
+                            {
+                                Line1 = "123 Apple Street",
+                                City = "Toronto",
+                                ProvinceCode = "ON",
+                                PostalCode = "A1B2C3"
+                            }
+                        }
+                    }).Returns(new string[]
+                    {
+                        "single",
+                        "espresso",
+                        "a",
+                        "cup",
+                        "of",
+                        "nice",
+                        "and",
+                        "hot",
+                        "single",
+                        "espresso.",
+                        "test",
+                        "store",
+                        "123",
+                        "apple",
+                        "street",
+                        "toronto",
+                        "on",
+                        "a1b2c3"
+                    });
+                }
+            }
+        }
+
+        #endregion
     }
 }
