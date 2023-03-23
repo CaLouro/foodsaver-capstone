@@ -2,9 +2,9 @@
 
 namespace FoodSaverWebApp.Services
 {
-    public delegate string[][] Tokenizer<T>(List<T> objects);
+    public delegate string[][] ObjectListTokenizerCallback<T>(List<T> objects);
 
-    public delegate string[] TokenizeObject<T>(T obj);
+    public delegate string[] ObjectTokenizerCallback<T>(T obj);
 
     public class SearchService : ISearchService
     {
@@ -27,7 +27,7 @@ namespace FoodSaverWebApp.Services
             return SetupSearch(itemsList, list => TokenizeManyObjects(list, TokenizeItem), searchPhrase, tags);
         }
 
-        protected async Task<List<T>> SetupSearch<T>(List<T> objects, Tokenizer<T> objectsTokenizer,
+        protected async Task<List<T>> SetupSearch<T>(List<T> objects, ObjectListTokenizerCallback<T> objectsTokenizer,
             string searchPhrase,
             ISet<Tag>? tags)
         {
@@ -91,7 +91,7 @@ namespace FoodSaverWebApp.Services
                 tokens.AddRange(searchPhrase.Trim().ToLower()
                     .Split(" ", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
             }
-            
+
             if (tags != null)
             {
                 tokens.AddRange(tags.ToList().ConvertAll(t => t.Name.ToLower()));
@@ -107,7 +107,7 @@ namespace FoodSaverWebApp.Services
         /// <param name="tokenizer"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        protected string[][] TokenizeManyObjects<T>(List<T> objects, TokenizeObject<T> tokenizer)
+        protected string[][] TokenizeManyObjects<T>(List<T> objects, ObjectTokenizerCallback<T> tokenizer)
         {
             var tokens = new string[objects.Count][];
             for (int i = 0; i < objects.Count; i++)
