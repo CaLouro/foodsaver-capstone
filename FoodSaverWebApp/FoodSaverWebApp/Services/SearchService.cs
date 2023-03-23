@@ -27,9 +27,18 @@ namespace FoodSaverWebApp.Services
             return SetupSearch(itemsList, list => TokenizeManyObjects(list, TokenizeItem), searchPhrase, tags);
         }
 
+        /// <summary>
+        /// Performs a search on the list of objects with the given 'searchPhrase' and 'tags'. The 'objectsTokenizer'
+        /// will be used to transform the 'objects' into the tokens.
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <param name="objectsTokenizer"></param>
+        /// <param name="searchPhrase"></param>
+        /// <param name="tags"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         protected async Task<List<T>> SetupSearch<T>(List<T> objects, ObjectListTokenizerCallback<T> objectsTokenizer,
-            string searchPhrase,
-            ISet<Tag>? tags)
+            string searchPhrase, ISet<Tag>? tags)
         {
             var searchResults = new List<T>();
             await Task.Run(() =>
@@ -38,7 +47,10 @@ namespace FoodSaverWebApp.Services
                 var objectTokens = objectsTokenizer(objects);
 
                 var results = ActSearch(objects, objectTokens, searchTokens);
-                searchResults = results.Values.Reverse().ToList();
+
+                results.Sort((one, other) => one.Item1.CompareTo(other.Item1));
+
+                searchResults = results.ConvertAll<T>(value => value.Item2);
             });
 
             return searchResults;
@@ -52,17 +64,16 @@ namespace FoodSaverWebApp.Services
         /// <param name="searchTokens"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        protected SortedDictionary<int, T> ActSearch<T>(List<T> objects, string[][] objectsTokens,
-            string[] searchTokens)
+        protected List<(int, T)> ActSearch<T>(List<T> objects, string[][] objectsTokens, string[] searchTokens)
         {
-            var results = new SortedDictionary<int, T>();
+            var results = new List<(int, T)>();
 
             for (int i = 0; i < objects.Count; i++)
             {
                 var count = CountTokenMatches(objectsTokens[i], searchTokens);
                 if (count > 0)
                 {
-                    results.Add(count, objects[i]);
+                    results.Add((count, objects[i]));
                 }
             }
 

@@ -572,8 +572,7 @@ namespace FoodSaverWebAppTest.ServicesTests
         #region ActSearch Tests
 
         [TestCaseSource(typeof(ActSearchTestData), nameof(ActSearchTestData.Values))]
-        public SortedDictionary<int, T> ActSearch_Values<T>(List<T> objects, string[][] objectsTokens,
-            string[] searchTokens)
+        public List<(int, T)> ActSearch_Values<T>(List<T> objects, string[][] objectsTokens, string[] searchTokens)
         {
             return ActSearch(objects, objectsTokens, searchTokens);
         }
@@ -595,7 +594,20 @@ namespace FoodSaverWebAppTest.ServicesTests
                             new string[] { "5" }
                         },
                         new string[] { "1" }
-                    ).Returns(new SortedDictionary<int, int> { { 1, 1 } });
+                    ).Returns(new List<(int, int)> { (1, 1) });
+
+                    yield return new TestCaseData(
+                        new List<int> { 1, 2, 3, 4, 5 },
+                        new string[][]
+                        {
+                            new string[] { "1" },
+                            new string[] { "2" },
+                            new string[] { "3" },
+                            new string[] { "4" },
+                            new string[] { "5" }
+                        },
+                        new string[] { "1", "4" }
+                    ).Returns(new List<(int, int)> { (1, 1), (1, 4) });
 
                     yield return new TestCaseData(
                         new List<int> { 1, 2, 3, 4, 5 },
@@ -608,7 +620,7 @@ namespace FoodSaverWebAppTest.ServicesTests
                             new string[] { "5" }
                         },
                         new string[] { "1", "4", "1" }
-                    ).Returns(new SortedDictionary<int, int> { { 2, 1 }, { 1, 4 } });
+                    ).Returns(new List<(int, int)> { (2, 1), (1, 4) });
 
                     yield return new TestCaseData(
                         new List<int> { 1, 2, 3, 4, 5 },
@@ -621,7 +633,83 @@ namespace FoodSaverWebAppTest.ServicesTests
                             new string[] { "5" }
                         },
                         new string[] { "6" }
-                    ).Returns(new SortedDictionary<int, int>());
+                    ).Returns(new List<(int, int)>());
+                }
+            }
+        }
+
+        #endregion
+
+        #region SetupSearch Tests
+
+        [TestCaseSource(typeof(SetupSearchTestData), nameof(SetupSearchTestData.IntegerValues))]
+        public async Task<List<int>> SetupSearch_IntegerValues(List<int> objects, string searchPhrase, ISet<Tag>? tags)
+        {
+            return await SetupSearch(objects,
+                list => TokenizeManyObjects(list, i => new string[] { i.ToString() }),
+                searchPhrase, tags);
+        }
+
+        [TestCaseSource(typeof(SetupSearchTestData), nameof(SetupSearchTestData.BusinessValues))]
+        public async Task<List<Business>> SetupSearch_BusinessValues(List<Business> objects, string searchPhrase,
+            ISet<Tag>? tags)
+        {
+            return await SetupSearch(objects, list => TokenizeManyObjects(list, TokenizeBusiness),
+                searchPhrase, tags);
+        }
+
+        private class SetupSearchTestData
+        {
+            public static IEnumerable IntegerValues
+            {
+                get
+                {
+                    yield return new TestCaseData(
+                        new List<int> { 1, 2, 3, 4, 5 },
+                        "1",
+                        null
+                    ).Returns(new List<int> { 1 });
+                }
+            }
+
+            public static IEnumerable BusinessValues
+            {
+                get
+                {
+                    var business1 = new Business
+                    {
+                        Name = "Cool Store",
+                        Address = new Address
+                        {
+                            Line1 = "123 Apple Street",
+                            City = "Toronto",
+                            ProvinceCode = "ON",
+                            PostalCode = "A1B2C3"
+                        }
+                    };
+                    var business2 = new Business
+                    {
+                        Name = "Corner Diner Family Restaurant",
+                        Address = new Address
+                        {
+                            Line1 = "101 Busy Av",
+                            City = "Toronto",
+                            ProvinceCode = "ON",
+                            PostalCode = "L0K9J8"
+                        }
+                    };
+
+                    yield return new TestCaseData(
+                        new List<Business> { business1, business2 },
+                        "diner",
+                        null
+                    ).Returns(new List<Business> { business2 });
+
+                    yield return new TestCaseData(
+                        new List<Business> { business1, business2 },
+                        "toronto",
+                        null
+                    ).Returns(new List<Business> { business1, business2 });
                 }
             }
         }
