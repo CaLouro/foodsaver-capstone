@@ -100,6 +100,13 @@ namespace FoodSaverWebApp.Services
             return tokens.ToArray();
         }
 
+        /// <summary>
+        /// Tokenizes a list of objects with the given callback ('tokenizer').
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <param name="tokenizer"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         protected string[][] TokenizeManyObjects<T>(List<T> objects, TokenizeObject<T> tokenizer)
         {
             var tokens = new string[objects.Count][];

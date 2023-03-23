@@ -1,9 +1,12 @@
 ﻿// ReSharper disable RedundantExplicitArrayCreation
+
 namespace FoodSaverWebAppTest.ServicesTests
 {
     [TestFixture]
     public class SearchServiceTest : SearchService
     {
+        #region TokenizeSearchParameters Tests
+
         [TestCase(
             "coffee",
             ExpectedResult = new string[] { "coffee" })]
@@ -70,6 +73,10 @@ namespace FoodSaverWebAppTest.ServicesTests
             return TokenizeSearchParameters(searchInput, tagSet);
         }
 
+        #endregion
+
+        #region CountTokenMatches Tests
+
         [TestCase(
             new string[] { },
             new string[] { },
@@ -114,5 +121,105 @@ namespace FoodSaverWebAppTest.ServicesTests
         {
             return CountTokenMatches(objectTokens, searchTokens);
         }
+
+        #endregion
+
+        #region TokenizeManyObjects Tests
+
+        [TestCaseSource(typeof(TokenizeManyObjectsTestData), nameof(TokenizeManyObjectsTestData.IntegerValues))]
+        public string[][] TokenizeManyObjects_IntegerValues(int[] objects)
+        {
+            string[] Tokenizer(int value) => new[] { value.ToString() };
+
+            return TokenizeManyObjects(objects.ToList(), Tokenizer);
+        }
+
+        [TestCaseSource(typeof(TokenizeManyObjectsTestData), nameof(TokenizeManyObjectsTestData.BusinessValues))]
+        public string[][] TokenizeManyObjects_BusinessValues(Business[] objects)
+        {
+            return TokenizeManyObjects(objects.ToList(), TokenizeBusiness);
+        }
+
+        /// <summary>
+        /// This class generates test case data for <see cref="TokenizeManyObjects_IntegerValues"/>.
+        /// </summary>
+        private class TokenizeManyObjectsTestData
+        {
+            public static IEnumerable IntegerValues
+            {
+                get
+                {
+                    yield return new TestCaseData(Array.Empty<int>())
+                        .Returns(Array.Empty<string[]>());
+
+                    yield return new TestCaseData(new int[] { 1 })
+                        .Returns(new string[][] { new string[] { "1" } });
+                }
+            }
+
+            public static IEnumerable BusinessValues
+            {
+                get
+                {
+                    var business1 = new Business
+                    {
+                        Name = "Cool Store",
+                        Address = new Address
+                        {
+                            Line1 = "123 Apple Street",
+                            City = "Toronto",
+                            ProvinceCode = "ON",
+                            PostalCode = "A1B2C3"
+                        }
+                    };
+
+                    var business1ExpectedTokens = new string[]
+                    {
+                        "cool",
+                        "store",
+                        "123",
+                        "apple",
+                        "street",
+                        "toronto",
+                        "on",
+                        "a1b2c3"
+                    };
+
+                    yield return new TestCaseData(arg: new Business[] { business1 })
+                        .Returns(new string[][] { business1ExpectedTokens });
+
+                    var business2 = new Business
+                    {
+                        Name = "Corner Diner Family Restaurant",
+                        Address = new Address
+                        {
+                            Line1 = "101 Busy Av",
+                            City = "Waterloo",
+                            ProvinceCode = "ON",
+                            PostalCode = "L0K9J8"
+                        }
+                    };
+
+                    var business2ExpectedTokens = new string[]
+                    {
+                        "corner",
+                        "diner",
+                        "family",
+                        "restaurant",
+                        "101",
+                        "busy",
+                        "av",
+                        "waterloo",
+                        "on",
+                        "l0k9j8"
+                    };
+
+                    yield return new TestCaseData(arg: new Business[] { business1, business2 })
+                        .Returns(new string[][] { business1ExpectedTokens, business2ExpectedTokens });
+                }
+            }
+        }
+
+        #endregion
     }
 }
