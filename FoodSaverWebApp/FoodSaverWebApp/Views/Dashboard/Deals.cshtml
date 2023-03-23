@@ -22,12 +22,22 @@
     </thead>
     
     <tbody>
-    @foreach (Item item in Model)
+    @foreach (Item? item in Model)
     {
+        DiscountInfo? itemDiscount = item.ActiveDiscount();
         <tr>
             <td>@item.Name</td>
             <td>@item.Description</td>
-            <td>@($"{item.StandardPrice:c}")</td>
+            <td>
+                @if (itemDiscount != null)
+                {
+                    <span>@($"{itemDiscount.Price:c}") (@((100 / item.StandardPrice) * itemDiscount.Price)% off)</span>
+                }
+                else
+                {
+                    @($"{item.StandardPrice:c}")
+                }
+            </td>
             <td>@item.Business.Address.City, @item.Business.Address.Line1</td>
             <td>@item.Business.Name</td>
         </tr>
