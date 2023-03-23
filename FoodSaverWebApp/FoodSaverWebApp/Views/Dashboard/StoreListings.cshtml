@@ -5,9 +5,12 @@
 }
 
 <div class="dashboard-center-container">
+    <div class="dashboard-selected-details d-flex justify-content-between">
+        <h4 style="margin:0; padding: 0;">@Model.Business.Name</h4>
+        <p style="margin:0; padding: 0;">@Model.Business.Address.Line1, @Model.Business.Address.City @Model.Business.Address.ProvinceCode</p>
+    </div>
     <div class="dashboard-navigation"
-         style="height: 9rem;">
-        <p>Still working on this</p>
+         style="height: 4.5rem;">
         <div class="v-center">
             <button class="dashboard-nav-button"
                     onclick="location.href='@Url.Action("Stores", "Dashboard")'">Stores</button>
@@ -47,6 +50,14 @@
                         </div>
                     </button>
                 </div>
+            </div>
+        }
+
+        @if (Model.Items.Count == 0)
+        {
+            <div class="d-flex justify-content-center"
+                 style="padding: 1rem;">
+                <h4 style="color:rgba(0, 0, 0, 0.4)">No products listed</h4>
             </div>
         }
     </div>

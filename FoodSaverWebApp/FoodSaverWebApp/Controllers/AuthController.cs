@@ -39,7 +39,7 @@ namespace FoodSaverWebApp.Controllers
                 return View();
             }
 
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction("Stores", "Dashboard");
         }
 
         [HttpGet("/Login")]
@@ -67,7 +67,7 @@ namespace FoodSaverWebApp.Controllers
                 return View();
             }
 
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction("Stores", "Dashboard");
         }
 
         [HttpGet("/Logout")]

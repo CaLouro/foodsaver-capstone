@@ -5,17 +5,20 @@
 }
 
 <div class="dashboard-center-container">
+    <div class="dashboard-selected-details d-flex justify-content-between">
+        <h4 style="margin:0; padding: 0;">@Model.Business.Name</h4>
+        <p style="margin:0; padding: 0;">@Model.Business.Address.Line1, @Model.Business.Address.City @Model.Business.Address.ProvinceCode</p>
+    </div>
     <div class="dashboard-navigation"
          style="height: 4.5rem;">
         <div class="v-center">
             <button class="dashboard-nav-button"
                     onclick="location.href='@Url.Action("AdminStores", "AdminDashboard")'">Back</button>
             <button class="dashboard-nav-button"
-                    onclick="location.href='@Url.Action("AdminEditStore", 
-                                                "AdminDashboard",
-                                                new {
-                                                    businessId = @Model.Business.BusinessId
-                                                })'">Edit Store</button>
+                    onclick="location.href='@Url.Action("AdminEditStore", "AdminDashboard", new { businessId = @Model.Business.BusinessId })'">Edit Store</button>
+            <button class="dashboard-nav-button"
+                    style="float:right; margin: 0;"
+                    onclick="location.href='@Url.Action("AdminAddItem", "AdminDashboard", new { businessId = @Model.Business.BusinessId })'">Add Product</button>
             <button class="dashboard-nav-button"
                     style="float:right; margin: 0;">Discounts</button>
         </div>
@@ -31,54 +34,44 @@
     </div>
 
     <div class="dashboard-results">
-            @foreach (Item item in Model.Items)
-            {
-                <div class="dashboard-result-card">
-                    <div class="v-center d-flex justify-content-between" style="height:100%;">
-                        <div class="card-text card-section-container"
-                             style="width: 40%; padding-left: 3rem;">
-                            <div class="v-center">
-                                <h4>@item.Name</h4>
-                                <span>@($"{item.StandardPrice:c}")</span>
-                            </div>
+        @foreach (Item item in Model.Items)
+        {
+            <div class="dashboard-result-card">
+                <div class="v-center d-flex justify-content-between" style="height:100%;">
+                    <div class="card-text card-section-container"
+                         style="width: 40%; padding-left: 3rem;">
+                        <div class="v-center">
+                            <h4>@item.Name</h4>
+                            <span>@($"{item.StandardPrice:c}")</span>
                         </div>
-                        <div class="card-text card-section-container"
-                             style="width: 40%;">
-                            <div class="v-center">
-                                <p>@item.Description</p>
-                            </div>
-                        </div>
-                        <button class="card-icon card-section-container"
-                                button-for="edit"
-                                onclick="location.href='@Url.Action("AdminEditItem", 
-                                                            "AdminDashboard", 
-                                                            new {
-                                                                businessId = @item.Business.BusinessId,
-                                                                itemId = @item.ItemId
-                                                            })'">
-                            <div class="v-center">
-                                <i class="material-icons dashboard-icon">
-                                    edit
-                                </i>
-                            </div>
-                        </button>
-                        <button class="card-icon card-section-container"
-                                style="border-radius: 0 20px 20px 0;"
-                                button-for="delete"
-                                onclick="location.href='@Url.Action("AdminDeleteItem", 
-                                                            "AdminDashboard", 
-                                                            new {
-                                                                businessId = @item.Business.BusinessId,
-                                                                itemId = @item.ItemId
-                                                            })'">
-                            <div class="v-center">
-                                <i class="material-icons dashboard-icon" id="itemDelete">
-                                    delete
-                                </i>
-                            </div>
-                        </button>
                     </div>
+                    <div class="card-text card-section-container"
+                         style="width: 40%;">
+                        <div class="v-center">
+                            <p>@item.Description</p>
+                        </div>
+                    </div>
+                    <button class="card-icon card-section-container"
+                            button-for="edit"
+                            onclick="location.href='@Url.Action("AdminEditItem", "AdminDashboard", new { businessId = @item.Business.BusinessId, itemId = @item.ItemId })'">
+                        <div class="v-center">
+                            <i class="material-icons dashboard-icon">
+                                edit
+                            </i>
+                        </div>
+                    </button>
+                    <button class="card-icon card-section-container"
+                            style="border-radius: 0 20px 20px 0;"
+                            button-for="delete"
+                            onclick="location.href='@Url.Action("AdminDeleteItem", "AdminDashboard", new { businessId = @item.Business.BusinessId, itemId = @item.ItemId })'">
+                        <div class="v-center">
+                            <i class="material-icons dashboard-icon" id="itemDelete">
+                                delete
+                            </i>
+                        </div>
+                    </button>
                 </div>
-            }
-        </div>
+            </div>
+        }
+    </div>
 </div>
