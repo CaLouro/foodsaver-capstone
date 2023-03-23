@@ -221,5 +221,121 @@ namespace FoodSaverWebAppTest.ServicesTests
         }
 
         #endregion
+
+        #region TokenizeBusiness Tests
+
+        [TestCaseSource(typeof(TokenizeBusinessTestData), nameof(TokenizeBusinessTestData.BusinessValues))]
+        public string[] TokenizeBusiness_BusinessValues(Business business)
+        {
+            return TokenizeBusiness(business);
+        }
+
+        private class TokenizeBusinessTestData
+        {
+            public static IEnumerable BusinessValues
+            {
+                get
+                {
+                    yield return new TestCaseData(new Business
+                    {
+                        Name = "Test Store",
+                        Address = new Address
+                        {
+                            Line1 = "123 Apple Street",
+                            City = "Toronto",
+                            ProvinceCode = "ON",
+                            PostalCode = "A1B2C3"
+                        }
+                    }).Returns(new string[]
+                    {
+                        "test",
+                        "store",
+                        "123",
+                        "apple",
+                        "street",
+                        "toronto",
+                        "on",
+                        "a1b2c3"
+                    });
+
+                    yield return new TestCaseData(new Business
+                    {
+                        Name = "Test Store",
+                        Address = new Address
+                        {
+                            Line1 = "123 Apple",
+                            Line2 = "Street",
+                            City = "Toronto",
+                            ProvinceCode = "ON",
+                            PostalCode = "A1B2C3"
+                        }
+                    }).Returns(new string[]
+                    {
+                        "test",
+                        "store",
+                        "123",
+                        "apple",
+                        "street",
+                        "toronto",
+                        "on",
+                        "a1b2c3"
+                    });
+
+                    yield return new TestCaseData(new Business
+                    {
+                        Name = "Test Store",
+                        ContactEmail = "business@contact.com",
+                        Address = new Address
+                        {
+                            Line1 = "123 Apple",
+                            Line2 = "Street",
+                            City = "Toronto",
+                            ProvinceCode = "ON",
+                            PostalCode = "A1B2C3"
+                        }
+                    }).Returns(new string[]
+                    {
+                        "test",
+                        "store",
+                        "123",
+                        "apple",
+                        "street",
+                        "toronto",
+                        "on",
+                        "a1b2c3",
+                        "business@contact.com"
+                    });
+
+                    yield return new TestCaseData(new Business
+                    {
+                        Name = "Test Store",
+                        ContactEmail = "business@contact.com",
+                        ContactPhone = "(123) 123-1234",
+                        Address = new Address
+                        {
+                            Line1 = "123 Apple",
+                            Line2 = "Street",
+                            City = "Toronto",
+                            ProvinceCode = "ON",
+                            PostalCode = "A1B2C3"
+                        }
+                    }).Returns(new string[]
+                    {
+                        "test",
+                        "store",
+                        "123",
+                        "apple",
+                        "street",
+                        "toronto",
+                        "on",
+                        "a1b2c3",
+                        "business@contact.com",
+                        "(123) 123-1234"
+                    });
+                }
+            }
+        }
+
+        #endregion
     }
 }

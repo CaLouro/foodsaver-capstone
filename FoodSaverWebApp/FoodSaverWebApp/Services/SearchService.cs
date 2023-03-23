@@ -118,6 +118,11 @@ namespace FoodSaverWebApp.Services
             return tokens;
         }
 
+        /// <summary>
+        /// Generates an array of tokens based on meaningful information about the Business object. 
+        /// </summary>
+        /// <param name="business"></param>
+        /// <returns></returns>
         protected string[] TokenizeBusiness(Business business)
         {
             var tokens = new List<string>();

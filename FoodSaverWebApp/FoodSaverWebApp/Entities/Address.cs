@@ -31,6 +31,7 @@ namespace FoodSaverWebApp.Entities
 
             if (Line2 != null)
             {
+                buffer.Append(' ');
                 buffer.Append(Line2);
             }
 
