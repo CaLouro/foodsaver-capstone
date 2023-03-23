@@ -568,5 +568,64 @@ namespace FoodSaverWebAppTest.ServicesTests
         }
 
         #endregion
+
+        #region ActSearch Tests
+
+        [TestCaseSource(typeof(ActSearchTestData), nameof(ActSearchTestData.Values))]
+        public SortedDictionary<int, T> ActSearch_Values<T>(List<T> objects, string[][] objectsTokens,
+            string[] searchTokens)
+        {
+            return ActSearch(objects, objectsTokens, searchTokens);
+        }
+
+        private class ActSearchTestData
+        {
+            public static IEnumerable Values
+            {
+                get
+                {
+                    yield return new TestCaseData(
+                        new List<int> { 1, 2, 3, 4, 5 },
+                        new string[][]
+                        {
+                            new string[] { "1" },
+                            new string[] { "2" },
+                            new string[] { "3" },
+                            new string[] { "4" },
+                            new string[] { "5" }
+                        },
+                        new string[] { "1" }
+                    ).Returns(new SortedDictionary<int, int> { { 1, 1 } });
+
+                    yield return new TestCaseData(
+                        new List<int> { 1, 2, 3, 4, 5 },
+                        new string[][]
+                        {
+                            new string[] { "1" },
+                            new string[] { "2" },
+                            new string[] { "3" },
+                            new string[] { "4" },
+                            new string[] { "5" }
+                        },
+                        new string[] { "1", "4", "1" }
+                    ).Returns(new SortedDictionary<int, int> { { 2, 1 }, { 1, 4 } });
+
+                    yield return new TestCaseData(
+                        new List<int> { 1, 2, 3, 4, 5 },
+                        new string[][]
+                        {
+                            new string[] { "1" },
+                            new string[] { "2" },
+                            new string[] { "3" },
+                            new string[] { "4" },
+                            new string[] { "5" }
+                        },
+                        new string[] { "6" }
+                    ).Returns(new SortedDictionary<int, int>());
+                }
+            }
+        }
+
+        #endregion
     }
 }

@@ -44,12 +44,20 @@ namespace FoodSaverWebApp.Services
             return searchResults;
         }
 
+        /// <summary>
+        /// Finds the objects that match specific 'searchTokens' along with how many matches there was.
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <param name="objectsTokens"></param>
+        /// <param name="searchTokens"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         protected SortedDictionary<int, T> ActSearch<T>(List<T> objects, string[][] objectsTokens,
             string[] searchTokens)
         {
             var results = new SortedDictionary<int, T>();
 
-            for (int i = 0; i <= objects.Count; i++)
+            for (int i = 0; i < objects.Count; i++)
             {
                 var count = CountTokenMatches(objectsTokens[i], searchTokens);
                 if (count > 0)
