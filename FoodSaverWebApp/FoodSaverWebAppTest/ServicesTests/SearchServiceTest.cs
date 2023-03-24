@@ -710,6 +710,24 @@ namespace FoodSaverWebAppTest.ServicesTests
                         "toronto",
                         null
                     ).Returns(new List<Business> { business1, business2 });
+
+                    yield return new TestCaseData(
+                        new List<Business> { business1, business2 },
+                        "",
+                        null
+                    ).Returns(new List<Business>());
+
+                    yield return new TestCaseData(
+                        new List<Business> { business1, business2 },
+                        " ",
+                        null
+                    ).Returns(new List<Business>());
+
+                    yield return new TestCaseData(
+                        new List<Business> { business1, business2 },
+                        "",
+                        new HashSet<Tag> { new Tag { Name = "Diner" } }
+                    ).Returns(new List<Business> { business2 });
                 }
             }
         }
