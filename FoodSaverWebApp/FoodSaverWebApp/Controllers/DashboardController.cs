@@ -8,16 +8,17 @@ namespace FoodSaverWebApp.Controllers
 {
     public class DashboardController : Controller
     {
-        private IBusinessService _businessService;
-        private IAddressService _addressService;
-        private IItemService _itemService;
+        private readonly IBusinessService _businessService;
+        private readonly IItemService _itemService;
+        private readonly IDiscountInfoService _discountService;
+        
         public DashboardController(IBusinessService businessService,
-            IAddressService addressService,
-            IItemService itemService)
+            IItemService itemService,
+            IDiscountInfoService discountService)
         {
             _businessService = businessService;
-            _addressService = addressService;
             _itemService = itemService;
+            _discountService = discountService;
         }
         
         [HttpGet("/Dashboard")]
@@ -49,9 +50,9 @@ namespace FoodSaverWebApp.Controllers
         [HttpGet("/Dashboard/Deals")]
         public async Task<IActionResult> Deals()
         {
-            ICollection<Item> items = await _itemService.GetAllItems();
+            var deals = await _discountService.GetAllDiscountInfos();
 
-            return View(items);
+            return View(deals);
         }
     }
 }
