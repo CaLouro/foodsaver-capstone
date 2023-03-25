@@ -20,14 +20,23 @@
         <th>Business</th>
     </tr>
     </thead>
-    
+
     <tbody>
     @foreach (DiscountInfo deal in Model)
     {
         <tr>
             <td>@deal.Item.Name</td>
             <td>@deal.Item.Description</td>
-            <td>@($"{deal.Price:c}")</td>
+            <td>
+                @if (deal.Item.StandardPrice != null)
+                {
+                    <span><del>@($"{deal.Item.StandardPrice:c}")</del> @($"{deal.Price:c}") (@((100 / deal.Item.StandardPrice) * deal.Price)% off)</span>
+                }
+                else
+                {
+                    @($"{deal.Price:c}")
+                }
+            </td>
             <td>@deal.Item.Business.Address.PresentAddress()</td>
             <td>@deal.Item.Business.Name</td>
         </tr>
