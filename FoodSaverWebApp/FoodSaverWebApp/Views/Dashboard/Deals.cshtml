@@ -1,4 +1,4 @@
-﻿@model ICollection<Item>
+﻿@model ICollection<DiscountInfo>
 
 @{
     ViewData["Title"] = "Dashboard - Deals";
@@ -20,16 +20,25 @@
         <th>Business</th>
     </tr>
     </thead>
-    
+
     <tbody>
-    @foreach (Item item in Model)
+    @foreach (DiscountInfo deal in Model)
     {
         <tr>
-            <td>@item.Name</td>
-            <td>@item.Description</td>
-            <td>@($"{item.StandardPrice:c}")</td>
-            <td>@item.Business.Address.City, @item.Business.Address.Line1</td>
-            <td>@item.Business.Name</td>
+            <td>@deal.Item.Name</td>
+            <td>@deal.Item.Description</td>
+            <td>
+                @if (deal.Item.StandardPrice != null)
+                {
+                    <span><del>@($"{deal.Item.StandardPrice:c}")</del> @($"{deal.Price:c}") (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)</span>
+                }
+                else
+                {
+                    @($"{deal.Price:c}")
+                }
+            </td>
+            <td>@deal.Item.Business.Address.PresentAddress()</td>
+            <td>@deal.Item.Business.Name</td>
         </tr>
     }
     </tbody>

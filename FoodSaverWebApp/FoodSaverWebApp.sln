@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodSaverWebApp", "FoodSaverWebApp\FoodSaverWebApp.csproj", "{0245751C-9E16-460C-8879-3C67B8B92652}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodSaverWebAppTest", "FoodSaverWebAppTest\FoodSaverWebAppTest.csproj", "{CC15ECA8-7E27-4B09-B78A-14347537F6E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0245751C-9E16-460C-8879-3C67B8B92652}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0245751C-9E16-460C-8879-3C67B8B92652}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0245751C-9E16-460C-8879-3C67B8B92652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC15ECA8-7E27-4B09-B78A-14347537F6E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC15ECA8-7E27-4B09-B78A-14347537F6E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC15ECA8-7E27-4B09-B78A-14347537F6E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC15ECA8-7E27-4B09-B78A-14347537F6E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

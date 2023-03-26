@@ -24,6 +24,7 @@ builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IDiscountInfoService, DiscountInfoService>();
 builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<ISearchService, SearchService>();
 
 var app = builder.Build();
 
