@@ -233,7 +233,7 @@ footer .container .footer-link {
     font-size: 12px;
 }
 
-.login-card .form-group div {
+.login-card .form-group > div:not(.btn-group) {
     margin-top: 2.5rem;
 }
 
@@ -304,4 +304,33 @@ footer .container .footer-link {
     .login-card {
         padding: 6rem 3rem;
     }
+}
+
+.list-toggler {
+    padding: 0.5rem 2rem !important;
+    color: black !important;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: rgba(0, 0, 0, 0.2) 0 4px 20px -10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+#checkbox-list {
+    position: absolute;
+    overflow: scroll;
+    height: 350px;
+    width: 300px;
+    display: none;
+    margin-top: 0.6rem;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: rgba(0, 0, 0, 0.2) 0 4px 20px -10px;
+    background-color: white;
+}
+#checkbox-list .list-item {
+    margin: 0;
+    user-select: none;
 }

@@ -8,10 +8,13 @@ namespace FoodSaverWebApp.Services
     {
         private readonly IDbConnection _connection;
         private IAuthService _authService;
-        public BusinessService(IDbConnection connection, IAuthService authService)
+        private readonly ILogger<BusinessService> _logger;
+
+        public BusinessService(IDbConnection connection, IAuthService authService, ILogger<BusinessService> logger)
         {
             _connection = connection;
             _authService = authService;
+            _logger = logger;
         }
         
         public async Task<ICollection<Business?>> GetAllBusinesses()
@@ -56,6 +59,20 @@ namespace FoodSaverWebApp.Services
             await _connection.AccessDatabase()
                 .From<Business>()
                 .Insert(business);
+
+            List<BusinessTag> businessTags = new List<BusinessTag>();
+            foreach (Tag tag in business.Tags)
+            {
+                businessTags.Add(new BusinessTag
+                {
+                    BusinessId = business.BusinessId,
+                    TagId = tag.TagId
+                });
+            }
+
+            var bt =  await _connection.AccessDatabase()
+                .From<BusinessTag>()
+                .Insert(businessTags);
         }
         
         public async Task<Business?> ReturnBusinessOnInsert(Business business)
@@ -64,6 +81,20 @@ namespace FoodSaverWebApp.Services
                 .From<Business>()
                 .Insert(business, new QueryOptions{ Returning = QueryOptions.ReturnType.Representation});
 
+            List<BusinessTag> businessTags = new List<BusinessTag>();
+            foreach (Tag tag in business.Tags)
+            {
+                businessTags.Add(new BusinessTag
+                {
+                    BusinessId = business.BusinessId,
+                    TagId = tag.TagId
+                });
+            }
+
+            var bt =  await _connection.AccessDatabase()
+                .From<BusinessTag>()
+                .Insert(businessTags);
+            
             return result.Models[0];
         }
 
