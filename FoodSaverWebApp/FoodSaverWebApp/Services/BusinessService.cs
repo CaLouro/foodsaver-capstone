@@ -100,52 +100,31 @@ namespace FoodSaverWebApp.Services
 
         public async Task UpdateBusiness(Business business)
         {
-            _logger.LogInformation("--------------- Updating Business ---------------");
             await _connection.AccessDatabase()
                 .From<Business>()
                 .Update(business);
 
-            // Get all the connections with tags for a specific business
-            ModeledResponse<BusinessTag> businessTags = await _connection.AccessDatabase()
+            // Delete all the business_tab rows that have the current business
+            await _connection.AccessDatabase()
                 .From<BusinessTag>()
                 .Where(bt => bt.BusinessId == business.BusinessId)
-                .Get();
+                .Delete();
 
-            // Delete business_tag connection if deselected
-            foreach (BusinessTag btag in businessTags.Models)
-            {
-                if (business.Tags.All(b => b.TagId != btag.TagId) && btag.BusinessId == business.BusinessId)
-                {
-                    _logger.LogInformation($"Tag {btag.TagId} is no longer in the business [REMOVE]");
-                    
-                    // Deleting business_tag connection
-                    // [DON'T LIKE THIS, couldn't find anything else regarding bulk deleting]
-                    await _connection.AccessDatabase()
-                        .From<BusinessTag>()
-                        .Where(b => b.BusinessId == business.BusinessId && b.TagId == btag.TagId)
-                        .Delete();
-                }
-            }
-
-            // Add business_tag connection if selected
+            
             List<BusinessTag> businessTagsToAdd = new List<BusinessTag>();
             foreach (Tag tag in business.Tags)
             {
-                if (businessTags.Models.All(b => b.TagId != tag.TagId && b.BusinessId == business.BusinessId))
+                businessTagsToAdd.Add(new BusinessTag
                 {
-                    _logger.LogInformation($"Tag {tag.TagId} is not in the BusinessTag table [ADD]");
-                    businessTagsToAdd.Add(new BusinessTag
-                    {
-                        BusinessId = business.BusinessId,
-                        TagId = tag.TagId
-                    });
-                }
+                    BusinessId = business.BusinessId,
+                    TagId = tag.TagId
+                });
             }
 
-            if (businessTagsToAdd.Count != 0)
-                await _connection.AccessDatabase()
-                    .From<BusinessTag>()
-                    .Insert(businessTagsToAdd);
+            // Add all the new business_tag rows that are currently selected for the business
+            await _connection.AccessDatabase()
+                .From<BusinessTag>()
+                .Insert(businessTagsToAdd);
         }
 
         public async Task DeleteBusiness(int businessId)
