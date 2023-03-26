@@ -26,6 +26,23 @@
                 <input asp-for="Business.ContactPhone" class="form-control" type="phone"/>
                 <span asp-validation-for="Business.ContactPhone" class="text-danger"></span>
             </div>
+            <div class="form-group" style="margin: 1.5rem 0 1.5rem 0;">
+                <a class="list-toggler" id="list-toggler" toggled="false" onclick="list_toggler()">Select tags</a>
+                <div id="checkbox-list">
+                    @for (int i = 0; i < Model.TagItems.Count; i++)
+                    {
+                        <div class="list-item">
+                            @Html.CheckBoxFor(m => m.TagItems[i].Selected)
+                            @Html.LabelFor(m => m.TagItems[i].Selected, Model.TagItems[i].Text)
+                            @Html.HiddenFor(m => m.TagItems[i].Value)
+                        </div>
+                        @if (i != Model.TagItems.Count - 1)
+                        {
+                            <hr style="margin: 0 0 0.5rem 0; padding: 0;">
+                        }
+                    }
+                </div>
+            </div>
             <div class="form-group">
                 <label asp-for="Business.Address.Line1" class="control-label">Line 1</label>
                 <input asp-for="Business.Address.Line1" class="form-control" type="text"/>
@@ -69,5 +86,19 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript">
+        let checkbox_list = document.getElementById("checkbox-list");
+        let list_toggle = document.getElementById("list-toggler");
+        function list_toggler() {
+            checkbox_list.style['display'] = checkbox_list.style['display'] === 'block' ? 'none' : 'block';
+        }
+        document.body.onmousedown = function() {
+            if (checkbox_list.parentNode.querySelector(":hover") !== checkbox_list && 
+                list_toggle.parentNode.querySelector(":hover") !== list_toggle){
+                checkbox_list.style['display'] = 'none';
+            }
+        }
+            
+    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
