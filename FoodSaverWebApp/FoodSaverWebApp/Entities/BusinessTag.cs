@@ -9,7 +9,7 @@ namespace FoodSaverWebApp.Entities
         [Column("business_id")]
         public int BusinessId { get; set; }
         
-        [Column("tags_id")]
+        [Column("tag_id")]
         public int TagId { get; set; }
     }
 }

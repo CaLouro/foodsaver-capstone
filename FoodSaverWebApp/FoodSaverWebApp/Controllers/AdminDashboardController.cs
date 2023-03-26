@@ -147,6 +147,15 @@ namespace FoodSaverWebApp.Controllers
             if (ModelState.IsValid)
             {
                 await _addressService.UpdateAddress(storeModel.Business.Address);
+                
+                ICollection<Tag> Tags = await _tagService.GetAllTags();
+                List<int> formSelectedTags = storeModel.TagItems.Where(tag => tag.Selected)
+                    .Select(tag => tag.Value)
+                    .Select(int.Parse)
+                    .ToList();
+
+                storeModel.Business.Tags = Tags.Where(t => formSelectedTags.Any(t2 => t2 == t.TagId)).ToList();
+                
                 await _businessService.UpdateBusiness(storeModel.Business);
                 
                 return RedirectToAction("AdminStores");
