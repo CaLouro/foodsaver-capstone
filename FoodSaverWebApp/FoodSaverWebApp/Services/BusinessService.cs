@@ -70,7 +70,7 @@ namespace FoodSaverWebApp.Services
                 });
             }
 
-            var bt =  await _connection.AccessDatabase()
+            await _connection.AccessDatabase()
                 .From<BusinessTag>()
                 .Insert(businessTags);
         }
