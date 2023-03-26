@@ -108,8 +108,6 @@ namespace FoodSaverWebApp.Controllers
                 return RedirectToAction("AdminStores", "AdminDashboard");
             }
 
-            storeModel.InitializeProvinces();
-
             return View(storeModel);
         }
         
