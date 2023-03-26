@@ -18,7 +18,7 @@
         <th>Item Listings</th>
     </tr>
     </thead>
-    
+
     <tbody>
     @foreach (Business business in Model)
     {
@@ -26,7 +26,9 @@
             <td>@business.Name</td>
             <td>@business.ContactEmail</td>
             <td>@business.ContactPhone</td>
-            <td><a asp-action="StoreListings" asp-route-businessId="@business.BusinessId">See Listings</a></td>
+            <td>
+                <a asp-action="StoreListings" asp-route-businessId="@business.BusinessId">See Listings</a>
+            </td>
         </tr>
     }
     </tbody>

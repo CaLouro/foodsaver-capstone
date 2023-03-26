@@ -30,7 +30,7 @@
             <td>
                 @if (deal.Item.StandardPrice != null)
                 {
-                    <span><del>@($"{deal.Item.StandardPrice:c}")</del> @($"{deal.Price:c}") (@((100 / deal.Item.StandardPrice) * deal.Price)% off)</span>
+                    <span><del>@($"{deal.Item.StandardPrice:c}")</del> @($"{deal.Price:c}") (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)</span>
                 }
                 else
                 {
