@@ -21,16 +21,24 @@
                 Favorites
             </button>
         </div>
-        <div class="h-center dashboard-nav-search-container">
-            <div class="v-center d-flex justify-content-center">
-                <span>
-                    Search:
-                    <input type="text"
-                           class="dashboard-nav-search"
-                           id="dashboardSearch"/>
-                </span>
+        @using (Html.BeginForm(actionName: "Favorites", controllerName: "Dashboard", method: FormMethod.Get))
+        {
+            <div class="h-center dashboard-nav-search-container">
+                <div class="v-center d-flex justify-content-center">
+                    <span>
+                        <input type="text"
+                               class="dashboard-nav-search"
+                               placeholder="Search"
+                               name="search"
+                               value="@Context.Request.Query["search"]"
+                               id="dashboardSearch"/>
+                        <button type="submit" class="search-icon">
+                            <i class="material-icons">search</i>
+                        </button>
+                    </span>
+                </div>
             </div>
-        </div>
+        }
     </div>
 
     <div class="dashboard-results">

@@ -80,7 +80,7 @@ namespace FoodSaverWebApp.Controllers
         }
 
         [HttpGet("/Dashboard/Favorites")]
-        public async Task<IActionResult> Favorites()
+        public async Task<IActionResult> Favorites([FromQuery(Name = "search")] string? search)
         {
             var business = await _businessService.GetAllBusinesses();
             var userBusinesses = await _businessService.GetUserFavoriteBusinesses();
@@ -90,6 +90,12 @@ namespace FoodSaverWebApp.Controllers
                 Businesses = business.ToList(),
                 FavoriteBusinesses = userBusinesses.ToList(),
             };
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                _logger.LogInformation($"Favorites search query: {search}");
+                model.Businesses = await _searchService.Search(model.Businesses, search);
+            }
 
             return View(model);
         }
