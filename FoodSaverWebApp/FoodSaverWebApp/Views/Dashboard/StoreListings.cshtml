@@ -7,7 +7,13 @@
 <div class="dashboard-center-container">
     <div class="dashboard-selected-details d-flex justify-content-between">
         <h4 style="margin:0; padding: 0;">@Model.Business.Name</h4>
-        <p style="margin:0; padding: 0;">@Model.Business.Address.Line1, @Model.Business.Address.City @Model.Business.Address.ProvinceCode</p>
+        <span id="business-address-link"
+              onclick="redirectToMapsUrl('@Model.Business.Address.PresentAddress(true, true, true)')">
+            <span id="business-address-text">
+                @Model.Business.Address.PresentAddress(true, true)
+            </span>
+            <i class="material-icons">place</i>
+        </span>
     </div>
     <div class="dashboard-navigation"
          style="height: 4.5rem;">
@@ -46,15 +52,6 @@
                             <p>@item.Description</p>
                         </div>
                     </div>
-                    <button class="card-icon card-section-container"
-                            style="border-radius: 0 20px 20px 0;"
-                            button-for="select">
-                        <div class="v-center">
-                            <i class="material-icons arrowForwardIcon">
-                                arrow_forward_ios
-                            </i>
-                        </div>
-                    </button>
                 </div>
             </div>
         }

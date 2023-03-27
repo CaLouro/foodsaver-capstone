@@ -55,7 +55,8 @@
     padding: 2rem 2.4rem 0.5rem 2.4rem;
 }
 
-.dashboard-selected-details p {
+.dashboard-selected-details p,
+.dashboard-selected-details span {
     color: #6E8387;
 }
 
