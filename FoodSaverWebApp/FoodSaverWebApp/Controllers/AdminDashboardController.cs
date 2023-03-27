@@ -15,6 +15,7 @@ namespace FoodSaverWebApp.Controllers
         private ITagService _tagService;
         private IDiscountInfoService _discountInfoService;
         private readonly ILogger<AdminDashboardController> _logger;
+        private readonly ISearchService _searchService;
 
         public AdminDashboardController(IAuthService authService,
             IBusinessService businessService,
@@ -22,7 +23,8 @@ namespace FoodSaverWebApp.Controllers
             IItemService itemService,
             ITagService tagService,
             IDiscountInfoService discountInfoService,
-            ILogger<AdminDashboardController> logger)
+            ILogger<AdminDashboardController> logger,
+            ISearchService searchService)
         {
             _authService = authService;
             _businessService = businessService;
@@ -31,6 +33,7 @@ namespace FoodSaverWebApp.Controllers
             _tagService = tagService;
             _discountInfoService = discountInfoService;
             _logger = logger;
+            _searchService = searchService;
         }
         
         [HttpGet("/Admin")]
@@ -44,13 +47,20 @@ namespace FoodSaverWebApp.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("/Admin/Stores")]
-        public async Task<IActionResult> AdminStores()
+        public async Task<IActionResult> AdminStores([FromQuery(Name = "search")] string? search)
         {
             User? user = await _authService.GetActiveUser();
             ICollection<Business>? businesses = null;
             
             if (user != null)
                 businesses = await _businessService.GetAllBusinessesUnderAdmin(user);
+
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                _logger.LogInformation($"Admin businesses search query: {search}");
+                businesses = await _searchService.Search(businesses.ToList(), search);
+            }
 
             return View(businesses);
         }
