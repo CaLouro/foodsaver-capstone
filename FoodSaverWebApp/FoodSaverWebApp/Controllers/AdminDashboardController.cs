@@ -2,6 +2,7 @@
 using FoodSaverWebApp.Models;
 using FoodSaverWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FoodSaverWebApp.Controllers
 {
@@ -11,19 +12,25 @@ namespace FoodSaverWebApp.Controllers
         private IBusinessService _businessService;
         private IAddressService _addressService;
         private IItemService _itemService;
+        private ITagService _tagService;
         private IDiscountInfoService _discountInfoService;
+        private readonly ILogger<AdminDashboardController> _logger;
 
         public AdminDashboardController(IAuthService authService,
             IBusinessService businessService,
             IAddressService addressService,
             IItemService itemService,
-            IDiscountInfoService discountInfoService)
+            ITagService tagService,
+            IDiscountInfoService discountInfoService,
+            ILogger<AdminDashboardController> logger)
         {
             _authService = authService;
             _businessService = businessService;
             _addressService = addressService;
             _itemService = itemService;
+            _tagService = tagService;
             _discountInfoService = discountInfoService;
+            _logger = logger;
         }
         
         [HttpGet("/Admin")]
@@ -53,14 +60,18 @@ namespace FoodSaverWebApp.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("/Register/Store")]
-        public IActionResult AdminRegisterStore()
+        public async Task<IActionResult> AdminRegisterStore()
         {
-            StoreModel storeModel = new StoreModel()
+            ICollection<Tag> tags = await _tagService.GetAllTags();
+            
+            StoreModel storeModel = new StoreModel() 
             {
-                Business = new Business()
+                Business = new Business
+                {
+                    Address = new Address()
+                }
             };
-
-            storeModel.Business.Address = new Address();
+            storeModel.ConfigureTagsToSelectList(tags);
             
             return View(storeModel);
         }
@@ -74,38 +85,30 @@ namespace FoodSaverWebApp.Controllers
         public async Task<IActionResult> AdminRegisterStore(StoreModel storeModel)
         {
             ModelState.Remove("ProvinceCodes");
+            ModelState.Remove("TagItems");
 
             if (ModelState.IsValid)
             {
                 Address? address = await _addressService.ReturnAddressOnInsert(storeModel.Business.Address);
-
                 if (address != null)
                     storeModel.Business.AddressId = address.AddressId;
 
-                Business? business = await _businessService.ReturnBusinessOnInsert(storeModel.Business);
+                ICollection<Tag> Tags = await _tagService.GetAllTags();
+                List<int> formSelectedTags = storeModel.TagItems.Where(tag => tag.Selected)
+                    .Select(tag => tag.Value)
+                    .Select(int.Parse)
+                    .ToList();
 
+                storeModel.Business.Tags = Tags.Where(t => formSelectedTags.Any(t2 => t2 == t.TagId)).ToList();
+
+                Business? business = await _businessService.ReturnBusinessOnInsert(storeModel.Business);
                 if (business != null)
                     _businessService.LinkUserToBusiness(business);
                 
                 return RedirectToAction("AdminStores", "AdminDashboard");
             }
-            
-            storeModel.ProvinceCodes = new List<string>()
-            {
-                "NL",
-                "PE",
-                "NS",
-                "NB",
-                "QC",
-                "ON",
-                "MB",
-                "NL",
-                "AB",
-                "BC",
-                "YT",
-                "NT",
-                "NU"
-            };
+
+            storeModel.InitializeProvinces();
 
             return View(storeModel);
         }
@@ -118,8 +121,13 @@ namespace FoodSaverWebApp.Controllers
         [HttpGet("/Admin/Store/{businessId}/Edit")]
         public async Task<IActionResult> AdminEditStore(int businessId)
         {
-            StoreModel storeModel = new StoreModel();
-            storeModel.Business = await _businessService.GetBusiness(businessId);
+            ICollection<Tag> tags = await _tagService.GetAllTags();
+            
+            StoreModel storeModel = new StoreModel() 
+            {
+                Business = await _businessService.GetBusiness(businessId)
+            };
+            storeModel.ConfigureTagsToSelectList(tags);
 
             return View(storeModel);
         }
@@ -139,6 +147,15 @@ namespace FoodSaverWebApp.Controllers
             if (ModelState.IsValid)
             {
                 await _addressService.UpdateAddress(storeModel.Business.Address);
+                
+                ICollection<Tag> Tags = await _tagService.GetAllTags();
+                List<int> formSelectedTags = storeModel.TagItems.Where(tag => tag.Selected)
+                    .Select(tag => tag.Value)
+                    .Select(int.Parse)
+                    .ToList();
+
+                storeModel.Business.Tags = Tags.Where(t => formSelectedTags.Any(t2 => t2 == t.TagId)).ToList();
+                
                 await _businessService.UpdateBusiness(storeModel.Business);
                 
                 return RedirectToAction("AdminStores");

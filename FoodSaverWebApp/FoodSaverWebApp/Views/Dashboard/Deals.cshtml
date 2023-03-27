@@ -1,4 +1,4 @@
-﻿@model ICollection<Item>
+﻿@model ICollection<DiscountInfo>
 
 @{
     ViewData["Title"] = "Dashboard - Deals";
@@ -27,14 +27,28 @@
     </div>
 
     <div class="dashboard-results">
-        @foreach (Item item in Model)
+        @foreach (DiscountInfo deal in Model)
         {
+            var item = deal.Item;
+
             <div class="dashboard-result-card">
                 <div class="v-center d-flex justify-content-between" style="height:100%;">
                     <div class="card-text card-section-container"
                          style="width: 50%; padding-left: 3rem;">
                         <div class="v-center">
-                            <h4>@item.Name <span style="font-size: 16px;">@($"{item.StandardPrice:c}")</span></h4>
+                            <h4>
+                                @item.Name
+                                <span style="font-size: 16px;">
+                                    @if (deal.Item.StandardPrice != null)
+                                    {
+                                        <span><del>@($"{deal.Item.StandardPrice:c}")</del> @($"{deal.Price:c}") (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@($"{deal.Price:c}")</span>
+                                    }
+                                </span>
+                            </h4>
                             <span>@item.Description</span>
                         </div>
                     </div>
@@ -42,7 +56,7 @@
                          style="width: 40%;">
                         <div class="v-center">
                             <p>@item.Business.Name</p>
-                            <p style="color:rgba(0, 0, 0, 0.4)">@item.Business.Address.Line1, @item.Business.Address.City, @item.Business.Address.ProvinceCode</p>
+                            <p style="color:rgba(0, 0, 0, 0.4)">@item.Business.Address.PresentAddress(showProvince: true)</p>
                         </div>
                     </div>
                     <button class="card-icon card-section-container"

@@ -1,4 +1,5 @@
 ﻿using FoodSaverWebApp.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FoodSaverWebApp.Services
 {
@@ -16,5 +17,12 @@ namespace FoodSaverWebApp.Services
         /// <param name="tagId"></param>
         /// <returns></returns>
         public Task<Tag?> GetTag(int tagId);
+
+        /// <summary>
+        /// Retrie
+        /// </summary>
+        /// <param name="businessId"></param>
+        /// <returns></returns>
+        public Task<ICollection<Tag>> GetTagsUnderBusiness(int businessId);
     }
 }

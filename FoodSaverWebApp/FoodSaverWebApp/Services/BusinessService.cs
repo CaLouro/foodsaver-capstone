@@ -8,11 +8,13 @@ namespace FoodSaverWebApp.Services
     {
         private readonly IDbConnection _connection;
         private IAuthService _authService;
+        private readonly ILogger<BusinessService> _logger;
 
-        public BusinessService(IDbConnection connection, IAuthService authService)
+        public BusinessService(IDbConnection connection, IAuthService authService, ILogger<BusinessService> logger)
         {
             _connection = connection;
             _authService = authService;
+            _logger = logger;
         }
 
         public async Task<ICollection<Business?>> GetAllBusinesses()
@@ -54,9 +56,23 @@ namespace FoodSaverWebApp.Services
 
         public async Task InsertBusiness(Business business)
         {
-            await _connection.AccessDatabase()
+            ModeledResponse<Business> result = await _connection.AccessDatabase()
                 .From<Business>()
                 .Insert(business);
+
+            List<BusinessTag> businessTags = new List<BusinessTag>();
+            foreach (Tag tag in business.Tags)
+            {
+                businessTags.Add(new BusinessTag
+                {
+                    BusinessId = result.Models[0].BusinessId,
+                    TagId = tag.TagId
+                });
+            }
+
+            await _connection.AccessDatabase()
+                .From<BusinessTag>()
+                .Insert(businessTags);
         }
 
         public async Task<Business?> ReturnBusinessOnInsert(Business business)
@@ -65,6 +81,20 @@ namespace FoodSaverWebApp.Services
                 .From<Business>()
                 .Insert(business, new QueryOptions { Returning = QueryOptions.ReturnType.Representation });
 
+            List<BusinessTag> businessTags = new List<BusinessTag>();
+            foreach (Tag tag in business.Tags)
+            {
+                businessTags.Add(new BusinessTag
+                {
+                    BusinessId = result.Models[0].BusinessId,
+                    TagId = tag.TagId
+                });
+            }
+
+            await _connection.AccessDatabase()
+                .From<BusinessTag>()
+                .Insert(businessTags);
+            
             return result.Models[0];
         }
 
@@ -73,6 +103,28 @@ namespace FoodSaverWebApp.Services
             await _connection.AccessDatabase()
                 .From<Business>()
                 .Update(business);
+
+            // Delete all the business_tab rows that have the current business
+            await _connection.AccessDatabase()
+                .From<BusinessTag>()
+                .Where(bt => bt.BusinessId == business.BusinessId)
+                .Delete();
+
+
+            List<BusinessTag> businessTagsToAdd = new List<BusinessTag>();
+            foreach (Tag tag in business.Tags)
+            {
+                businessTagsToAdd.Add(new BusinessTag
+                {
+                    BusinessId = business.BusinessId,
+                    TagId = tag.TagId
+                });
+            }
+
+            // Add all the new business_tag rows that are currently selected for the business
+            await _connection.AccessDatabase()
+                .From<BusinessTag>()
+                .Insert(businessTagsToAdd);
         }
 
         public async Task DeleteBusiness(int businessId)
