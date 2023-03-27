@@ -31,7 +31,7 @@
                                value="@Context.Request.Query["search"]"
                                id="dashboardSearch"/>
                         <button type="submit" class="search-icon">
-                            <i class="material-icons">search</i>
+                            <i class="material-icons v-center">search</i>
                         </button>
                     </span>
                 </div>
@@ -71,7 +71,12 @@
                          style="width: 50%;">
                         <div class="v-center">
                             <h4>@business.Name</h4>
-                            <span>Tags</span>
+                            <div class="tags">
+                                @foreach (Tag tag in business.Tags)
+                                {
+                                    <div class="tag-item">@tag.Name</div>
+                                }
+                            </div>
                         </div>
                     </div>
                     <div class="card-text card-section-container"
