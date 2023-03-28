@@ -190,12 +190,13 @@ namespace FoodSaverWebApp.Controllers
         /// </summary>
         /// <param name="businessId"></param>
         /// <returns></returns>
-        [HttpGet("/Admin/Store/{businessId}/Item/List")]
+        [HttpGet("/Admin/Store/{businessId}/Dashboard")]
         public async Task<IActionResult> AdminStoreItems(int businessId)
         {
             ItemListModel itemListModel = new ItemListModel()
             {
                 Items = await _itemService.GetAllItemsForBusiness(businessId),
+                Deals = await _discountInfoService.GetAllDiscountsForBusiness(businessId),
                 Business = await _businessService.GetBusiness(businessId)
             };
 

@@ -8,10 +8,10 @@
 <div class="row">
     <div class="login-card col-lg-6">
         <h1>Edit Item</h1>
-        
+
         <form asp-action="AdminEditItem">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Name</label>
                 <input asp-for="Name" class="form-control"/>
@@ -27,16 +27,18 @@
                 <input asp-for="StandardPrice" class="form-control" type="number"/>
                 <span asp-validation-for="StandardPrice" class="text-danger"></span>
             </div>
-            
-            <input asp-for="ItemId" value="@Model.ItemId" hidden />
-            <input asp-for="BusinessId" value="@Model.BusinessId" hidden />
-            
+
+            <input asp-for="ItemId" value="@Model.ItemId" hidden/>
+            <input asp-for="BusinessId" value="@Model.BusinessId" hidden/>
+
             <div class="form-group">
                 <div class="d-flex row-cols-2 justify-content-between">
                     <a asp-action="AdminStoreItems"
                        asp-controller="AdminDashboard"
                        asp-route-businessId="@Model.Business.BusinessId"
-                       class="btn col-4">Cancel</a>
+                       class="btn col-4">
+                        Cancel
+                    </a>
                     <input type="submit" value="Update" class="btn btn-primary col-7"/>
                 </div>
             </div>
@@ -48,5 +50,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

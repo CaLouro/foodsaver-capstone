@@ -13,27 +13,40 @@
          style="height: 4.5rem;">
         <div class="v-center">
             <button class="dashboard-nav-button"
-                    onclick="location.href='@Url.Action("AdminStores", "AdminDashboard")'">Back</button>
+                    onclick="location.href='@Url.Action("AdminStores", "AdminDashboard")'">
+                Back
+            </button>
             <button class="dashboard-nav-button"
-                    onclick="location.href='@Url.Action("AdminEditStore", "AdminDashboard", new { businessId = @Model.Business.BusinessId })'">Edit Store</button>
+                    onclick="location.href='@Url.Action("AdminEditStore", "AdminDashboard", new { businessId = @Model.Business.BusinessId })'">
+                Edit Store
+            </button>
+            <button class="dashboard-nav-button"
+                    style="float:right; margin: 0;">
+                Add Discount
+            </button>
             <button class="dashboard-nav-button"
                     style="float:right; margin: 0;"
-                    onclick="location.href='@Url.Action("AdminAddItem", "AdminDashboard", new { businessId = @Model.Business.BusinessId })'">Add Product</button>
-            <button class="dashboard-nav-button"
-                    style="float:right; margin: 0;">Discounts</button>
+                    onclick="location.href='@Url.Action("AdminAddItem", "AdminDashboard", new { businessId = @Model.Business.BusinessId })'">
+                Add Product
+            </button>
         </div>
         <div class="h-center dashboard-nav-search-container">
             <div class="v-center d-flex justify-content-center">
-                <span>Search:
-                    <input type="text"
-                           class="dashboard-nav-search"
-                           id="dashboardSearch"/>
-                </span>
+                <button id="item-content-btn"
+                        class="content-toggler-btn right-margin content-toggler-btn-active"
+                        onclick="toggleContent('items-results-div', 'item-content-btn')">
+                    Items
+                </button>
+                <button id="discount-content-id"
+                        class="content-toggler-btn left-margin"
+                        onclick="toggleContent('deals-results-div', 'discount-content-id')">
+                    Discounts
+                </button>
             </div>
         </div>
     </div>
 
-    <div class="dashboard-results">
+    <div id="items-results-div" class="dashboard-results">
         @foreach (Item item in Model.Items)
         {
             <div class="dashboard-result-card">
@@ -74,4 +87,63 @@
             </div>
         }
     </div>
+    <div id="deals-results-div" class="dashboard-results" style="display: none;">
+        @foreach (var deal in Model.Deals)
+        {
+            var item = deal.Item;
+
+            <div class="dashboard-result-card">
+                <div class="v-center d-flex justify-content-between" style="height:100%;">
+                    <div class="card-text card-section-container"
+                         style="width: 50%; padding-left: 3rem;">
+                        <div class="v-center">
+                            <h4>
+                                @item.Name
+                                <span style="font-size: 16px;">
+                                    @if (deal.Item.StandardPrice != null)
+                                    {
+                                        <span><del>@($"{deal.Item.StandardPrice:c}")</del> @($"{deal.Price:c}") (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@($"{deal.Price:c}")</span>
+                                    }
+                                </span>
+                            </h4>
+                            <span>@item.Description</span>
+                        </div>
+                    </div>
+                    <div class="card-text card-section-container"
+                         style="width: 40%;">
+                        <div class="v-center">
+                            <p>@item.Business.Name</p>
+                            <p style="color:rgba(0, 0, 0, 0.4)">@item.Business.Address.PresentAddress(showProvince: true)</p>
+                        </div>
+                    </div>
+                    <button class="card-icon card-section-container"
+                            style="border-radius: 0 20px 20px 0;"
+                            button-for="select"
+                            onclick="redirectToMapsUrl('@item.Business.Address.PresentAddress(true, true, true)')">
+                        <div class="v-center">
+                            <i class="material-icons arrowForwardIcon">
+                                place
+                            </i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+        function toggleContent(contentIdToShow, btnId) {
+            $(".dashboard-results").hide();
+            $(`#${contentIdToShow}`).show();
+            
+            $(".content-toggler-btn-active").removeClass("content-toggler-btn-active");
+            $(`#${btnId}`).addClass("content-toggler-btn-active");
+        }
+    </script>
+}
