@@ -29,7 +29,7 @@ namespace FoodSaverWebApp.Controllers
         [HttpGet("/Dashboard")]
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Deals");
         }
 
         [HttpGet("/Dashboard/Stores")]
