@@ -287,5 +287,24 @@ namespace FoodSaverWebApp.Controllers
             
             return RedirectToAction("AdminStoreItems", new { businessId = businessId });
         }
+
+        [HttpGet("/Admin/Store/{businessId}/Discount/Add")]
+        public async Task<IActionResult> AdminAddDiscount(int businessId)
+        {
+            var model = new DiscountFormModel
+            {
+                Items = await _itemService.GetAllItemsForBusiness(businessId),
+                DiscountInfo = new DiscountInfo()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost("/Admin/Store/{businessId}/Discount/Add")]
+        public async Task<IActionResult> AdminAddDiscount(DiscountFormModel model)
+        {
+            // WIP
+            return View(model);
+        }
     }
 }

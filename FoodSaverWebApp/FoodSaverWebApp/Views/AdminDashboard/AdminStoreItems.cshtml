@@ -17,16 +17,17 @@
                 Back
             </button>
             <button class="dashboard-nav-button"
-                    onclick="location.href='@Url.Action("AdminEditStore", "AdminDashboard", new { businessId = @Model.Business.BusinessId })'">
+                    onclick="location.href='@Url.Action("AdminEditStore", "AdminDashboard", new { businessId = Model.Business.BusinessId })'">
                 Edit Store
             </button>
             <button class="dashboard-nav-button"
-                    style="float:right; margin: 0;">
+                    style="float:right; margin: 0;"
+                    onclick="location.href='@Url.Action("AdminAddDiscount", "AdminDashboard", new { businessId = Model.Business.BusinessId })'">
                 Add Discount
             </button>
             <button class="dashboard-nav-button"
                     style="float:right; margin: 0;"
-                    onclick="location.href='@Url.Action("AdminAddItem", "AdminDashboard", new { businessId = @Model.Business.BusinessId })'">
+                    onclick="location.href='@Url.Action("AdminAddItem", "AdminDashboard", new { businessId = Model.Business.BusinessId })'">
                 Add Product
             </button>
         </div>
