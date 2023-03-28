@@ -7,33 +7,25 @@ namespace FoodSaverWebApp.Models
     public class StoreModel
     {
         public Business Business { get; set; }
-        public List<string> ProvinceCodes { get; set; }
-        public List<SelectListItem> TagItems { get; set; }
 
-        public StoreModel()
+        public List<string> ProvinceCodes { get; } = new()
         {
-            InitializeProvinces();
-        }
+            "AB",
+            "BC",
+            "MB",
+            "NB",
+            "NL",
+            "NT",
+            "NS",
+            "NU",
+            "ON",
+            "PE",
+            "QC",
+            "SK",
+            "YT",
+        };
         
-        public void InitializeProvinces()
-        {
-            ProvinceCodes = new List<string>()
-            {
-                "NL",
-                "PE",
-                "NS",
-                "NB",
-                "QC",
-                "ON",
-                "MB",
-                "NL",
-                "AB",
-                "BC",
-                "YT",
-                "NT",
-                "NU"
-            };
-        }
+        public List<SelectListItem> TagItems { get; set; }
         
         public void ConfigureTagsToSelectList(ICollection<Tag> tags)
         {
