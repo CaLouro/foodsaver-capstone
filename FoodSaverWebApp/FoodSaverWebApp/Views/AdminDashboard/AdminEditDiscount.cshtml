@@ -1,4 +1,4 @@
-﻿@model DiscountInfo
+﻿@model DiscountFormModel
 
 @{
     ViewBag.Title = "Edit Discount";
@@ -8,15 +8,19 @@
     <div class="login-card col-lg-6">
         <h1>New Discount</h1>
 
-        <form asp-action="AdminEditDiscount" method="post" asp-route-businessId="@Model.Item.Business.BusinessId">
+        <form asp-action="AdminEditDiscount" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label class="control-label" asp-for="Item">Item</label>
-                <select asp-for="Item" class="form-control form-select" disabled="disabled">
-                    <option selected>@Model.Item.Name</option>
+                <label class="control-label" asp-for="ItemId">Item</label>
+                <select asp-for="ItemId" class="form-control form-select" disabled="disabled">
+                    <option value="@null" selected>Choose An Item</option>
+                    @foreach (var item in Model.Items)
+                    {
+                        <option value="@item.ItemId">@item.Name</option>
+                    }
                 </select>
-                <span asp-validation-for="Item" class="text-danger"></span>
+                <span asp-validation-for="ItemId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="QuantityAvailable" class="control-label">Quantity Available</label>
@@ -38,15 +42,15 @@
                 <input asp-for="AvailabilityEnds" class="form-control" type="date"/>
                 <span asp-validation-for="AvailabilityEnds" class="text-danger"></span>
             </div>
-
-            <input asp-for="DiscountInfoId" value="@Model.DiscountInfoId" hidden/>
-            <input asp-for="Item" value="@Model.Item" hidden/>
+            
+            <input type="hidden" asp-for="BusinessId"/>
+            <input type="hidden" asp-for="ItemId"/>
 
             <div class="form-group">
                 <div class="d-flex row-cols-2 justify-content-between">
                     <a asp-action="AdminStoreItems"
                        asp-controller="AdminDashboard"
-                       asp-route-businessId="@Model.Item.Business.BusinessId"
+                       asp-route-businessId="@Model.BusinessId"
                        class="btn col-4">
                         Cancel
                     </a>

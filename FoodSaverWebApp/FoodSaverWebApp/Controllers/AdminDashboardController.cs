@@ -299,7 +299,7 @@ namespace FoodSaverWebApp.Controllers
             var model = new DiscountFormModel
             {
                 Items = await _itemService.GetAllItemsForBusiness(businessId),
-                DiscountInfo = new DiscountInfo()
+                BusinessId = businessId
             };
 
             return View(model);
@@ -308,12 +308,30 @@ namespace FoodSaverWebApp.Controllers
         /// <summary>
         /// Add discount to database if it meets the model requirements
         /// </summary>
+        /// <param name="businessId"></param>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("/Admin/Store/{businessId}/Discount/Add")]
-        public async Task<IActionResult> AdminAddDiscount(DiscountFormModel model)
+        public async Task<IActionResult> AdminAddDiscount(int businessId, DiscountFormModel model)
         {
-            // WIP
+            if (ModelState.IsValid)
+            {
+                var discount = new DiscountInfo
+                {
+                    QuantityAvailable = model.QuantityAvailable,
+                    Price = model.Price,
+                    AvailabilityStarts = model.AvailabilityStarts,
+                    AvailabilityEnds = model.AvailabilityEnds,
+                    ItemId = model.ItemId
+                };
+
+                await _discountInfoService.InsertDiscountInfo(discount);
+
+                return RedirectToAction("AdminStoreItems", new { businessId = businessId });
+            }
+
+            model.Items = await _itemService.GetAllItemsForBusiness(businessId);
+            
             return View(model);
         }
 
@@ -327,29 +345,50 @@ namespace FoodSaverWebApp.Controllers
         public async Task<IActionResult> AdminEditDiscount(int businessId, int discountId)
         {
             var discount = await _discountInfoService.GetDiscountInfo(discountId);
+            
+            var model = new DiscountFormModel
+            {
+                Items = await _itemService.GetAllItemsForBusiness(businessId),
+                BusinessId = businessId,
+                ItemId = discount.ItemId,
+                Price = discount.Price, 
+                QuantityAvailable = discount.QuantityAvailable,
+                AvailabilityStarts = discount.AvailabilityStarts,
+                AvailabilityEnds = discount.AvailabilityEnds
+            };
 
-            return View(discount);
+            return View(model);
         }
 
         /// <summary>
         /// Verifies that the edited info meets the model requirements and updates the discount
         /// </summary>
-        /// <param name="businessId"></param>
-        /// <param name="discount"></param>
+        /// <param name="model"></param>
+        /// <param name="discountId"></param>
         /// <returns></returns>
         [HttpPost("/Admin/Store/{businessId}/Discount/{discountId}/Edit")]
-        public async Task<IActionResult> AdminEditDiscount(int businessId, DiscountInfo discount)
+        public async Task<IActionResult> AdminEditDiscount(DiscountFormModel model, int discountId)
         {
-            ModelState.Remove("Business");
 
             if (ModelState.IsValid)
             {
+                var discount = new DiscountInfo
+                {
+                    DiscountInfoId = discountId,
+                    QuantityAvailable = model.QuantityAvailable,
+                    Price = model.Price,
+                    AvailabilityStarts = model.AvailabilityStarts,
+                    AvailabilityEnds = model.AvailabilityEnds,
+                    ItemId = model.ItemId
+                };
+
                 await _discountInfoService.UpdateDiscountInfo(discount);
 
-                return RedirectToAction("AdminStoreItems", new { businessId = businessId });
+                return RedirectToAction("AdminStoreItems", new { businessId = model.BusinessId });
             }
-
-            return View(discount);
+            
+            model.Items = await _itemService.GetAllItemsForBusiness(model.BusinessId);
+            return View(model);
         }
 
         /// <summary>

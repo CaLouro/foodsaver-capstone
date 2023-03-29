@@ -8,40 +8,42 @@
     <div class="login-card col-lg-6">
         <h1>New Discount</h1>
 
-        <form asp-action="AdminAddDiscount">
+        <form asp-action="AdminAddDiscount" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label class="control-label" asp-for="DiscountInfo.Item">Item</label>
-                <select asp-for="DiscountInfo.Item" class="form-control form-select">
-                    <option selected>Choose An Item</option>
+                <label class="control-label" asp-for="ItemId">Item</label>
+                <select asp-for="ItemId" class="form-control form-select">
+                    <option value="@null" selected>Choose An Item</option>
                     @foreach (var item in Model.Items)
                     {
-                        <option value="@item">@item.Name</option>
+                        <option value="@item.ItemId">@item.Name</option>
                     }
                 </select>
-                <span asp-validation-for="DiscountInfo.Item" class="text-danger"></span>
+                <span asp-validation-for="ItemId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiscountInfo.QuantityAvailable" class="control-label">Quantity Available</label>
-                <input asp-for="DiscountInfo.QuantityAvailable" class="form-control" type="number"/>
-                <span asp-validation-for="DiscountInfo.QuantityAvailable" class="text-danger"></span>
+                <label asp-for="QuantityAvailable" class="control-label">Quantity Available</label>
+                <input asp-for="QuantityAvailable" class="form-control" type="number"/>
+                <span asp-validation-for="QuantityAvailable" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiscountInfo.Price" class="control-label">Price</label>
-                <input asp-for="DiscountInfo.Price" class="form-control" type="number"/>
-                <span asp-validation-for="DiscountInfo.Price" class="text-danger"></span>
+                <label asp-for="Price" class="control-label">Price</label>
+                <input asp-for="Price" class="form-control" type="number"/>
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiscountInfo.AvailabilityStarts" class="control-label">Availability Starts</label>
-                <input asp-for="DiscountInfo.AvailabilityStarts" class="form-control" type="date"/>
-                <span asp-validation-for="DiscountInfo.AvailabilityStarts" class="text-danger"></span>
+                <label asp-for="AvailabilityStarts" class="control-label">Availability Starts</label>
+                <input asp-for="AvailabilityStarts" class="form-control" type="date"/>
+                <span asp-validation-for="AvailabilityStarts" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiscountInfo.AvailabilityEnds" class="control-label">Availability Ends</label>
-                <input asp-for="DiscountInfo.AvailabilityEnds" class="form-control" type="date"/>
-                <span asp-validation-for="DiscountInfo.AvailabilityEnds" class="text-danger"></span>
+                <label asp-for="AvailabilityEnds" class="control-label">Availability Ends</label>
+                <input asp-for="AvailabilityEnds" class="form-control" type="date"/>
+                <span asp-validation-for="AvailabilityEnds" class="text-danger"></span>
             </div>
+            
+            <input type="hidden" asp-for="BusinessId"/>
 
             <div class="form-group">
                 <div class="d-flex row-cols-1">

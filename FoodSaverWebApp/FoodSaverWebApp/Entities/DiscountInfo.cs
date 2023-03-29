@@ -21,6 +21,9 @@ namespace FoodSaverWebApp.Entities
         [Column("availability_ends")]
         public DateTime? AvailabilityEnds { get; set; }
 
+        [Column("item_id")] 
+        public int ItemId { get; set; }
+
         [Reference(typeof(Item))]
         public Item Item { get; set; }
     }
