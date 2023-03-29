@@ -321,9 +321,10 @@ namespace FoodSaverWebApp.Controllers
         /// Send the DiscountInfo entity that was selected to the view
         /// </summary>
         /// <param name="discountId"></param>
+        /// <param name="businessId"></param>
         /// <returns></returns>
         [HttpGet("/Admin/Store/{businessId}/Discount/{discountId}/Edit")]
-        public async Task<IActionResult> AdminEditDiscount(int discountId)
+        public async Task<IActionResult> AdminEditDiscount(int businessId, int discountId)
         {
             var discount = await _discountInfoService.GetDiscountInfo(discountId);
 
