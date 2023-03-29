@@ -74,7 +74,12 @@
                          style="width: 50%;">
                         <div class="v-center">
                             <h4>@business.Name</h4>
-                            <span>Tags</span>
+                            <div class="tags">
+                                @foreach (Tag tag in business.Tags)
+                                {
+                                    <div class="tag-item">@tag.Name</div>
+                                }
+                            </div>
                         </div>
                     </div>
                     <div class="card-text card-section-container"
