@@ -230,6 +230,9 @@ nav {
     cursor: pointer;
     user-select: none;
 }
+.list-toggler:hover {
+    background-color: white !important;
+}
 
 #checkbox-list {
     position: absolute;
@@ -243,8 +246,57 @@ nav {
     border: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: rgba(0, 0, 0, 0.2) 0 4px 20px -10px;
     background-color: white;
+    z-index: 3;
 }
-#checkbox-list .list-item {
+
+.list-item {
     margin: 0;
+    padding: 0.25rem 0.5rem 0 0.5rem;
     user-select: none;
+    height: 2rem;
+    border-radius: 10px;
+    transition: background-color 150ms;
+}
+
+.list-item:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.optional {
+    font-size: 80%;
+    padding: 0 0.2rem;
+    color: #6E8387;
+}
+
+.form-dropdown {
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 0.5rem 1rem;
+    background-color: white;
+    cursor: pointer;
+}
+
+.section-header:not(:first-child) {
+    margin-top: 3rem;
+}
+
+.section-header {
+    text-align: right;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.section-header hr,
+.section-header p {
+    color: #6E8387;
+    margin: 0 0 0.20rem 0;
+    padding: 0;
+}
+
+.section-header hr {
+    background-color: rgba(110, 131, 135, 0.8) !important;
+    border-radius: 10px;
+    border: none;
+    height: 2px;
+    opacity: 1;
 }
