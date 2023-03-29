@@ -48,7 +48,7 @@
             <div class="dashboard-result-card">
                 <div class="v-center d-flex justify-content-between" style="height:100%;">
                     <button class="card-icon card-section-container"
-                            style="border-radius: 20px 0 0 20px;"
+                            style="width: 10%; border-radius: 20px 0 0 20px;"
                             onclick="toggleFavorite()"
                             button-for="favorite">
                         <div class="v-center">
@@ -71,7 +71,7 @@
                         </div>
                     </button>
                     <div class="card-text card-section-container"
-                         style="width: 50%;">
+                         style="width: 40%;">
                         <div class="v-center">
                             <h4>@business.Name</h4>
                             <div class="tags">
@@ -90,6 +90,7 @@
                         </div>
                     </div>
                     <button class="card-icon card-section-container"
+                            style="width: 10%;"
                             button-for="select"
                             onclick="redirectToMapsUrl('@business.Address.PresentAddress(true, true, true)')">
                         <div class="v-center">
@@ -99,7 +100,7 @@
                         </div>
                     </button>
                     <button class="card-icon card-section-container"
-                            style="border-radius: 0 20px 20px 0;"
+                            style="width: 10%; border-radius: 0 20px 20px 0;"
                             button-for="select"
                             onclick="location.href='@Url.Action("StoreListings", "Dashboard", new { businessId = @business.BusinessId })'">
                         <div class="v-center">

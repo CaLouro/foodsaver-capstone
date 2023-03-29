@@ -66,6 +66,7 @@
                         </div>
                     </div>
                     <button class="card-icon card-section-container"
+                            style="width: 10%;"
                             button-for="edit"
                             onclick="location.href='@Url.Action("AdminEditItem", "AdminDashboard", new { businessId = @item.Business.BusinessId, itemId = @item.ItemId })'">
                         <div class="v-center">
@@ -75,7 +76,7 @@
                         </div>
                     </button>
                     <button class="card-icon card-section-container"
-                            style="border-radius: 0 20px 20px 0;"
+                            style="width: 10%; border-radius: 0 20px 20px 0;"
                             button-for="delete"
                             onclick="location.href='@Url.Action("AdminDeleteItem", "AdminDashboard", new { businessId = @item.Business.BusinessId, itemId = @item.ItemId })'">
                         <div class="v-center">
@@ -106,7 +107,7 @@
                         </div>
                     </div>
                     <div class="card-text card-section-container"
-                         style="width: 40%;">
+                         style="width: 30%;">
                         <div class="v-center">
                             <p style="font-size: 16px;">
                                 @if (deal.Item.StandardPrice != null)
@@ -127,6 +128,7 @@
                         </div>
                     </div>
                     <button class="card-icon card-section-container"
+                            style="width: 10%;"
                             button-for="edit"
                             onclick="location.href='@Url.Action("AdminEditDiscount", "AdminDashboard", new { businessId = item.Business.BusinessId, discountId = deal.DiscountInfoId })'">
                         <div class="v-center">
@@ -136,7 +138,7 @@
                         </div>
                     </button>
                     <button class="card-icon card-section-container"
-                            style="border-radius: 0 20px 20px 0;"
+                            style="width: 10%; border-radius: 0 20px 20px 0;"
                             button-for="delete"
                             onclick="location.href='@Url.Action("AdminDeleteDiscount", "AdminDashboard", new { businessId = item.Business.BusinessId, discountId = deal.DiscountInfoId })'">
                         <div class="v-center">

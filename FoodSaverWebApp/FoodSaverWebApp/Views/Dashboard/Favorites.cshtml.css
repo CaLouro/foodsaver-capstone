@@ -21,10 +21,9 @@
 }
 
 .favoriteIcon[data-is-favorite="False"] {
-    color: gray;
+    color: black;
 }
 
 .arrowForwardIcon {
     cursor: pointer;
-    color: gray;
 }
