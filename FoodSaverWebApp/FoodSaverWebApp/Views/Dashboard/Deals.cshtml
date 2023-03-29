@@ -12,7 +12,7 @@
                     onclick="location.href='@Url.Action("Stores", "Dashboard")'">
                 Stores
             </button>
-            <button class="dashboard-nav-button dashboard-nav-button-active">Products</button>
+            <button class="dashboard-nav-button dashboard-nav-button-active">Deals</button>
             <button class="dashboard-nav-button"
                     style="float:right; margin: 0;"
                     onclick="location.href='@Url.Action("Favorites", "Dashboard")'">
@@ -54,11 +54,14 @@
                                 <span style="font-size: 16px;">
                                     @if (deal.Item.StandardPrice != null)
                                     {
-                                        <span><del>@($"{deal.Item.StandardPrice:c}")</del> @($"{deal.Price:c}") (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)</span>
+                                        <span>
+                                            <span class="discount-highlight">@($"{deal.Price:c}")</span>
+                                            (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)
+                                        </span>
                                     }
                                     else
                                     {
-                                        <span>@($"{deal.Price:c}")</span>
+                                        <span class="discount-highlight">@($"{deal.Price:c}")</span>
                                     }
                                 </span>
                             </h4>
