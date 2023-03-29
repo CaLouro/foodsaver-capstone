@@ -128,7 +128,7 @@
                     </div>
                     <button class="card-icon card-section-container"
                             button-for="edit"
-                            onclick="location.href='@Url.Action("AdminEditDiscount", "AdminDashboard", new { businessId = item.Business.BusinessId, deal.DiscountInfoId })'">
+                            onclick="location.href='@Url.Action("AdminEditDiscount", "AdminDashboard", new { businessId = item.Business.BusinessId, discountId = deal.DiscountInfoId })'">
                         <div class="v-center">
                             <i class="material-icons dashboard-icon">
                                 edit
@@ -138,7 +138,7 @@
                     <button class="card-icon card-section-container"
                             style="border-radius: 0 20px 20px 0;"
                             button-for="delete"
-                            onclick="location.href='@Url.Action("AdminDeleteDiscount", "AdminDashboard", new { businessId = item.Business.BusinessId, itemId = deal.DiscountInfoId })'">
+                            onclick="location.href='@Url.Action("AdminDeleteDiscount", "AdminDashboard", new { businessId = item.Business.BusinessId, discountId = deal.DiscountInfoId })'">
                         <div class="v-center">
                             <i class="material-icons dashboard-icon" id="itemDelete">
                                 delete
