@@ -110,6 +110,26 @@ nav {
 .login-card select {
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.2) 0 4px 20px -10px;
+    transition: border-color 250ms;
+}
+
+.login-card input:not(input[type=checkbox]):focus,
+.login-card select:focus {
+    border-color: #868686;
+    box-shadow: rgba(0, 0, 0, 0.8) 0 4px 20px -10px;
+}
+
+.login-card input:not(input[type=checkbox]),
+.login-card select {
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 4px 20px -10px;
+    transition: border-color 250ms;
+}
+
+.login-card input:not(input[type=checkbox]):focus,
+.login-card select:focus {
+    border-color: #868686;
+    box-shadow: rgba(0, 0, 0, 0.8) 0 4px 20px -10px;
 }
 
 .login-card input[type=submit] {

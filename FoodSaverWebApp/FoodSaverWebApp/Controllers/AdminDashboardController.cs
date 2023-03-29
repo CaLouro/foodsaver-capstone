@@ -150,7 +150,6 @@ namespace FoodSaverWebApp.Controllers
         public async Task<IActionResult> AdminEditStore(StoreModel storeModel)
         {
             ModelState.Remove("ProvinceCodes");
-            ModelState.Remove("Address");
 
             if (ModelState.IsValid)
             {
