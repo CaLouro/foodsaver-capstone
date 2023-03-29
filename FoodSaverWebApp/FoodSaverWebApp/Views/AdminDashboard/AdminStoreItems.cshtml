@@ -56,7 +56,7 @@
                          style="width: 40%; padding-left: 3rem;">
                         <div class="v-center">
                             <h4>@item.Name</h4>
-                            <span>@($"{item.StandardPrice:c}")</span>
+                            <span>Regular price: @($"{item.StandardPrice:c}")</span>
                         </div>
                     </div>
                     <div class="card-text card-section-container"
@@ -100,34 +100,48 @@
                         <div class="v-center">
                             <h4>
                                 @item.Name
-                                <span style="font-size: 16px;">
-                                    @if (deal.Item.StandardPrice != null)
-                                    {
-                                        <span><del>@($"{deal.Item.StandardPrice:c}")</del> @($"{deal.Price:c}") (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)</span>
-                                    }
-                                    else
-                                    {
-                                        <span>@($"{deal.Price:c}")</span>
-                                    }
-                                </span>
                             </h4>
-                            <span>@item.Description</span>
+                            <p>Available at: @deal.AvailabilityStarts.ToString()</p>
+                            <p>Ends at: @deal.AvailabilityEnds.ToString()</p>
                         </div>
                     </div>
                     <div class="card-text card-section-container"
                          style="width: 40%;">
                         <div class="v-center">
-                            <p>@item.Business.Name</p>
-                            <p style="color:rgba(0, 0, 0, 0.4)">@item.Business.Address.PresentAddress(showProvince: true)</p>
+                            <p style="font-size: 16px;">
+                                @if (deal.Item.StandardPrice != null)
+                                {
+                                    <span>@($"{deal.Price:c}") (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)</span>
+                                }
+                                else
+                                {
+                                    <span>@($"{deal.Price:c}")</span>
+                                }
+                            </p>
+                            @if (deal.QuantityAvailable != null)
+                            {
+                                <p style="font-size: 16px;">
+                                    Availability: @deal.QuantityAvailable units
+                                </p>
+                            }
                         </div>
                     </div>
                     <button class="card-icon card-section-container"
-                            style="border-radius: 0 20px 20px 0;"
-                            button-for="select"
-                            onclick="redirectToMapsUrl('@item.Business.Address.PresentAddress(true, true, true)')">
+                            button-for="edit"
+                            onclick="location.href='@Url.Action("AdminEditDiscount", "AdminDashboard", new { businessId = item.Business.BusinessId, deal.DiscountInfoId })'">
                         <div class="v-center">
-                            <i class="material-icons arrowForwardIcon">
-                                place
+                            <i class="material-icons dashboard-icon">
+                                edit
+                            </i>
+                        </div>
+                    </button>
+                    <button class="card-icon card-section-container"
+                            style="border-radius: 0 20px 20px 0;"
+                            button-for="delete"
+                            onclick="location.href='@Url.Action("AdminDeleteDiscount", "AdminDashboard", new { businessId = item.Business.BusinessId, itemId = deal.DiscountInfoId })'">
+                        <div class="v-center">
+                            <i class="material-icons dashboard-icon" id="itemDelete">
+                                delete
                             </i>
                         </div>
                     </button>
