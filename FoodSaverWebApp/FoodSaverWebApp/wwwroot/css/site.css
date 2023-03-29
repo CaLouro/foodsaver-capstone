@@ -137,6 +137,7 @@ nav {
 .login-card label {
     margin-top: 0;
     margin-bottom: 0.5rem;
+    width: 100%;
 }
 
 .login-card .text-danger {
@@ -263,9 +264,11 @@ nav {
 }
 
 .optional {
+    float: right;
     font-size: 80%;
-    padding: 0 0.2rem;
+    padding-top: 0.2rem;
     color: #6E8387;
+    opacity: 0.7;
 }
 
 .form-dropdown {
