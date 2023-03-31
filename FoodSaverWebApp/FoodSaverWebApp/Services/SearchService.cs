@@ -48,7 +48,7 @@ namespace FoodSaverWebApp.Services
 
                 var results = ActSearch(objects, objectTokens, searchTokens);
 
-                results.Sort((one, other) => one.Item1.CompareTo(other.Item1));
+                results.Sort((one, other) => other.Item1.CompareTo(one.Item1));
 
                 searchResults = results.ConvertAll<T>(value => value.Item2);
             });

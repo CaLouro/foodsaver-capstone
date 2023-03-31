@@ -8,18 +8,20 @@
     <div class="dashboard-navigation"
          style="height: 4.5rem;">
         <div class="v-center">
-            <button class="dashboard-nav-button dashboard-nav-button-active">Stores</button>
             <button class="dashboard-nav-button"
-                    onclick="location.href='@Url.Action("Deals", "Dashboard")'">
-                Deals
+                    onclick="location.href='@Url.Action("Stores", "Dashboard")'">
+                Stores
             </button>
             <button class="dashboard-nav-button"
-                    style="float:right; margin: 0;"
-                    onclick="location.href='@Url.Action("Favorites", "Dashboard")'">
+                    onclick="location.href='@Url.Action("Deals", "Dashboard")'">
+                Products
+            </button>
+            <button class="dashboard-nav-button dashboard-nav-button-active"
+                    style="float:right; margin: 0;">
                 Favorites
             </button>
         </div>
-        @using (Html.BeginForm(actionName: "Stores", controllerName: "Dashboard", method: FormMethod.Get))
+        @using (Html.BeginForm(actionName: "Favorites", controllerName: "Dashboard", method: FormMethod.Get))
         {
             <div class="h-center dashboard-nav-search-container">
                 <div class="v-center d-flex justify-content-center">
@@ -42,6 +44,7 @@
     <div class="dashboard-results">
         @foreach (Business business in Model.Businesses)
         {
+            if (!Model.IsFavoriteBusiness(business)) continue;
             <div class="dashboard-result-card">
                 <div class="v-center d-flex justify-content-between" style="height:100%;">
                     <button class="card-icon card-section-container"

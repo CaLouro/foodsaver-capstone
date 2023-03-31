@@ -1,0 +1,11 @@
+﻿#business-address-link {
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    vertical-align: bottom;
+    display: flex;
+}
+
+#business-address-text {
+    text-decoration: underline;
+}

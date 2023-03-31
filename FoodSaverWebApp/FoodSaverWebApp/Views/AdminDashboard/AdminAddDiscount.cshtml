@@ -1,0 +1,62 @@
+﻿@model DiscountFormModel
+
+@{
+    ViewData["Title"] = "Add Discount";
+}
+
+<div class="row">
+    <div class="login-card col-lg-6">
+        <h1>New Discount</h1>
+
+        <form asp-action="AdminAddDiscount" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label class="control-label" asp-for="ItemId">Item</label>
+                <select asp-for="ItemId" class="form-control form-select">
+                    <option value="@null" selected>Choose An Item</option>
+                    @foreach (var item in Model.Items)
+                    {
+                        <option value="@item.ItemId">@item.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="ItemId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuantityAvailable" class="control-label">Quantity Available <span class="optional">(Optional)</span></label>
+                <input asp-for="QuantityAvailable" class="form-control" type="number"/>
+                <span asp-validation-for="QuantityAvailable" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label">Price</label>
+                <input asp-for="Price" class="form-control" type="number"/>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AvailabilityStarts" class="control-label">Availability Starts <span class="optional">(Optional)</span></label>
+                <input asp-for="AvailabilityStarts" class="form-control" type="date"/>
+                <span asp-validation-for="AvailabilityStarts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AvailabilityEnds" class="control-label">Availability Ends <span class="optional">(Optional)</span></label>
+                <input asp-for="AvailabilityEnds" class="form-control" type="date"/>
+                <span asp-validation-for="AvailabilityEnds" class="text-danger"></span>
+            </div>
+            
+            <input type="hidden" asp-for="BusinessId"/>
+
+            <div class="form-group">
+                <div class="d-flex row-cols-1">
+                    <input type="submit" value="Add" class="btn btn-primary"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="login-form-image col-lg-6">
+        <div class="image-overlay"></div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

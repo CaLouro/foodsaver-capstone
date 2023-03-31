@@ -9,6 +9,12 @@ namespace FoodSaverWebApp.Services
         /// </summary>
         /// <returns></returns>
         public Task<ICollection<DiscountInfo>> GetAllDiscountInfos();
+
+        /// <summary>
+        /// Retrieves a list of type ICollection for DiscountInfo entities
+        /// </summary>
+        /// <returns></returns>
+        public Task<ICollection<DiscountInfo>> GetAllDiscountsForBusiness(int businessId);
         
         /// <summary>
         /// Retrieves a single DiscountInfo entity given the discountInfoId

@@ -26,6 +26,7 @@
     animation-name: slideDown;
     -webkit-animation-name: slideDown;
 }
+
 @keyframes slideDown {
     0% {
         transform: translateY(-1rem);
@@ -42,6 +43,7 @@
         opacity: 0;
     }
 }
+
 @-webkit-keyframes slideDown {
     0% {
         -webkit-transform: translateY(-1rem);
@@ -64,6 +66,7 @@
     -webkit-animation-name: slideUp;
     animation-name: slideUp;
 }
+
 @keyframes slideUp {
     0% {
         transform: translateY(2rem);
@@ -80,6 +83,7 @@
         opacity: 0;
     }
 }
+
 @-webkit-keyframes slideUp {
     0% {
         -webkit-transform: translateY(2rem);
@@ -94,5 +98,35 @@
     0% {
         -webkit-transform: translateY(2rem);
         opacity: 0;
+    }
+}
+
+/* Fade In */
+.fadeIn {
+    animation-name: fadeIn;
+    -webkit-animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+    0% {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        -webkit-opacity: 0;
+    }
+    100% {
+        -webkit-opacity: 1;
+    }
+    0% {
+        -webkit-opacity: 0;
     }
 }

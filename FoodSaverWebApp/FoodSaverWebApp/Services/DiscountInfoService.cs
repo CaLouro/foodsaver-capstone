@@ -1,4 +1,5 @@
 ﻿using FoodSaverWebApp.Entities;
+using Postgrest;
 
 namespace FoodSaverWebApp.Services
 {
@@ -14,6 +15,16 @@ namespace FoodSaverWebApp.Services
         {
             var result = await _connection.AccessDatabase()
                 .From<DiscountInfo>()
+                .Get();
+
+            return result.Models;
+        }
+
+        public async Task<ICollection<DiscountInfo>> GetAllDiscountsForBusiness(int businessId)
+        {
+            var result = await _connection.AccessDatabase()
+                .From<DiscountInfo>()
+                .Filter("item.business_id", Constants.Operator.Equals, businessId)
                 .Get();
 
             return result.Models;

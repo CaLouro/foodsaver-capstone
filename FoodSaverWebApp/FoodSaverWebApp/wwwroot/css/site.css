@@ -2,7 +2,7 @@ html {
     font-size: 14px;
 }
 
-@media (min-width: 768px) {  
+@media (min-width: 768px) {
     html {
         font-size: 16px;
     }
@@ -16,6 +16,18 @@ html {
 body {
     padding-bottom: 60px;
     background: #FCFAFA;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.noSelect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                     supported by Chrome, Edge, Opera and Firefox */
 }
 
 /* Navigation styling */
@@ -34,6 +46,7 @@ nav {
     color: #6E8387;
     transition: color 250ms;
 }
+
 .nav-link:hover {
     color: black;
 }
@@ -41,8 +54,10 @@ nav {
 .nav-left-link {
     margin: 0 20px;
 }
+
 .nav-right-link {
     margin-left: 20px;
+    color: #6E8387;
 }
 
 .nav-title {
@@ -55,6 +70,7 @@ nav {
     margin-right: 25px;
     transition: color 250ms;
 }
+
 .nav-title:hover {
     color: #09af3f;
 }
@@ -63,60 +79,6 @@ nav {
     box-shadow: 0 0 0 2px #C8D3D5;
 }
 
-/* Main styling for page content */
-.main-container {
-    overflow: hidden;
-    width: 100%;
-}
-
-main {
-    margin: 0 auto;
-    max-width: 1200px;
-}
-
-#mainPage {
-    padding: 0;
-    margin: 0;
-}
-
-
-/* Footer styling */
-footer {
-    background-color: white;
-    margin: 0 auto;
-    
-    box-shadow: 0 -4px 20px -10px rgba(0, 0, 0, 0.1);
-
-    font-family: 'Varela Round', sans-serif;
-    color: #6E8387;
-    z-index: 2;
-}
-footer .container {
-    padding: 0 1rem;
-    max-width: 1200px;
-}
-footer .container .footer-link {
-    text-decoration: none;
-    margin: 0 1.2rem;
-}
-
-/* Home Page styling */
-
-.home-page {
-    width: 100%;
-    height: 50rem;
-}
-
-.bg-image {
-    position: absolute;
-    overflow: visible;
-    width: 100vw;
-    height: 100%;
-    padding: 0;
-    top: 0;
-    left: 0;
-    z-index: -1;
-}
 .image-overlay {
     width: inherit;
     height: inherit;
@@ -125,58 +87,6 @@ footer .container .footer-link {
     background-origin: content-box;
     background-image: linear-gradient(180deg, rgba(10, 176, 64, 0.6) 0%, rgba(12, 236, 61, 0.6) 100%), url("../images/table-of-food.jpg");
     background-size: cover;
-}
-
-.landing-content {
-    background: none;
-    text-align: center;
-    padding-top: 13.5rem;
-}
-
-.landing-title {
-    padding: 0;
-    font-family: 'Sansita Swashed', cursive;
-    font-weight: 600;
-    font-size: 96px;
-    line-height: 6rem;
-    color: #FCFAFA;
-}
-.landing-slogan {
-    margin: 0;
-    padding: 0;
-    font-family: 'Varela Round', sans-serif;
-    font-size: 20px;
-    color: #FCFAFA;
-}
-
-.landing-button {
-    margin-top: 10.5rem;
-    width: 13rem;
-    height: 2.5rem;
-    font-family: 'Varela Round', sans-serif;
-    font-size: 16px;
-    color: #6E8387;
-    background-color: #FCFAFA;
-    border-radius: 10px;
-    border: none;
-    transition: background-color 150ms;
-}
-.landing-button:hover {
-    color: #6E8387;
-    background-color: #e3e3e3;
-}
-.landing-button:active {
-    background-color: #b6b6b6;
-}
-
-@media only screen and (max-width: 501px) {
-    .landing-title {
-        font-size: 60px;
-        line-height: 4rem;
-    }
-    .landing-slogan {
-        font-size: 14px;
-    }
 }
 
 /* Styles for register/login forms */
@@ -196,9 +106,30 @@ footer .container .footer-link {
     margin-bottom: 0.75rem;
 }
 
-.login-card input:not(input[type=checkbox]) {
+.login-card input:not(input[type=checkbox]),
+.login-card select {
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.2) 0 4px 20px -10px;
+    transition: border-color 250ms;
+}
+
+.login-card input:not(input[type=checkbox]):focus,
+.login-card select:focus {
+    border-color: #868686;
+    box-shadow: rgba(0, 0, 0, 0.8) 0 4px 20px -10px;
+}
+
+.login-card input:not(input[type=checkbox]),
+.login-card select {
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 4px 20px -10px;
+    transition: border-color 250ms;
+}
+
+.login-card input:not(input[type=checkbox]):focus,
+.login-card select:focus {
+    border-color: #868686;
+    box-shadow: rgba(0, 0, 0, 0.8) 0 4px 20px -10px;
 }
 
 .login-card input[type=submit] {
@@ -213,13 +144,8 @@ footer .container .footer-link {
     background: #09a93d;
 }
 
-.stay-logged-in {
-    margin-top: 1rem;
-}
-.stay-logged-in input {
-    width: 1.1rem;
-    height: 1.1rem;
-    margin-right: 0.5rem;
+.login-card label:not(.list-item > label) {
+    width: 100%;
 }
 
 .login-card label {
@@ -285,6 +211,7 @@ footer .container .footer-link {
 .unassigned-errors {
     margin-bottom: 1rem;
 }
+
 .unassigned-errors ul {
     list-style: none;
     padding-left: 0;
@@ -295,6 +222,7 @@ footer .container .footer-link {
         max-width: 40rem;
         margin: 0 auto;
     }
+
     .login-form-image {
         display: none;
     }
@@ -316,6 +244,9 @@ footer .container .footer-link {
     cursor: pointer;
     user-select: none;
 }
+.list-toggler:hover {
+    background-color: white !important;
+}
 
 #checkbox-list {
     position: absolute;
@@ -329,8 +260,59 @@ footer .container .footer-link {
     border: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: rgba(0, 0, 0, 0.2) 0 4px 20px -10px;
     background-color: white;
+    z-index: 3;
 }
-#checkbox-list .list-item {
+
+.list-item {
     margin: 0;
+    padding: 0.25rem 0.5rem 0 0.5rem;
     user-select: none;
+    height: 2rem;
+    border-radius: 10px;
+    transition: background-color 150ms;
+}
+
+.list-item:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.optional {
+    float: right;
+    font-size: 80%;
+    padding-top: 0.2rem;
+    color: #6E8387;
+    opacity: 0.7;
+}
+
+.form-dropdown {
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 0.5rem 1rem;
+    background-color: white;
+    cursor: pointer;
+}
+
+.section-header:not(:first-child) {
+    margin-top: 3rem;
+}
+
+.section-header {
+    text-align: right;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.section-header hr,
+.section-header p {
+    color: #6E8387;
+    margin: 0 0 0.20rem 0;
+    padding: 0;
+}
+
+.section-header hr {
+    background-color: rgba(110, 131, 135, 0.8) !important;
+    border-radius: 10px;
+    border: none;
+    height: 2px;
+    opacity: 1;
 }

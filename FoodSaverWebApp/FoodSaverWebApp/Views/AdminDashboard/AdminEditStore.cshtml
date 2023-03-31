@@ -1,32 +1,41 @@
 ﻿@model StoreModel
 
 @{
-    ViewBag.Title = "Edit Store";
+    ViewData["Title"] = "Edit Store";
 }
 
-<div class="row d-flex justify-content-center">
-    <div class="login-card">
+<div class="row">
+    <div class="login-card col-lg-6">
         <h1>Edit Store</h1>
         
         <form asp-action="AdminEditStore">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+            <div class="section-header">
+                <p>Contact Info</p>
+                <hr />
+            </div>
             <div class="form-group">
                 <label asp-for="Business.Name" class="control-label">Name</label>
                 <input asp-for="Business.Name" class="form-control"/>
                 <span asp-validation-for="Business.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Business.ContactEmail" class="control-label">Contact Email</label>
+                <label asp-for="Business.ContactEmail" class="control-label">Contact Email <span class="optional">(Optional)</span></label>
                 <input asp-for="Business.ContactEmail" class="form-control" type="email"/>
                 <span asp-validation-for="Business.ContactEmail" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Business.ContactPhone" class="control-label">Contact Phone</label>
-                <input asp-for="Business.ContactPhone" class="form-control" type="phone"/>
+                <label asp-for="Business.ContactPhone" class="control-label">Contact Phone <span class="optional">(Optional)</span></label>
+                <input asp-for="Business.ContactPhone" 
+                       class="form-control"
+                       type="phone"/>
                 <span asp-validation-for="Business.ContactPhone" class="text-danger"></span>
             </div>
-            <div class="form-group" style="margin: 1.5rem 0 1.5rem 0;">
+            <div class="section-header">
+                <p>Business Tags</p>
+                <hr />
+            </div>
+            <div class="form-group" style="margin: 1.5rem 0 1.5rem 0; padding: 0.5rem 0">
                 <a class="list-toggler" id="list-toggler" toggled="false" onclick="list_toggler()">Select tags</a>
                 <div id="checkbox-list">
                     @for (int i = 0; i < Model.TagItems.Count; i++)
@@ -38,10 +47,14 @@
                         </div>
                         @if (i != Model.TagItems.Count - 1)
                         {
-                            <hr style="margin: 0 0 0.5rem 0; padding: 0;">
+                            <hr style="margin: 0.25rem 0 0.25rem 0; padding: 0;">
                         }
                     }
                 </div>
+            </div>
+            <div class="section-header">
+                <p>Address Info</p>
+                <hr />
             </div>
             <div class="form-group">
                 <label asp-for="Business.Address.Line1" class="control-label">Line 1</label>
@@ -49,22 +62,29 @@
                 <span asp-validation-for="Business.Address.Line1" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Business.Address.Line2" class="control-label">Line 2</label>
+                <label asp-for="Business.Address.Line2" class="control-label">Line 2 <span class="optional">(Optional)</span></label>
                 <input asp-for="Business.Address.Line2" class="form-control" type="text"/>
                 <span asp-validation-for="Business.Address.Line2" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin: 0;">
                 <label asp-for="Business.Address.City" class="control-label">City</label>
-                <input asp-for="Business.Address.City" class="form-control" type="text"/>
-                <span asp-validation-for="Business.Address.City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Business.Address.ProvinceCode" class="control-label">Province</label>
-                <select asp-for="Business.Address.ProvinceCode" 
-                        asp-items="@(new SelectList(Model.ProvinceCodes))">
-                    <option>Select a province</option>
-                </select>
-                <span asp-validation-for="Business.Address.ProvinceCode" class="text-danger"></span>
+                <div class="d-flex justify-content-between" style="margin-top: 0;">
+                    <div class="form-group" style="width: 48%; display: inline-block;">
+                        <input asp-for="Business.Address.City"
+                               class="form-control"
+                               type="text"/>
+                        <span asp-validation-for="Business.Address.City" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" style="width: 48%; display: inline-block;">
+                        <select asp-for="Business.Address.ProvinceCode"
+                                asp-items="@(new SelectList(Model.ProvinceCodes))"
+                                class="form-dropdown"
+                                style="width: 100%;">
+                            <option>Select a province</option>
+                        </select>
+                        <span asp-validation-for="Business.Address.ProvinceCode" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="Business.Address.PostalCode" class="control-label">Postal Code</label>
@@ -77,11 +97,18 @@
             <input asp-for="Business.Address.AddressId" value="@Model.Business.Address.AddressId" hidden />
             
             <div class="form-group">
-                <div class="d-flex row-cols-1">
-                    <input type="submit" value="Update" class="btn btn-primary"/>
+                <div class="d-flex row-cols-2 justify-content-between">
+                    <a asp-action="AdminStoreItems"
+                       asp-controller="AdminDashboard"
+                       asp-route-businessId="@Model.Business.BusinessId"
+                       class="btn col-4">Cancel</a>
+                    <input type="submit" value="Update" class="btn btn-primary col-7"/>
                 </div>
             </div>
         </form>
+    </div>
+    <div class="login-form-image col-lg-6">
+        <div class="image-overlay"></div>
     </div>
 </div>
 

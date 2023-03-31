@@ -15,6 +15,7 @@ namespace FoodSaverWebApp.Controllers
         private ITagService _tagService;
         private IDiscountInfoService _discountInfoService;
         private readonly ILogger<AdminDashboardController> _logger;
+        private readonly ISearchService _searchService;
 
         public AdminDashboardController(IAuthService authService,
             IBusinessService businessService,
@@ -22,7 +23,8 @@ namespace FoodSaverWebApp.Controllers
             IItemService itemService,
             ITagService tagService,
             IDiscountInfoService discountInfoService,
-            ILogger<AdminDashboardController> logger)
+            ILogger<AdminDashboardController> logger,
+            ISearchService searchService)
         {
             _authService = authService;
             _businessService = businessService;
@@ -31,12 +33,13 @@ namespace FoodSaverWebApp.Controllers
             _tagService = tagService;
             _discountInfoService = discountInfoService;
             _logger = logger;
+            _searchService = searchService;
         }
         
         [HttpGet("/Admin")]
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("AdminStores");
         }
 
         /// <summary>
@@ -44,13 +47,20 @@ namespace FoodSaverWebApp.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("/Admin/Stores")]
-        public async Task<IActionResult> AdminStores()
+        public async Task<IActionResult> AdminStores([FromQuery(Name = "search")] string? search)
         {
             User? user = await _authService.GetActiveUser();
             ICollection<Business>? businesses = null;
             
             if (user != null)
                 businesses = await _businessService.GetAllBusinessesUnderAdmin(user);
+
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                _logger.LogInformation($"Admin businesses search query: {search}");
+                businesses = await _searchService.Search(businesses.ToList(), search);
+            }
 
             return View(businesses);
         }
@@ -140,7 +150,6 @@ namespace FoodSaverWebApp.Controllers
         public async Task<IActionResult> AdminEditStore(StoreModel storeModel)
         {
             ModelState.Remove("ProvinceCodes");
-            ModelState.Remove("Address");
 
             if (ModelState.IsValid)
             {
@@ -180,12 +189,13 @@ namespace FoodSaverWebApp.Controllers
         /// </summary>
         /// <param name="businessId"></param>
         /// <returns></returns>
-        [HttpGet("/Admin/Store/{businessId}/Item/List")]
+        [HttpGet("/Admin/Store/{businessId}/Dashboard")]
         public async Task<IActionResult> AdminStoreItems(int businessId)
         {
             ItemListModel itemListModel = new ItemListModel()
             {
                 Items = await _itemService.GetAllItemsForBusiness(businessId),
+                Deals = await _discountInfoService.GetAllDiscountsForBusiness(businessId),
                 Business = await _businessService.GetBusiness(businessId)
             };
 
@@ -274,6 +284,123 @@ namespace FoodSaverWebApp.Controllers
         {
             await _itemService.DeleteItem(itemId);
             
+            return RedirectToAction("AdminStoreItems", new { businessId = businessId });
+        }
+
+        /// <summary>
+        /// Create a new discount info for the user to add information to
+        /// </summary>
+        /// <param name="businessId"></param>
+        /// <returns></returns>
+        [HttpGet("/Admin/Store/{businessId}/Discount/Add")]
+        public async Task<IActionResult> AdminAddDiscount(int businessId)
+        {
+            var model = new DiscountFormModel
+            {
+                Items = await _itemService.GetAllItemsForBusiness(businessId),
+                BusinessId = businessId
+            };
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Add discount to database if it meets the model requirements
+        /// </summary>
+        /// <param name="businessId"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost("/Admin/Store/{businessId}/Discount/Add")]
+        public async Task<IActionResult> AdminAddDiscount(int businessId, DiscountFormModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var discount = new DiscountInfo
+                {
+                    QuantityAvailable = model.QuantityAvailable,
+                    Price = model.Price,
+                    AvailabilityStarts = model.AvailabilityStarts,
+                    AvailabilityEnds = model.AvailabilityEnds,
+                    ItemId = model.ItemId
+                };
+
+                await _discountInfoService.InsertDiscountInfo(discount);
+
+                return RedirectToAction("AdminStoreItems", new { businessId = businessId });
+            }
+
+            model.Items = await _itemService.GetAllItemsForBusiness(businessId);
+            
+            return View(model);
+        }
+
+        /// <summary>
+        /// Send the DiscountInfo entity that was selected to the view
+        /// </summary>
+        /// <param name="discountId"></param>
+        /// <param name="businessId"></param>
+        /// <returns></returns>
+        [HttpGet("/Admin/Store/{businessId}/Discount/{discountId}/Edit")]
+        public async Task<IActionResult> AdminEditDiscount(int businessId, int discountId)
+        {
+            var discount = await _discountInfoService.GetDiscountInfo(discountId);
+            
+            var model = new DiscountFormModel
+            {
+                Items = await _itemService.GetAllItemsForBusiness(businessId),
+                BusinessId = businessId,
+                ItemId = discount.ItemId,
+                Price = discount.Price, 
+                QuantityAvailable = discount.QuantityAvailable,
+                AvailabilityStarts = discount.AvailabilityStarts,
+                AvailabilityEnds = discount.AvailabilityEnds
+            };
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Verifies that the edited info meets the model requirements and updates the discount
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="discountId"></param>
+        /// <returns></returns>
+        [HttpPost("/Admin/Store/{businessId}/Discount/{discountId}/Edit")]
+        public async Task<IActionResult> AdminEditDiscount(DiscountFormModel model, int discountId)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var discount = new DiscountInfo
+                {
+                    DiscountInfoId = discountId,
+                    QuantityAvailable = model.QuantityAvailable,
+                    Price = model.Price,
+                    AvailabilityStarts = model.AvailabilityStarts,
+                    AvailabilityEnds = model.AvailabilityEnds,
+                    ItemId = model.ItemId
+                };
+
+                await _discountInfoService.UpdateDiscountInfo(discount);
+
+                return RedirectToAction("AdminStoreItems", new { businessId = model.BusinessId });
+            }
+            
+            model.Items = await _itemService.GetAllItemsForBusiness(model.BusinessId);
+            return View(model);
+        }
+
+        /// <summary>
+        /// Deletes the discount
+        /// </summary>
+        /// <param name="businessId"></param>
+        /// <param name="discountId"></param>
+        /// <returns></returns>
+        [HttpGet("/Admin/Store/{businessId}/Discount/{discountId}/Delete")]
+        public async Task<IActionResult> AdminDeleteDiscount(int businessId, int discountId)
+        {
+            await _discountInfoService.DeleteDiscountInfo(discountId);
+
             return RedirectToAction("AdminStoreItems", new { businessId = businessId });
         }
     }

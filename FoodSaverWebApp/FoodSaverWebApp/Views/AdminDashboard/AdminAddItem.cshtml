@@ -1,12 +1,11 @@
 ﻿@model Item
 
 @{
-    ViewBag.Title = "Add Item";
+    ViewData["Title"] = "Add Item";
 }
 
-<a asp-action="AdminStoreItems" asp-controller="AdminDashboard" asp-route-businessId="@Model.BusinessId">Back</a>
-<div class="row d-flex justify-content-center">
-    <div class="login-card">
+<div class="row">
+    <div class="login-card col-lg-6">
         <h1>New Item</h1>
         
         <form asp-action="AdminAddItem">
@@ -18,12 +17,12 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label">Description</label>
+                <label asp-for="Description" class="control-label">Description <span class="optional">(Optional)</span></label>
                 <input asp-for="Description" class="form-control" type="text"/>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StandardPrice" class="control-label">Standard Price</label>
+                <label asp-for="StandardPrice" class="control-label">Standard Price <span class="optional">(Optional)</span></label>
                 <input asp-for="StandardPrice" class="form-control" type="number"/>
                 <span asp-validation-for="StandardPrice" class="text-danger"></span>
             </div>
@@ -36,6 +35,9 @@
                 </div>
             </div>
         </form>
+    </div>
+    <div class="login-form-image col-lg-6">
+        <div class="image-overlay"></div>
     </div>
 </div>
 

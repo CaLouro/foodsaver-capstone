@@ -4,42 +4,89 @@
     ViewData["Title"] = "Dashboard - Deals";
 }
 
-<div class="text-center">
-    <h1 class="display-4">@ViewData["Title"]</h1>
+<div class="dashboard-center-container">
+    <div class="dashboard-navigation"
+         style="height: 4.5rem;">
+        <div class="v-center">
+            <button class="dashboard-nav-button"
+                    onclick="location.href='@Url.Action("Stores", "Dashboard")'">
+                Stores
+            </button>
+            <button class="dashboard-nav-button dashboard-nav-button-active">Deals</button>
+            <button class="dashboard-nav-button"
+                    style="float:right; margin: 0;"
+                    onclick="location.href='@Url.Action("Favorites", "Dashboard")'">
+                Favorites
+            </button>
+        </div>
+        @using (Html.BeginForm(actionName: "Deals", controllerName: "Dashboard", method: FormMethod.Get))
+        {
+            <div class="h-center dashboard-nav-search-container">
+                <div class="v-center d-flex justify-content-center">
+                    <span>
+                        <input type="text"
+                               class="dashboard-nav-search"
+                               placeholder="Search"
+                               name="search"
+                               value="@Context.Request.Query["search"]"
+                               id="dashboardSearch"/>
+                        <button type="submit" class="search-icon">
+                            <i class="material-icons v-center">search</i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="dashboard-results">
+        @foreach (DiscountInfo deal in Model)
+        {
+            var item = deal.Item;
+
+            <div class="dashboard-result-card">
+                <div class="v-center d-flex justify-content-between" style="height:100%;">
+                    <div class="card-text card-section-container"
+                         style="width: 50%; padding-left: 3rem;">
+                        <div class="v-center">
+                            <h4>
+                                @item.Name
+                                <span style="font-size: 16px;">
+                                    @if (deal.Item.StandardPrice != null)
+                                    {
+                                        <span>
+                                            <span class="discount-highlight">@($"{deal.Price:c}")</span>
+                                            (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="discount-highlight">@($"{deal.Price:c}")</span>
+                                    }
+                                </span>
+                            </h4>
+                            <span>@item.Description</span>
+                        </div>
+                    </div>
+                    <div class="card-text card-section-container"
+                         style="width: 40%;">
+                        <div class="v-center">
+                            <p>@item.Business.Name</p>
+                            <p style="color:rgba(0, 0, 0, 0.4)">@item.Business.Address.PresentAddress(showProvince: true)</p>
+                        </div>
+                    </div>
+                    <button class="card-icon card-section-container"
+                            style="width: 10%; border-radius: 0 20px 20px 0;"
+                            button-for="select"
+                            onclick="redirectToMapsUrl('@item.Business.Address.PresentAddress(true, true, true)')">
+                        <div class="v-center">
+                            <i class="material-icons arrowForwardIcon">
+                                place
+                            </i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
 </div>
-
-<a asp-action="Stores" asp-controller="Dashboard">Stores</a>
-
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Location</th>
-        <th>Business</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    @foreach (DiscountInfo deal in Model)
-    {
-        <tr>
-            <td>@deal.Item.Name</td>
-            <td>@deal.Item.Description</td>
-            <td>
-                @if (deal.Item.StandardPrice != null)
-                {
-                    <span><del>@($"{deal.Item.StandardPrice:c}")</del> @($"{deal.Price:c}") (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)</span>
-                }
-                else
-                {
-                    @($"{deal.Price:c}")
-                }
-            </td>
-            <td>@deal.Item.Business.Address.PresentAddress()</td>
-            <td>@deal.Item.Business.Name</td>
-        </tr>
-    }
-    </tbody>
-</table>

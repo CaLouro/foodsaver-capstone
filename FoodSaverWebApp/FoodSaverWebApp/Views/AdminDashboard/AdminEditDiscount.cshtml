@@ -1,0 +1,69 @@
+﻿@model DiscountFormModel
+
+@{
+    ViewData["Title"] = "Edit Discount";
+}
+
+<div class="row">
+    <div class="login-card col-lg-6">
+        <h1>New Discount</h1>
+
+        <form asp-action="AdminEditDiscount" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label class="control-label" asp-for="ItemId">Item</label>
+                <select asp-for="ItemId" class="form-control form-select" disabled="disabled">
+                    <option value="@null" selected>Choose An Item</option>
+                    @foreach (var item in Model.Items)
+                    {
+                        <option value="@item.ItemId">@item.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="ItemId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuantityAvailable" class="control-label">Quantity Available <span class="optional">(Optional)</span></label>
+                <input asp-for="QuantityAvailable" class="form-control" type="number"/>
+                <span asp-validation-for="QuantityAvailable" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label">Price</label>
+                <input asp-for="Price" class="form-control" type="number"/>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AvailabilityStarts" class="control-label">Availability Starts <span class="optional">(Optional)</span></label>
+                <input asp-for="AvailabilityStarts" class="form-control" type="date"/>
+                <span asp-validation-for="AvailabilityStarts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AvailabilityEnds" class="control-label">Availability Ends <span class="optional">(Optional)</span></label>
+                <input asp-for="AvailabilityEnds" class="form-control" type="date"/>
+                <span asp-validation-for="AvailabilityEnds" class="text-danger"></span>
+            </div>
+            
+            <input type="hidden" asp-for="BusinessId"/>
+            <input type="hidden" asp-for="ItemId"/>
+
+            <div class="form-group">
+                <div class="d-flex row-cols-2 justify-content-between">
+                    <a asp-action="AdminStoreItems"
+                       asp-controller="AdminDashboard"
+                       asp-route-businessId="@Model.BusinessId"
+                       class="btn col-4">
+                        Cancel
+                    </a>
+                    <input type="submit" value="Update" class="btn btn-primary col-7"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="login-form-image col-lg-6">
+        <div class="image-overlay"></div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
