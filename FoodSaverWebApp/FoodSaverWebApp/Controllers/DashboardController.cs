@@ -58,7 +58,7 @@ namespace FoodSaverWebApp.Controllers
         {
             ItemListModel itemListModel = new ItemListModel()
             {
-                Items = await _itemService.GetAllItemsForBusiness(businessId),
+                Deals = await _discountService.GetAllDiscountsForBusiness(businessId),
                 Business = await _businessService.GetBusiness(businessId)
             };
 

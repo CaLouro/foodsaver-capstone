@@ -41,32 +41,58 @@
     </div>
 
     <div class="dashboard-results">
-        @foreach (Item item in Model.Items)
+        @foreach (var deal in Model.Deals)
         {
+            var item = deal.Item;
+
             <div class="dashboard-result-card">
                 <div class="v-center d-flex justify-content-between" style="height:100%;">
                     <div class="card-text card-section-container"
-                         style="width: 40%; padding-left: 3rem;">
+                         style="width: 50%; padding-left: 3rem;">
                         <div class="v-center">
-                            <h4>@item.Name</h4>
-                            <span>@($"{item.StandardPrice:c}")</span>
+                            <h4>
+                                @item.Name
+                            </h4>
+                            <p>Available at: @(deal.AvailabilityStarts == null ? "Now" : deal.AvailabilityStarts)</p>
+                            <p>Ends at: @(deal.AvailabilityEnds == null ? "Never" : deal.AvailabilityEnds)</p>
                         </div>
                     </div>
                     <div class="card-text card-section-container"
                          style="width: 50%;">
                         <div class="v-center">
-                            <p>@item.Description</p>
+                            <p>@deal.Item.Description</p>
+                        </div>
+                    </div>
+                    <div class="card-text card-section-container"
+                         style="width: 30%;">
+                        <div class="v-center">
+                            <p style="font-size: 16px;">
+                                @if (deal.Item.StandardPrice != null)
+                                {
+                                    <span>@($"{deal.Price:c}") (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)</span>
+                                }
+                                else
+                                {
+                                    <span>@($"{deal.Price:c}")</span>
+                                }
+                            </p>
+                            @if (deal.QuantityAvailable != null)
+                            {
+                                <p style="font-size: 16px;">
+                                    Availability: @deal.QuantityAvailable units
+                                </p>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
         }
 
-        @if (Model.Items.Count == 0)
+        @if (Model.Deals.Count == 0)
         {
             <div class="d-flex justify-content-center"
                  style="padding: 1rem;">
-                <h4 style="color:rgba(0, 0, 0, 0.4)">No products listed</h4>
+                <h4 style="color:rgba(0, 0, 0, 0.4)">No available discounts</h4>
             </div>
         }
     </div>
