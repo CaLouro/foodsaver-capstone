@@ -6,14 +6,20 @@
 
 <div class="dashboard-center-container">
     <div class="dashboard-selected-details d-flex justify-content-between">
-        <h4 style="margin:0; padding: 0;">@Model.Business.Name</h4>
-        <span id="business-address-link"
-              onclick="redirectToMapsUrl('@Model.Business.Address.PresentAddress(true, true, true)')">
-            <span id="business-address-text">
-                @Model.Business.Address.PresentAddress(true, true)
+        <div>
+            <h4 style="margin:0; padding: 0;">@Model.Business.Name</h4>
+            <p style="margin: 0;">@Model.Business.ContactEmail</p>
+            <p style="margin: 0;">@Model.Business.ContactPhone</p>
+        </div>
+        <div>
+            <span id="business-address-link"
+                  onclick="redirectToMapsUrl('@Model.Business.Address.PresentAddress(true, true, true)')">
+                <span id="business-address-text">
+                    @Model.Business.Address.PresentAddress(true, true)
+                </span>
+                <i class="material-icons">place</i>
             </span>
-            <i class="material-icons">place</i>
-        </span>
+        </div>
     </div>
     <div class="dashboard-navigation"
          style="height: 4.5rem;">
