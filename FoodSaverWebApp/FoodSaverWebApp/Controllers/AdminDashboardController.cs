@@ -39,7 +39,7 @@ namespace FoodSaverWebApp.Controllers
         [HttpGet("/Admin")]
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("AdminStores");
         }
 
         /// <summary>
