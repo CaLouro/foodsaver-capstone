@@ -72,6 +72,12 @@
                     <div class="card-text card-section-container"
                          style="width: 40%;">
                         <div class="v-center">
+                            @if (deal.QuantityAvailable != null)
+                            {
+                                <p>
+                                    <strong>@deal.QuantityAvailable @(deal.QuantityAvailable == 1 ? "unit" : "units") available</strong>
+                                </p>
+                            }
                             <p>@item.Business.Name</p>
                             <p style="color:rgba(0, 0, 0, 0.4)">@item.Business.Address.PresentAddress(showProvince: true)</p>
                         </div>
