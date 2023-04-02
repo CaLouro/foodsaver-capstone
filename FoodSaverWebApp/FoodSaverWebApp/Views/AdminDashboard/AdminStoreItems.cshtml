@@ -32,11 +32,22 @@
                     onclick="location.href='@Url.Action("AdminEditStore", "AdminDashboard", new { businessId = Model.Business.BusinessId })'">
                 Edit Store
             </button>
-            <button class="dashboard-nav-button"
-                    style="float:right; margin: 0;"
-                    onclick="location.href='@Url.Action("AdminAddDiscount", "AdminDashboard", new { businessId = Model.Business.BusinessId })'">
-                Add Discount
-            </button>
+            @if (Model.Items.Count > 0)
+            {
+                <button class="dashboard-nav-button"
+                        style="float:right; margin: 0;"
+                        onclick="location.href='@Url.Action("AdminAddDiscount", "AdminDashboard", new { businessId = Model.Business.BusinessId })'">
+                    Add Discount
+                </button>
+            }
+            else
+            {
+                <button class="dashboard-nav-button-disabled"
+                        style="float:right; margin: 0;"
+                        disabled>
+                    Add Discount
+                </button>
+            }
             <button class="dashboard-nav-button"
                     style="float:right; margin: 0;"
                     onclick="location.href='@Url.Action("AdminAddItem", "AdminDashboard", new { businessId = Model.Business.BusinessId })'">
