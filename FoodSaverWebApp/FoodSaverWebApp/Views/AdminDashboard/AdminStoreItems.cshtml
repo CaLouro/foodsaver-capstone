@@ -68,7 +68,7 @@
                          style="width: 40%; padding-left: 3rem;">
                         <div class="v-center">
                             <h4>@item.Name</h4>
-                            <span>Regular price: @($"{item.StandardPrice:c}")</span>
+                            <span>Regular price: <span class="regular-highlight">@($"{item.StandardPrice:c}")</span></span>
                         </div>
                     </div>
                     <div class="card-text card-section-container"
@@ -124,7 +124,11 @@
                             <p style="font-size: 16px;">
                                 @if (deal.Item.StandardPrice != null)
                                 {
-                                    <span>@($"{deal.Price:c}") (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)</span>
+                                    <span class="regular-highlight">@($"{deal.Item.StandardPrice:c}")</span>
+                                    <span>
+                                        <span class="discount-highlight">@($"{deal.Price:c}")</span>
+                                        &nbsp;(@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)
+                                    </span>
                                 }
                                 else
                                 {

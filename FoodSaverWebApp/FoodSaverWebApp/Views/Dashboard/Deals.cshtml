@@ -54,6 +54,7 @@
                                 <span style="font-size: 16px;">
                                     @if (deal.Item.StandardPrice != null)
                                     {
+                                        <span class="regular-highlight">@($"{deal.Item.StandardPrice:c}")</span>
                                         <span>
                                             <span class="discount-highlight">@($"{deal.Price:c}")</span>
                                             (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)
