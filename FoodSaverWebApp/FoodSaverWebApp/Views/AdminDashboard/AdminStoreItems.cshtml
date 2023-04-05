@@ -32,11 +32,22 @@
                     onclick="location.href='@Url.Action("AdminEditStore", "AdminDashboard", new { businessId = Model.Business.BusinessId })'">
                 Edit Store
             </button>
-            <button class="dashboard-nav-button"
-                    style="float:right; margin: 0;"
-                    onclick="location.href='@Url.Action("AdminAddDiscount", "AdminDashboard", new { businessId = Model.Business.BusinessId })'">
-                Add Discount
-            </button>
+            @if (Model.Items.Count > 0)
+            {
+                <button class="dashboard-nav-button"
+                        style="float:right; margin: 0;"
+                        onclick="location.href='@Url.Action("AdminAddDiscount", "AdminDashboard", new { businessId = Model.Business.BusinessId })'">
+                    Add Discount
+                </button>
+            }
+            else
+            {
+                <button class="dashboard-nav-button-disabled"
+                        style="float:right; margin: 0;"
+                        disabled>
+                    Add Discount
+                </button>
+            }
             <button class="dashboard-nav-button"
                     style="float:right; margin: 0;"
                     onclick="location.href='@Url.Action("AdminAddItem", "AdminDashboard", new { businessId = Model.Business.BusinessId })'">
@@ -68,7 +79,7 @@
                          style="width: 40%; padding-left: 3rem;">
                         <div class="v-center">
                             <h4>@item.Name</h4>
-                            <span>Regular price: @($"{item.StandardPrice:c}")</span>
+                            <span>Regular price: <span class="regular-highlight">@($"{item.StandardPrice:c}")</span></span>
                         </div>
                     </div>
                     <div class="card-text card-section-container"
@@ -124,7 +135,11 @@
                             <p style="font-size: 16px;">
                                 @if (deal.Item.StandardPrice != null)
                                 {
-                                    <span>@($"{deal.Price:c}") (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)</span>
+                                    <span class="regular-highlight">@($"{deal.Item.StandardPrice:c}")</span>
+                                    <span>
+                                        <span class="discount-highlight">@($"{deal.Price:c}")</span>
+                                        &nbsp;(@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)
+                                    </span>
                                 }
                                 else
                                 {

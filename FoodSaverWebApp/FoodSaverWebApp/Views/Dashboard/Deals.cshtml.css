@@ -1,6 +1,15 @@
-﻿.discount-highlight {
-    background-color: #0CCA4A;
-    color: #FCFAFA;
+﻿.discount-highlight,
+.regular-highlight {
     border-radius: 4px;
     padding: 0 0.4rem;
+}
+
+.discount-highlight {
+    background-color: #0CCA4A;
+    color: #FCFAFA;
+}
+
+.regular-highlight {
+    background-color: #e0e0e0;
+    color: #6E8387;
 }

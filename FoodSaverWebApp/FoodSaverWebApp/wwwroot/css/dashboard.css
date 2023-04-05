@@ -74,6 +74,16 @@
     padding: 0 1.5rem;
 }
 
+.dashboard-nav-button-disabled {
+    padding: 0.4rem 1rem;
+    margin-right: 1rem;
+    border-radius: 10px;
+    border: none;
+
+    color: #aabdc0;
+    background: none;
+}
+
 .dashboard-nav-button {
     padding: 0.4rem 1rem;
     margin-right: 1rem;

@@ -30,7 +30,7 @@
             </button>
             <button class="dashboard-nav-button"
                     onclick="location.href='@Url.Action("Deals", "Dashboard")'">
-                Products
+                Deals
             </button>
             <button class="dashboard-nav-button"
                     style="float:right; margin: 0;"
@@ -69,7 +69,11 @@
                             <p style="font-size: 16px;">
                                 @if (deal.Item.StandardPrice != null)
                                 {
-                                    <span>@($"{deal.Price:c}") (@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)</span>
+                                    <span class="regular-highlight">@($"{deal.Item.StandardPrice:c}")</span>
+                                    <p>
+                                        <span class="discount-highlight">@($"{deal.Price:c}")</span>
+                                        &nbsp;(@($"{(deal.Item.StandardPrice - deal.Price) / deal.Item.StandardPrice:p0}") off)
+                                    </p>
                                 }
                                 else
                                 {
