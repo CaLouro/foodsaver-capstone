@@ -39,7 +39,11 @@ namespace FoodSaverWebApp.Services
 
             await AddUserInformation(registerModel.Name, session.User.Id);
 
-            return session?.AccessToken;
+            return await SignIn(new LoginModel
+            {
+                Email = registerModel.Email,
+                Password = registerModel.Password
+            });
         }
 
         private async Task AddUserInformation(string displayName, string uid)
